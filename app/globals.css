@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-mono: 'Fira Code', monospace;
+  }
+
+  body {
+    @apply bg-white text-neutral-900;
+  }
+
+  h1 {
+    @apply text-4xl font-semibold tracking-tight;
+  }
+
+  h2 {
+    @apply text-3xl font-semibold tracking-tight;
+  }
+
+  h3 {
+    @apply text-2xl font-semibold tracking-tight;
+  }
+
+  h4 {
+    @apply text-xl font-semibold tracking-tight;
+  }
+
+  h5 {
+    @apply text-lg font-semibold tracking-tight;
+  }
+
+  h6 {
+    @apply text-base font-semibold tracking-tight;
+  }
+}
+
+@layer components {
+  /* Premium card styling */
+  .card {
+    @apply bg-white rounded-lg border border-neutral-200 shadow-sm transition-all duration-200 hover:shadow-md;
+  }
+
+  .card-hover {
+    @apply cursor-pointer hover:border-neutral-300 hover:shadow-base;
+  }
+
+  /* Premium button styling */
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-md font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-orange-600 focus:ring-primary;
+  }
+
+  .btn-secondary {
+    @apply bg-neutral-100 text-neutral-900 hover:bg-neutral-200 focus:ring-neutral-400;
+  }
+
+  .btn-ghost {
+    @apply text-neutral-600 hover:bg-neutral-50 focus:ring-neutral-300;
+  }
+
+  /* Premium input styling */
+  .input {
+    @apply w-full px-4 py-2 rounded-md border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-10 transition-all;
+  }
+
+  /* Premium badge styling */
+  .badge {
+    @apply inline-flex items-center px-2 py-1 rounded-full text-xs font-medium;
+  }
+
+  .badge-primary {
+    @apply bg-orange-100 text-orange-800;
+  }
+
+  .badge-success {
+    @apply bg-green-100 text-green-800;
+  }
+
+  .badge-warning {
+    @apply bg-yellow-100 text-yellow-800;
+  }
+
+  .badge-neutral {
+    @apply bg-neutral-100 text-neutral-800;
+  }
+
+  /* Section styling */
+  .section {
+    @apply py-8 px-6 border-b border-neutral-200;
+  }
+
+  .section-title {
+    @apply text-lg font-semibold text-neutral-900 mb-4;
+  }
+
+  /* Container */
+  .container-max {
+    @apply max-w-7xl mx-auto;
+  }
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Transitions */
+* {
+  @apply transition-colors duration-200;
+}
+
+/* Selection color */
+::selection {
+  @apply bg-primary text-white;
+}
