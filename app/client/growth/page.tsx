@@ -1,9 +1,9 @@
 'use client';
 
 import { ClientLayout } from '@/components/layout/ClientLayout';
-import { Card, Badge } from '@/components/ui/Card';
+import { Card, Badge, Button } from '@/components/ui/Card';
 import { mockGrowthPhases } from '@/lib/mock-data';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Check } from 'lucide-react';
 
 export default function ClientGrowthJourney() {
   return (
@@ -13,7 +13,9 @@ export default function ClientGrowthJourney() {
     >
       {/* Journey Overview */}
       <div className="mb-12">
-        <h3 className="text-lg font-semibold text-neutral-900 mb-6">Your Growth Phases</h3>
+        <h3 className="mb-6 text-sm font-semibold uppercase tracking-wide text-neutral-500">
+          Your Growth Phases
+        </h3>
 
         {/* Timeline */}
         <div className="relative">
@@ -30,14 +32,14 @@ export default function ClientGrowthJourney() {
                 <div key={phase.id} className="ml-20">
                   <Card
                     className={`p-6 transition-all ${
-                      isCurrent ? 'border-primary bg-orange-50' : ''
+                      isCurrent ? 'border-primary-200 bg-primary-50/40' : ''
                     } ${isCompleted ? 'opacity-75' : ''}`}
                   >
                     {/* Phase Header */}
                     <div className="flex items-start justify-between mb-4">
                       <div>
                         <div className="flex items-center gap-3 mb-2">
-                          <h4 className="text-xl font-bold text-neutral-900">
+                          <h4 className="text-xl font-semibold text-neutral-900">
                             {phase.name}
                           </h4>
                           {isCurrent && (
@@ -49,8 +51,16 @@ export default function ClientGrowthJourney() {
                         </div>
                         <p className="text-neutral-600">{phase.objective}</p>
                       </div>
-                      <div className="text-3xl flex-shrink-0">
-                        {isCompleted ? '✓' : isCurrent ? '●' : '○'}
+                      <div
+                        className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full text-sm font-bold ${
+                          isCompleted
+                            ? 'bg-emerald-100 text-emerald-700'
+                            : isCurrent
+                            ? 'bg-primary-100 text-primary-700'
+                            : 'bg-neutral-100 text-neutral-400'
+                        }`}
+                      >
+                        {isCompleted ? <Check size={16} /> : isCurrent ? '●' : '○'}
                       </div>
                     </div>
 
@@ -60,7 +70,7 @@ export default function ClientGrowthJourney() {
                         isCurrent
                           ? 'bg-primary border-primary'
                           : isCompleted
-                          ? 'bg-green-500 border-green-500'
+                          ? 'bg-emerald-500 border-emerald-500'
                           : 'bg-white border-neutral-300'
                       }`}
                     />
@@ -94,7 +104,7 @@ export default function ClientGrowthJourney() {
                                 key={i}
                                 className="text-sm text-neutral-600 flex gap-2"
                               >
-                                <span className="text-green-600">✓</span>
+                                <Check size={14} className="mt-0.5 flex-shrink-0 text-emerald-600" />
                                 <span>{work}</span>
                               </li>
                             ))}
@@ -148,17 +158,17 @@ export default function ClientGrowthJourney() {
       </div>
 
       {/* CTA */}
-      <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200 p-6">
-        <div className="flex items-center justify-between">
+      <Card className="border-blue-200 bg-blue-50/60 p-6">
+        <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <div>
-            <h4 className="font-bold text-neutral-900 mb-1">Ready for the next phase?</h4>
-            <p className="text-neutral-700 text-sm">
+            <h4 className="mb-1 font-semibold text-neutral-900">Ready for the next phase?</h4>
+            <p className="text-sm text-neutral-700">
               Connect with the NairobiX team to discuss your next growth milestone
             </p>
           </div>
-          <button className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-orange-600 transition-colors font-medium flex items-center gap-2">
-            Request Strategy Session <ArrowRight size={16} />
-          </button>
+          <Button variant="primary" rightIcon={<ArrowRight size={16} />} className="flex-shrink-0">
+            Request Strategy Session
+          </Button>
         </div>
       </Card>
     </ClientLayout>

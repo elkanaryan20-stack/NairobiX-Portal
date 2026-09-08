@@ -1,4 +1,5 @@
 import React from 'react';
+import { Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -23,20 +24,23 @@ export function Card({ children, hover = false, className, ...props }: CardProps
 
 interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   children: React.ReactNode;
-  variant?: 'primary' | 'success' | 'warning' | 'neutral' | 'danger';
+  variant?: 'primary' | 'success' | 'warning' | 'neutral' | 'danger' | 'info';
+  dot?: boolean;
 }
 
-export function Badge({ children, variant = 'neutral', className, ...props }: BadgeProps) {
+export function Badge({ children, variant = 'neutral', dot = true, className, ...props }: BadgeProps) {
   const variants = {
     primary: 'badge-primary',
     success: 'badge-success',
     warning: 'badge-warning',
     neutral: 'badge-neutral',
-    danger: 'bg-red-100 text-red-800',
+    danger: 'badge-danger',
+    info: 'badge-info',
   };
 
   return (
     <span className={cn('badge', variants[variant], className)} {...props}>
+      {dot && <span className="badge-dot" aria-hidden="true" />}
       {children}
     </span>
   );
@@ -80,10 +84,13 @@ export function Button({
       disabled={disabled || isLoading}
       {...props}
     >
-      {icon && <span className="mr-2">{icon}</span>}
+      {isLoading ? (
+        <Loader2 className="h-4 w-4 animate-spin" />
+      ) : (
+        icon && <span className="inline-flex">{icon}</span>
+      )}
       {children}
-      {rightIcon && <span className="ml-2">{rightIcon}</span>}
-      {isLoading && <span className="ml-2 inline-block animate-spin">⟳</span>}
+      {!isLoading && rightIcon && <span className="inline-flex">{rightIcon}</span>}
     </button>
   );
 }
@@ -92,11 +99,13 @@ interface StatusBadgeProps {
   status: string;
 }
 
+type BadgeVariant = 'success' | 'warning' | 'danger' | 'primary' | 'neutral' | 'info';
+
 export function StatusBadge({ status }: StatusBadgeProps) {
-  const statusMap: Record<string, { label: string; variant: 'success' | 'warning' | 'danger' | 'primary' | 'neutral' }> = {
+  const statusMap: Record<string, { label: string; variant: BadgeVariant }> = {
     active: { label: 'Active', variant: 'success' },
     completed: { label: 'Completed', variant: 'success' },
-    'in-progress': { label: 'In Progress', variant: 'primary' },
+    'in-progress': { label: 'In Progress', variant: 'info' },
     pending: { label: 'Pending', variant: 'warning' },
     'on-hold': { label: 'On Hold', variant: 'warning' },
     paused: { label: 'Paused', variant: 'warning' },
@@ -109,6 +118,19 @@ export function StatusBadge({ status }: StatusBadgeProps) {
     qualified: { label: 'Qualified', variant: 'primary' },
     inactive: { label: 'Inactive', variant: 'neutral' },
     'under-review': { label: 'Under Review', variant: 'warning' },
+    planning: { label: 'Planning', variant: 'neutral' },
+    contacted: { label: 'Contacted', variant: 'info' },
+    proposal: { label: 'Proposal', variant: 'warning' },
+    sent: { label: 'Sent', variant: 'info' },
+    viewed: { label: 'Viewed', variant: 'info' },
+    overdue: { label: 'Overdue', variant: 'danger' },
+    draft: { label: 'Draft', variant: 'neutral' },
+    onboarding: { label: 'Onboarding', variant: 'info' },
+    acknowledged: { label: 'Acknowledged', variant: 'info' },
+    archived: { label: 'Archived', variant: 'neutral' },
+    available: { label: 'Available', variant: 'success' },
+    used: { label: 'Used', variant: 'neutral' },
+    expired: { label: 'Expired', variant: 'danger' },
   };
 
   const config = statusMap[status] || statusMap.pending;
@@ -120,11 +142,11 @@ interface PriorityBadgeProps {
 }
 
 export function PriorityBadge({ priority }: PriorityBadgeProps) {
-  const priorityMap: Record<string, { label: string; variant: 'success' | 'warning' | 'danger' | 'primary' | 'neutral' }> = {
-    low: { label: '🔵 Low', variant: 'neutral' },
-    medium: { label: '🟡 Medium', variant: 'warning' },
-    high: { label: '🟠 High', variant: 'warning' },
-    urgent: { label: '🔴 Urgent', variant: 'danger' },
+  const priorityMap: Record<string, { label: string; variant: BadgeVariant }> = {
+    low: { label: 'Low', variant: 'neutral' },
+    medium: { label: 'Medium', variant: 'info' },
+    high: { label: 'High', variant: 'primary' },
+    urgent: { label: 'Urgent', variant: 'danger' },
   };
 
   const config = priorityMap[priority];

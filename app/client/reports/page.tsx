@@ -20,10 +20,10 @@ export default function ClientReports() {
               {/* Report Info */}
               <div>
                 <div className="flex items-center gap-2 mb-2">
-                  <h3 className="text-lg font-bold text-neutral-900">
+                  <h3 className="text-lg font-semibold text-neutral-900">
                     {report.title}
                   </h3>
-                  <Badge variant="primary">{report.type}</Badge>
+                  <Badge variant="neutral">{report.type}</Badge>
                 </div>
                 <p className="text-neutral-600 text-sm mb-2">{report.summary}</p>
                 <p className="text-xs text-neutral-500">
@@ -33,8 +33,8 @@ export default function ClientReports() {
 
               {/* Period */}
               <div className="text-center md:text-left">
-                <p className="text-xs text-neutral-600 font-medium mb-1">Period</p>
-                <p className="text-lg font-bold text-neutral-900">{report.period}</p>
+                <p className="text-xs font-medium uppercase tracking-wide text-neutral-500 mb-1">Period</p>
+                <p className="text-lg font-semibold text-neutral-900">{report.period}</p>
               </div>
 
               {/* Actions */}
@@ -60,10 +60,10 @@ export default function ClientReports() {
       </div>
 
       {/* CTA */}
-      <Card className="mt-8 bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200 p-6">
+      <Card className="mt-8 border-primary-200 bg-primary-50/40 p-6">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <h4 className="font-bold text-neutral-900 mb-1">
+            <h4 className="font-semibold text-neutral-900 mb-1">
               Need a custom report?
             </h4>
             <p className="text-neutral-700 text-sm">

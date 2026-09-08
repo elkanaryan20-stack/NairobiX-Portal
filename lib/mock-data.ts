@@ -30,6 +30,7 @@ export const mockCurrentUser: User = {
   email: 'sarah@example.com',
   avatar: undefined,
   role: 'client',
+  nairobixContactId: 'CNT-10021',
 };
 
 export const mockPartnerUser: User = {
@@ -38,6 +39,7 @@ export const mockPartnerUser: User = {
   email: 'james@partner.com',
   avatar: undefined,
   role: 'partner',
+  nairobixContactId: 'CNT-10088',
 };
 
 export const mockStaffUser: User = {
@@ -46,6 +48,7 @@ export const mockStaffUser: User = {
   email: 'grace@nairobix.com',
   avatar: undefined,
   role: 'staff',
+  nairobixContactId: 'CNT-10004',
 };
 
 // ============================================================================
@@ -54,6 +57,7 @@ export const mockStaffUser: User = {
 
 export const mockClientProfile: ClientProfile = {
   id: 'client-1',
+  nairobixAccountId: 'ACC-20031',
   businessName: 'TechStart Kenya Ltd',
   businessType: 'SaaS Startup',
   industry: 'Technology',
@@ -571,6 +575,7 @@ export const mockGrowthPhases: GrowthPhase[] = [
 
 export const mockPartnerProfile: PartnerProfile = {
   id: 'partner-1',
+  nairobixAccountId: 'ACC-20077',
   businessName: 'Mwangi Business Solutions',
   partnerType: 'Business Consultant',
   industry: 'Business Consulting',
@@ -587,6 +592,7 @@ export const mockPartnerProfile: PartnerProfile = {
 export const mockPartnerReferrals: Referral[] = [
   {
     id: 'ref-1',
+    nairobixDealId: 'DEAL-30145',
     businessName: 'Boutique Retail Ltd',
     contactPerson: 'Catherine Kiplagat',
     phone: '+254 712 555 666',
@@ -606,6 +612,7 @@ export const mockPartnerReferrals: Referral[] = [
   },
   {
     id: 'ref-2',
+    nairobixDealId: 'DEAL-30146',
     businessName: 'HealthFirst Clinic',
     contactPerson: 'Dr. Peter Otieno',
     phone: '+254 712 777 888',
@@ -620,6 +627,7 @@ export const mockPartnerReferrals: Referral[] = [
   },
   {
     id: 'ref-3',
+    nairobixDealId: 'DEAL-30147',
     businessName: 'Marketing Hub Africa',
     contactPerson: 'Grace Kimani',
     phone: '+254 712 333 444',
@@ -692,6 +700,60 @@ export const mockPartnerRewards: Reward[] = [
     category: 'bonus',
     progress: { current: 120, target: 100 },
     earnedDate: '2024-02-20',
+  },
+];
+
+export const mockPartnerDocuments: Document[] = [
+  {
+    id: 'pdoc-1',
+    name: 'Partner Agreement 2023',
+    type: 'pdf',
+    category: 'agreements',
+    uploadDate: '2023-09-20',
+    status: 'active',
+  },
+  {
+    id: 'pdoc-2',
+    name: 'Commission Statement - February 2024',
+    type: 'pdf',
+    category: 'financial',
+    uploadDate: '2024-02-28',
+    status: 'active',
+  },
+  {
+    id: 'pdoc-3',
+    name: 'NairobiX Brand Guidelines',
+    type: 'pdf',
+    category: 'resources',
+    uploadDate: '2023-10-05',
+    status: 'active',
+  },
+];
+
+export const mockPartnerNotifications: Notification[] = [
+  {
+    id: 'pnotif-1',
+    title: 'Commission Approved',
+    message: 'Your commission for HealthFirst Clinic has been approved',
+    type: 'billing',
+    date: '2024-02-20',
+    read: false,
+  },
+  {
+    id: 'pnotif-2',
+    title: 'Referral Status Updated',
+    message: 'Marketing Hub Africa moved to Contacted',
+    type: 'report',
+    date: '2024-02-10',
+    read: false,
+  },
+  {
+    id: 'pnotif-3',
+    title: 'New Reward Unlocked',
+    message: 'You earned the Commission Bonus - 100K+ reward',
+    type: 'announcement',
+    date: '2024-02-20',
+    read: true,
   },
 ];
 

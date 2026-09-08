@@ -1,109 +1,138 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowUpRight, HeartHandshake, ShieldCheck, TrendingUp } from 'lucide-react';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 flex flex-col items-center justify-center px-4 py-12">
-      {/* Header */}
-      <div className="text-center mb-20 max-w-2xl">
-        <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight">
-          NairobiX Portal
-        </h1>
-        <p className="text-xl md:text-2xl text-neutral-300 font-light">
-          Your growth. Your systems. One connected workspace.
-        </p>
+    <div className="relative min-h-screen bg-ink-950 overflow-hidden">
+      {/* Ambient background photography */}
+      <div className="absolute inset-0">
+        <Image
+          src="/images/landing/hero-skyline.jpg"
+          alt=""
+          fill
+          priority
+          className="object-cover opacity-[0.16]"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-ink-950 via-ink-950/95 to-ink-950" />
+        <div className="absolute inset-0 bg-grain mix-blend-overlay opacity-[0.03]" />
       </div>
 
-      {/* Workspace Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl w-full">
-        {/* Client Card */}
-        <WorkspaceCard
-          title="CLIENT"
-          subtitle="Growth Workspace"
-          description="Manage your growth partnership, performance, projects, insights and resources."
-          href="/client"
-          accentColor="from-blue-600 to-blue-700"
-          icon="📈"
-        />
+      <div className="relative flex flex-col items-center px-6 py-16 md:py-24">
+        {/* Wordmark */}
+        <div className="animate-fade-up mb-16 flex items-center gap-2 md:mb-20">
+          <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+          <span className="text-xs font-medium uppercase tracking-[0.3em] text-neutral-400">
+            NairobiX
+          </span>
+        </div>
 
-        {/* Partner Card */}
-        <WorkspaceCard
-          title="PARTNER"
-          subtitle="Partner Workspace"
-          description="Manage referrals, opportunities, commissions, resources and partner benefits."
-          href="/partner"
-          accentColor="from-emerald-600 to-emerald-700"
-          icon="🤝"
-        />
+        {/* Header */}
+        <div className="mb-16 max-w-2xl text-center md:mb-20">
+          <h1
+            className="animate-fade-up mb-6 font-serif text-5xl font-medium tracking-tight text-white [animation-delay:80ms] md:text-6xl"
+            style={{ fontOpticalSizing: 'auto' } as React.CSSProperties}
+          >
+            Your growth workspace,
+            <br />
+            engineered.
+          </h1>
+          <p className="animate-fade-up text-lg font-light text-neutral-400 [animation-delay:160ms] md:text-xl">
+            One connected system for your growth partnership, referral network and internal operations.
+          </p>
+        </div>
 
-        {/* Staff Card */}
-        <WorkspaceCard
-          title="STAFF"
-          subtitle="Command Center"
-          description="Manage clients, partners, projects and NairobiX operations."
-          href="/staff"
-          accentColor="from-violet-600 to-violet-700"
-          icon="⚙️"
-        />
-      </div>
+        {/* Workspace Cards */}
+        <div className="grid w-full max-w-6xl grid-cols-1 gap-5 md:grid-cols-3">
+          <WorkspaceCard
+            index={0}
+            title="Client"
+            subtitle="Growth Workspace"
+            description="Track your growth partnership, performance and projects in one place."
+            href="/client"
+            image="/images/landing/client-card.jpg"
+            icon={<TrendingUp className="h-5 w-5" strokeWidth={1.75} />}
+          />
+          <WorkspaceCard
+            index={1}
+            title="Partner"
+            subtitle="Partner Workspace"
+            description="Manage referrals, opportunities, commissions and partner benefits."
+            href="/partner"
+            image="/images/landing/partner-card.jpg"
+            icon={<HeartHandshake className="h-5 w-5" strokeWidth={1.75} />}
+          />
+          <WorkspaceCard
+            index={2}
+            title="Staff"
+            subtitle="Command Center"
+            description="Oversee clients, partners, projects and NairobiX operations."
+            href="/staff"
+            image="/images/landing/staff-card.jpg"
+            icon={<ShieldCheck className="h-5 w-5" strokeWidth={1.75} />}
+          />
+        </div>
 
-      {/* Footer */}
-      <div className="mt-20 text-center text-neutral-500 text-sm">
-        <p>Premium business growth & digital transformation platform</p>
-        <p className="mt-2">NairobiX © 2024. All rights reserved.</p>
+        {/* Footer */}
+        <div className="animate-fade-in mt-20 text-center text-sm text-neutral-600 [animation-delay:400ms] md:mt-24">
+          <p>Premium business growth &amp; digital transformation platform</p>
+          <p className="mt-1.5">NairobiX &copy; {new Date().getFullYear()}. All rights reserved.</p>
+        </div>
       </div>
     </div>
   );
 }
 
 interface WorkspaceCardProps {
+  index: number;
   title: string;
   subtitle: string;
   description: string;
   href: string;
-  accentColor: string;
-  icon: string;
+  image: string;
+  icon: React.ReactNode;
 }
 
-function WorkspaceCard({
-  title,
-  subtitle,
-  description,
-  href,
-  accentColor,
-  icon,
-}: WorkspaceCardProps) {
+function WorkspaceCard({ index, title, subtitle, description, href, image, icon }: WorkspaceCardProps) {
   return (
-    <Link href={href}>
-      <div className="group h-full cursor-pointer">
-        {/* Card Container */}
-        <div className="h-full bg-neutral-800 rounded-xl border border-neutral-700 overflow-hidden hover:border-neutral-600 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
-          {/* Gradient Header */}
-          <div className={`bg-gradient-to-r ${accentColor} h-32 flex items-end justify-center pb-6 relative overflow-hidden`}>
-            <div className="absolute inset-0 opacity-10">
-              <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 to-transparent" />
-            </div>
-            <div className="text-5xl">{icon}</div>
-          </div>
+    <Link
+      href={href}
+      className="animate-fade-up group relative block h-[420px] overflow-hidden rounded-md border border-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary md:h-[460px]"
+      style={{ animationDelay: `${240 + index * 90}ms` }}
+    >
+      {/* Photography */}
+      <Image
+        src={image}
+        alt=""
+        fill
+        className="object-cover object-center transition-transform duration-700 ease-smooth group-hover:scale-[1.06]"
+        sizes="(min-width: 768px) 33vw, 100vw"
+      />
 
-          {/* Content */}
-          <div className="p-6">
-            <div className="mb-4">
-              <div className="inline-block px-3 py-1 bg-neutral-700 rounded-full text-xs font-medium text-neutral-300 mb-3">
-                {title}
-              </div>
-              <h3 className="text-2xl font-semibold text-white mb-2">{subtitle}</h3>
-              <p className="text-neutral-400 text-sm leading-relaxed">{description}</p>
-            </div>
+      {/* Overlays for legibility */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 to-black/10 transition-opacity duration-500 group-hover:from-black/95 group-hover:via-black/55" />
+      <div className="absolute inset-0 opacity-0 ring-1 ring-inset ring-primary/60 transition-opacity duration-300 group-hover:opacity-100" />
 
-            {/* CTA */}
-            <div className="mt-6 flex items-center text-primary font-medium group-hover:gap-2 transition-all">
-              <span>Access Workspace</span>
-              <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </div>
+      {/* Content */}
+      <div className="relative flex h-full flex-col justify-end p-7">
+        <div className="mb-4 flex items-center justify-between">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.2em] text-white backdrop-blur-sm">
+            {title}
+          </span>
+          <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white backdrop-blur-sm">
+            {icon}
+          </span>
+        </div>
+
+        <h3 className="mb-2 font-serif text-2xl font-medium text-white">{subtitle}</h3>
+        <p className="mb-6 text-sm leading-relaxed text-neutral-300">{description}</p>
+
+        <div className="flex items-center gap-1.5 text-sm font-medium text-primary-400">
+          <span>Enter workspace</span>
+          <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </div>
       </div>
     </Link>

@@ -4,43 +4,56 @@ import { ClientLayout } from '@/components/layout/ClientLayout';
 import { Card, Button } from '@/components/ui/Card';
 import { Textarea } from '@/components/ui/Form';
 import { useState } from 'react';
+import {
+  HelpCircle,
+  HeartHandshake,
+  Target,
+  FolderKanban,
+  Settings2,
+  MessageSquare,
+  ArrowLeft,
+  Zap,
+  Users,
+  Phone,
+  Compass,
+} from 'lucide-react';
 
 const conciergeOptions = [
   {
     id: 'question',
     title: 'Ask a Question',
     description: 'Get immediate answers to your questions',
-    icon: '❓',
+    icon: <HelpCircle size={20} />,
   },
   {
     id: 'assistance',
     title: 'Request Assistance',
     description: 'Request help with a specific task or project',
-    icon: '🤝',
+    icon: <HeartHandshake size={20} />,
   },
   {
     id: 'strategy',
     title: 'Request Strategy Session',
     description: 'Schedule time with the NairobiX team',
-    icon: '🎯',
+    icon: <Target size={20} />,
   },
   {
     id: 'project',
     title: 'Ask About Project',
     description: 'Get an update on your active projects',
-    icon: '📋',
+    icon: <FolderKanban size={20} />,
   },
   {
     id: 'service',
     title: 'Request Service',
     description: 'Submit a new service request',
-    icon: '⚙️',
+    icon: <Settings2 size={20} />,
   },
   {
     id: 'feedback',
     title: 'Share Feedback',
     description: 'Help us improve your partnership experience',
-    icon: '💬',
+    icon: <MessageSquare size={20} />,
   },
 ];
 
@@ -61,26 +74,34 @@ export default function ClientConcierge() {
       pageSubtitle="Premium support and personalized assistance"
     >
       {/* Introduction */}
-      <Card className="mb-8 bg-gradient-to-r from-purple-50 to-indigo-50 border-purple-200 p-6">
-        <h3 className="text-lg font-bold text-neutral-900 mb-2">
-          Welcome to NairobiX Concierge
-        </h3>
-        <p className="text-neutral-700">
-          Your dedicated support team is here to assist with any questions, requests, or guidance you need. We&apos;re committed to ensuring your success.
-        </p>
+      <Card className="mb-8 border-primary-200 bg-primary-50/50 p-6">
+        <div className="flex items-start gap-4">
+          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary-100 text-primary-700">
+            <Compass size={19} />
+          </div>
+          <div>
+            <h3 className="mb-2 text-lg font-semibold text-neutral-900">
+              Welcome to NairobiX Concierge
+            </h3>
+            <p className="text-neutral-700">
+              Your dedicated support team is here to assist with any questions, requests, or
+              guidance you need. We&apos;re committed to ensuring your success.
+            </p>
+          </div>
+        </div>
       </Card>
 
       {selectedType ? (
         // Form View
-        <Card className="p-6 mb-8">
+        <Card className="mb-8 p-6">
           <button
             onClick={() => setSelectedType(null)}
-            className="text-primary font-medium text-sm mb-4 hover:underline"
+            className="mb-4 flex items-center gap-1 text-sm font-medium text-primary hover:underline"
           >
-            ← Back to options
+            <ArrowLeft size={14} /> Back to options
           </button>
 
-          <h3 className="text-xl font-bold text-neutral-900 mb-4">
+          <h3 className="mb-4 text-xl font-semibold text-neutral-900">
             {conciergeOptions.find((o) => o.id === selectedType)?.title}
           </h3>
 
@@ -138,61 +159,43 @@ export default function ClientConcierge() {
       ) : (
         // Options Grid
         <>
-          <h3 className="text-lg font-semibold text-neutral-900 mb-6">
+          <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-neutral-500">
             How can we assist you today?
           </h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
+          <div className="mb-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {conciergeOptions.map((option) => (
               <button
                 key={option.id}
                 onClick={() => setSelectedType(option.id)}
                 className="text-left"
               >
-                <Card hover className="p-6 h-full">
-                  <p className="text-4xl mb-3">{option.icon}</p>
-                  <h4 className="font-bold text-neutral-900 mb-1">
-                    {option.title}
-                  </h4>
-                  <p className="text-sm text-neutral-600">
-                    {option.description}
-                  </p>
+                <Card hover className="h-full p-6">
+                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100 text-neutral-500">
+                    {option.icon}
+                  </div>
+                  <h4 className="mb-1 font-semibold text-neutral-900">{option.title}</h4>
+                  <p className="text-sm text-neutral-600">{option.description}</p>
                 </Card>
               </button>
             ))}
           </div>
 
           {/* Response Time & Team Info */}
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card className="p-6 text-center">
-              <p className="text-3xl mb-2">⚡</p>
-              <h4 className="font-bold text-neutral-900 mb-1">
-                Fast Response
-              </h4>
-              <p className="text-sm text-neutral-600">
-                Most requests answered within 2 hours
-              </p>
-            </Card>
-
-            <Card className="p-6 text-center">
-              <p className="text-3xl mb-2">👥</p>
-              <h4 className="font-bold text-neutral-900 mb-1">
-                Expert Team
-              </h4>
-              <p className="text-sm text-neutral-600">
-                Specialized support across all service areas
-              </p>
-            </Card>
-
-            <Card className="p-6 text-center">
-              <p className="text-3xl mb-2">📞</p>
-              <h4 className="font-bold text-neutral-900 mb-1">
-                Always Available
-              </h4>
-              <p className="text-sm text-neutral-600">
-                Reach us during business hours or submit 24/7
-              </p>
-            </Card>
+          <div className="grid gap-6 md:grid-cols-3">
+            {[
+              { icon: <Zap size={20} />, title: 'Fast Response', desc: 'Most requests answered within 2 hours' },
+              { icon: <Users size={20} />, title: 'Expert Team', desc: 'Specialized support across all service areas' },
+              { icon: <Phone size={20} />, title: 'Always Available', desc: 'Reach us during business hours or submit 24/7' },
+            ].map((item) => (
+              <Card key={item.title} className="p-6 text-center">
+                <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-neutral-100 text-neutral-500">
+                  {item.icon}
+                </div>
+                <h4 className="mb-1 font-semibold text-neutral-900">{item.title}</h4>
+                <p className="text-sm text-neutral-600">{item.desc}</p>
+              </Card>
+            ))}
           </div>
         </>
       )}

@@ -1,7 +1,9 @@
 'use client';
 
+import { CheckCircle2, Clock3, HourglassIcon } from 'lucide-react';
 import { PartnerLayout } from '@/components/layout/PartnerLayout';
 import { Card, StatusBadge } from '@/components/ui/Card';
+import { MetricCard } from '@/components/ui/Form';
 import { mockPartnerCommissions, mockPartnerReferrals } from '@/lib/mock-data';
 import { formatCurrency, formatDate } from '@/lib/utils';
 
@@ -23,36 +25,24 @@ export default function PartnerCommissions() {
     >
       {/* Commission Summary */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <Card className="p-6 bg-green-50 border-green-200">
-          <p className="text-sm text-neutral-600 font-medium mb-2">Paid</p>
-          <p className="text-3xl font-bold text-green-700">
-            {formatCurrency(paidTotal)}
-          </p>
-          <p className="text-xs text-neutral-600 mt-2">
-            {mockPartnerCommissions.filter((c) => c.status === 'paid').length}{' '}
-            commissions
-          </p>
-        </Card>
-
-        <Card className="p-6 bg-yellow-50 border-yellow-200">
-          <p className="text-sm text-neutral-600 font-medium mb-2">Approved</p>
-          <p className="text-3xl font-bold text-yellow-700">
-            {formatCurrency(approvedTotal)}
-          </p>
-          <p className="text-xs text-neutral-600 mt-2">
-            Awaiting payment
-          </p>
-        </Card>
-
-        <Card className="p-6 bg-blue-50 border-blue-200">
-          <p className="text-sm text-neutral-600 font-medium mb-2">Pending</p>
-          <p className="text-3xl font-bold text-blue-700">
-            {formatCurrency(pendingTotal)}
-          </p>
-          <p className="text-xs text-neutral-600 mt-2">
-            Under review
-          </p>
-        </Card>
+        <MetricCard
+          label="Paid"
+          value={formatCurrency(paidTotal)}
+          subtitle={`${mockPartnerCommissions.filter((c) => c.status === 'paid').length} commissions`}
+          icon={<CheckCircle2 />}
+        />
+        <MetricCard
+          label="Approved"
+          value={formatCurrency(approvedTotal)}
+          subtitle="Awaiting payment"
+          icon={<Clock3 />}
+        />
+        <MetricCard
+          label="Pending"
+          value={formatCurrency(pendingTotal)}
+          subtitle="Under review"
+          icon={<HourglassIcon />}
+        />
       </div>
 
       {/* Commission History */}
@@ -87,15 +77,15 @@ export default function PartnerCommissions() {
 
                 {/* Amount & Details */}
                 <div className="text-right">
-                  <p className="text-2xl font-bold text-neutral-900 mb-2">
+                  <p className="text-2xl font-semibold text-neutral-900 mb-2">
                     {formatCurrency(commission.amount)}
                   </p>
-                  <div className="space-y-1 text-xs text-neutral-600">
+                  <div className="space-y-1 text-xs text-neutral-500">
                     {commission.approvedDate && (
                       <p>Approved: {formatDate(commission.approvedDate)}</p>
                     )}
                     {commission.paidDate && (
-                      <p className="text-green-700 font-medium">
+                      <p className="text-emerald-600 font-medium">
                         Paid: {formatDate(commission.paidDate)}
                       </p>
                     )}
@@ -108,15 +98,15 @@ export default function PartnerCommissions() {
       </div>
 
       {/* Payment Info Card */}
-      <Card className="mt-8 p-6 bg-blue-50 border-blue-200">
-        <h3 className="font-bold text-neutral-900 mb-3">Payment Information</h3>
-        <p className="text-neutral-700 text-sm mb-4">
+      <Card className="mt-8 p-6">
+        <h3 className="font-semibold text-neutral-900 mb-2">Payment Information</h3>
+        <p className="text-neutral-600 text-sm mb-4">
           Commissions are typically paid within 30 days of approval. Ensure your
           payment details are up to date in your settings.
         </p>
-        <button className="text-primary font-medium text-sm hover:underline">
-          Update Payment Methods →
-        </button>
+        <a href="/partner/settings" className="text-primary font-medium text-sm hover:underline">
+          Update payment methods &rarr;
+        </a>
       </Card>
     </PartnerLayout>
   );

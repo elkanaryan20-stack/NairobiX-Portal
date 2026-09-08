@@ -1,8 +1,10 @@
 'use client';
 
 import { StaffLayout } from '@/components/layout/StaffLayout';
-import { Card, Badge } from '@/components/ui/Card';
+import { Card, StatusBadge } from '@/components/ui/Card';
+import { MetricCard } from '@/components/ui/Form';
 import { formatCurrency } from '@/lib/utils';
+import { TrendingUp, Wallet, Share2 } from 'lucide-react';
 
 export default function StaffReferrals() {
   const mockReferrals = [
@@ -44,78 +46,45 @@ export default function StaffReferrals() {
       pageSubtitle="Monitor partner referrals and commissions"
     >
       {/* Summary */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <Card className="p-6 bg-blue-50 border-blue-200">
-          <p className="text-sm text-neutral-600 font-medium mb-2">
-            Total Referral Value
-          </p>
-          <p className="text-3xl font-bold text-blue-700">
-            {formatCurrency(totalValue)}
-          </p>
-        </Card>
-
-        <Card className="p-6 bg-green-50 border-green-200">
-          <p className="text-sm text-neutral-600 font-medium mb-2">
-            Total Commissions Owed
-          </p>
-          <p className="text-3xl font-bold text-green-700">
-            {formatCurrency(totalCommissions)}
-          </p>
-        </Card>
-
-        <Card className="p-6 bg-purple-50 border-purple-200">
-          <p className="text-sm text-neutral-600 font-medium mb-2">
-            Active Referrals
-          </p>
-          <p className="text-3xl font-bold text-purple-700">
-            {mockReferrals.length}
-          </p>
-        </Card>
+      <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3">
+        <MetricCard label="Total Referral Value" value={formatCurrency(totalValue)} icon={<TrendingUp />} />
+        <MetricCard label="Total Commissions Owed" value={formatCurrency(totalCommissions)} icon={<Wallet />} />
+        <MetricCard label="Active Referrals" value={mockReferrals.length} icon={<Share2 />} />
       </div>
 
       {/* Referrals List */}
-      <h3 className="text-lg font-semibold text-neutral-900 mb-4">
+      <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-neutral-500">
         All Referrals
       </h3>
 
-      <div className="space-y-3">
+      <div className="space-y-2.5">
         {mockReferrals.map((ref) => (
           <Card key={ref.id} hover className="p-4">
-            <div className="grid md:grid-cols-5 gap-4 items-center">
+            <div className="grid items-center gap-4 md:grid-cols-5">
               <div>
                 <h4 className="font-medium text-neutral-900">{ref.business}</h4>
-                <p className="text-sm text-neutral-600">by {ref.partner}</p>
+                <p className="text-sm text-neutral-500">by {ref.partner}</p>
               </div>
 
               <div>
-                <p className="text-xs text-neutral-600 font-medium">Value</p>
-                <p className="text-lg font-bold text-neutral-900">
+                <p className="text-xs font-medium uppercase tracking-wide text-neutral-400">Value</p>
+                <p className="text-lg font-semibold text-neutral-900">
                   {formatCurrency(ref.value)}
                 </p>
               </div>
 
               <div>
-                <p className="text-xs text-neutral-600 font-medium">Commission</p>
-                <p className="text-lg font-bold text-neutral-900">
+                <p className="text-xs font-medium uppercase tracking-wide text-neutral-400">Commission</p>
+                <p className="text-lg font-semibold text-neutral-900">
                   {formatCurrency(ref.commission)}
                 </p>
               </div>
 
               <div>
-                <Badge
-                  variant={
-                    ref.status === 'won'
-                      ? 'success'
-                      : ref.status === 'proposal'
-                      ? 'warning'
-                      : 'primary'
-                  }
-                >
-                  {ref.status}
-                </Badge>
+                <StatusBadge status={ref.status} />
               </div>
 
-              <div className="text-right text-xs text-neutral-600">
+              <div className="text-right text-xs text-neutral-500">
                 {ref.date}
               </div>
             </div>

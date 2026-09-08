@@ -2,8 +2,8 @@
 
 import { StaffLayout } from '@/components/layout/StaffLayout';
 import { Card } from '@/components/ui/Card';
-import { Input } from '@/components/ui/Form';
-import { Download, Eye } from 'lucide-react';
+import { Input, EmptyState } from '@/components/ui/Form';
+import { Download, Eye, Folder, FileText } from 'lucide-react';
 import { useState } from 'react';
 
 export default function StaffDocuments() {
@@ -57,34 +57,42 @@ export default function StaffDocuments() {
         />
       </div>
 
-      <div className="space-y-3">
-        {mockDocuments.map((doc) => (
+      <div className="space-y-2">
+        {mockDocuments
+          .filter((doc) => doc.name.toLowerCase().includes(searchTerm.toLowerCase()))
+          .map((doc) => (
           <Card key={doc.id} hover className="p-4">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3 flex-1">
-                <span className="text-2xl">
-                  {doc.type === 'folder' ? '📁' : '📄'}
-                </span>
+              <div className="flex flex-1 items-center gap-3">
+                <div
+                  className={
+                    doc.type === 'folder'
+                      ? 'flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-primary-50 text-primary-600'
+                      : 'flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-neutral-100 text-neutral-500'
+                  }
+                >
+                  {doc.type === 'folder' ? <Folder size={18} /> : <FileText size={18} />}
+                </div>
                 <div>
-                  <p className="font-medium text-neutral-900">{doc.name}</p>
+                  <p className="text-sm font-medium text-neutral-900">{doc.name}</p>
                   {doc.type === 'folder' && (
-                    <p className="text-xs text-neutral-600">{doc.docs} files</p>
+                    <p className="text-xs text-neutral-500">{doc.docs} files</p>
                   )}
                   {doc.type === 'file' && (
-                    <p className="text-xs text-neutral-600">
-                      {doc.date} • {doc.size}
+                    <p className="text-xs text-neutral-500">
+                      {doc.date} · {doc.size}
                     </p>
                   )}
                 </div>
               </div>
 
               {doc.type === 'file' && (
-                <div className="flex gap-2">
-                  <button className="p-2 hover:bg-neutral-100 rounded-lg">
-                    <Eye size={16} className="text-neutral-600" />
+                <div className="flex gap-1">
+                  <button className="rounded-lg p-2 text-neutral-500 hover:bg-neutral-100 hover:text-neutral-900" aria-label="Preview document">
+                    <Eye size={16} />
                   </button>
-                  <button className="p-2 hover:bg-neutral-100 rounded-lg">
-                    <Download size={16} className="text-neutral-600" />
+                  <button className="rounded-lg p-2 text-neutral-500 hover:bg-neutral-100 hover:text-neutral-900" aria-label="Download document">
+                    <Download size={16} />
                   </button>
                 </div>
               )}
@@ -92,6 +100,10 @@ export default function StaffDocuments() {
           </Card>
         ))}
       </div>
+
+      {mockDocuments.filter((doc) => doc.name.toLowerCase().includes(searchTerm.toLowerCase())).length === 0 && (
+        <EmptyState icon={<FileText />} title="No documents found" description="Try a different search term." />
+      )}
     </StaffLayout>
   );
 }

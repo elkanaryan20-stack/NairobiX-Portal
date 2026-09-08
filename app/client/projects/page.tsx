@@ -3,11 +3,11 @@
 import Link from 'next/link';
 import { ClientLayout } from '@/components/layout/ClientLayout';
 import { Card, Badge, Button, StatusBadge } from '@/components/ui/Card';
-import { ProgressBar, Tabs } from '@/components/ui/Form';
+import { ProgressBar, Tabs, EmptyState } from '@/components/ui/Form';
 import { mockClientProjects } from '@/lib/mock-data';
 import { formatDate } from '@/lib/utils';
 import { useState } from 'react';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Check, User, Pin, ArrowRight } from 'lucide-react';
 
 export default function ClientProjects() {
   const [activeTab, setActiveTab] = useState('all');
@@ -46,7 +46,7 @@ export default function ClientProjects() {
                 {/* Project Info */}
                 <div className="md:col-span-2">
                   <div className="flex items-start justify-between mb-3">
-                    <h3 className="text-xl font-bold text-neutral-900">
+                    <h3 className="text-xl font-semibold text-neutral-900">
                       {project.name}
                     </h3>
                     <StatusBadge status={project.status} />
@@ -65,15 +65,16 @@ export default function ClientProjects() {
                       {project.milestones.map((milestone) => (
                         <Badge
                           key={milestone.id}
+                          dot={milestone.status !== 'completed'}
                           variant={
                             milestone.status === 'completed'
                               ? 'success'
                               : milestone.status === 'in-progress'
-                              ? 'primary'
+                              ? 'info'
                               : 'neutral'
                           }
                         >
-                          {milestone.status === 'completed' && '✓ '}
+                          {milestone.status === 'completed' && <Check size={11} className="flex-shrink-0" />}
                           {milestone.name}
                         </Badge>
                       ))}
@@ -81,7 +82,7 @@ export default function ClientProjects() {
                   </div>
 
                   {/* Next Action */}
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                  <div className="rounded-sm border border-blue-200 bg-blue-50/60 p-3">
                     <p className="text-xs font-semibold text-neutral-600 mb-1">
                       Next Action
                     </p>
@@ -97,7 +98,7 @@ export default function ClientProjects() {
                       <p className="text-sm font-semibold text-neutral-900">
                         Progress
                       </p>
-                      <p className="text-sm font-bold text-primary">
+                      <p className="text-sm font-semibold text-primary">
                         {project.progress}%
                       </p>
                     </div>
@@ -111,7 +112,7 @@ export default function ClientProjects() {
                     </p>
                     <div className="text-sm text-neutral-900">
                       <p>{formatDate(project.startDate)}</p>
-                      <p className="text-neutral-500">→</p>
+                      <ArrowRight size={12} className="my-0.5 text-neutral-300" />
                       <p>{formatDate(project.endDate)}</p>
                     </div>
                   </div>
@@ -123,8 +124,8 @@ export default function ClientProjects() {
                     </p>
                     <div className="space-y-1">
                       {project.team.map((member, i) => (
-                        <p key={i} className="text-xs text-neutral-700">
-                          👤 {member}
+                        <p key={i} className="flex items-center gap-1.5 text-xs text-neutral-700">
+                          <User size={12} className="text-neutral-400" /> {member}
                         </p>
                       ))}
                     </div>
@@ -149,9 +150,9 @@ export default function ClientProjects() {
                     {project.recentActivity.slice(0, 1).map((activity) => (
                       <p
                         key={activity.id}
-                        className="text-sm text-neutral-700 flex gap-2"
+                        className="text-sm text-neutral-700 flex items-center gap-2"
                       >
-                        <span className="text-neutral-400">📌</span>
+                        <Pin size={12} className="flex-shrink-0 text-neutral-400" />
                         <span>{activity.title}</span>
                         <span className="text-neutral-500">
                           on {formatDate(activity.timestamp)}
@@ -167,10 +168,11 @@ export default function ClientProjects() {
       </div>
 
       {filteredProjects.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-neutral-600 mb-4">No projects found in this category</p>
-          <Button variant="primary">Start a New Project</Button>
-        </div>
+        <EmptyState
+          title="No projects found"
+          description="No projects match this category yet."
+          action={{ label: 'Start a New Project', onClick: () => {} }}
+        />
       )}
     </ClientLayout>
   );

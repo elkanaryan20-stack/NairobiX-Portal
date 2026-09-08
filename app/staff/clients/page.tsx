@@ -3,9 +3,10 @@
 import Link from 'next/link';
 import { StaffLayout } from '@/components/layout/StaffLayout';
 import { Card, Badge, Button, StatusBadge } from '@/components/ui/Card';
-import { Input, Tabs } from '@/components/ui/Form';
+import { Input, Tabs, EmptyState } from '@/components/ui/Form';
 import { mockClientProfile, mockClientProjects } from '@/lib/mock-data';
-import { ChevronRight, Plus } from 'lucide-react';
+import { getInitials } from '@/lib/utils';
+import { ChevronRight, Plus, Users } from 'lucide-react';
 import { useState } from 'react';
 
 // Mock list of all clients
@@ -94,49 +95,51 @@ export default function StaffClients() {
         {searchedClients.map((client) => (
           <Link key={client.id} href={`/staff/clients/${client.id}`}>
             <Card hover className="p-6">
-              <div className="grid md:grid-cols-4 gap-6 items-center">
+              <div className="grid items-center gap-6 md:grid-cols-[2fr_1fr_1fr_auto]">
                 {/* Business Info */}
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <h3 className="font-bold text-neutral-900 truncate">
-                      {client.businessName}
-                    </h3>
-                    <StatusBadge status={client.partnershipStatus} />
+                <div className="flex min-w-0 items-center gap-3">
+                  <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 text-sm font-semibold text-neutral-600">
+                    {getInitials(client.businessName)}
                   </div>
-                  <p className="text-sm text-neutral-600">
-                    {client.industry} • {client.location}
-                  </p>
-                  <p className="text-xs text-neutral-500 mt-1">
-                    {client.email}
-                  </p>
+                  <div className="min-w-0">
+                    <div className="mb-1 flex items-center gap-2">
+                      <h3 className="truncate font-semibold text-neutral-900">
+                        {client.businessName}
+                      </h3>
+                      <StatusBadge status={client.partnershipStatus} />
+                    </div>
+                    <p className="text-sm text-neutral-500">
+                      {client.industry} · {client.location}
+                    </p>
+                  </div>
                 </div>
 
                 {/* Partnership Info */}
                 <div>
-                  <p className="text-xs text-neutral-600 font-medium mb-1">
+                  <p className="mb-1 text-xs font-medium uppercase tracking-wide text-neutral-400">
                     Growth Phase
                   </p>
                   <Badge variant="primary">{client.growthPhase}</Badge>
-                  <p className="text-xs text-neutral-500 mt-2">
+                  <p className="mt-2 text-xs text-neutral-500">
                     Since {new Date(client.partnershipStartDate).toLocaleDateString()}
                   </p>
                 </div>
 
                 {/* Projects */}
                 <div>
-                  <p className="text-xs text-neutral-600 font-medium mb-1">
+                  <p className="mb-1 text-xs font-medium uppercase tracking-wide text-neutral-400">
                     Active Projects
                   </p>
-                  <p className="text-2xl font-bold text-neutral-900">
+                  <p className="text-2xl font-semibold text-neutral-900">
                     {client.projects}
                   </p>
                 </div>
 
                 {/* CTA */}
-                <div className="text-right">
-                  <button className="text-primary font-medium text-sm flex items-center gap-1 hover:underline">
-                    View Profile <ChevronRight size={14} />
-                  </button>
+                <div className="flex justify-end">
+                  <span className="flex items-center gap-1 text-sm font-medium text-primary">
+                    View profile <ChevronRight size={14} />
+                  </span>
                 </div>
               </div>
             </Card>
@@ -145,15 +148,11 @@ export default function StaffClients() {
       </div>
 
       {searchedClients.length === 0 && (
-        <Card className="p-12 text-center">
-          <div className="text-4xl mb-4">👥</div>
-          <h3 className="text-lg font-semibold text-neutral-900 mb-2">
-            No clients found
-          </h3>
-          <p className="text-neutral-600">
-            {searchTerm ? 'Try a different search term' : 'Add your first client'}
-          </p>
-        </Card>
+        <EmptyState
+          icon={<Users />}
+          title="No clients found"
+          description={searchTerm ? 'Try a different search term.' : 'Add your first client to get started.'}
+        />
       )}
     </StaffLayout>
   );

@@ -18,25 +18,25 @@ export default function ClientBilling() {
       {/* Current Partnership & Invoice */}
       <div className="grid md:grid-cols-2 gap-6 mb-8">
         {/* Partnership Info */}
-        <Card className="p-6 border-blue-200 bg-blue-50">
-          <h3 className="text-lg font-bold text-neutral-900 mb-4">
+        <Card className="p-6">
+          <h3 className="text-lg font-semibold text-neutral-900 mb-4">
             Current Partnership
           </h3>
           <div className="space-y-3">
             <div>
-              <p className="text-xs text-neutral-600 font-medium">
+              <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
                 Engagement Type
               </p>
-              <p className="text-lg font-bold text-neutral-900">
+              <p className="text-lg font-semibold text-neutral-900">
                 Growth Partnership
               </p>
             </div>
             <div>
-              <p className="text-xs text-neutral-600 font-medium">Status</p>
+              <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">Status</p>
               <Badge variant="success">Active</Badge>
             </div>
             <div>
-              <p className="text-xs text-neutral-600 font-medium">
+              <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
                 Partnership Start
               </p>
               <p className="text-neutral-900 font-medium">
@@ -48,28 +48,20 @@ export default function ClientBilling() {
 
         {/* Current Invoice */}
         {currentInvoice && (
-          <Card
-            className={`p-6 border-2 ${
-              currentInvoice.status === 'overdue'
-                ? 'border-red-200 bg-red-50'
-                : currentInvoice.status === 'paid'
-                ? 'border-green-200 bg-green-50'
-                : 'border-yellow-200 bg-yellow-50'
-            }`}
-          >
-            <h3 className="text-lg font-bold text-neutral-900 mb-4">
+          <Card className="p-6">
+            <h3 className="text-lg font-semibold text-neutral-900 mb-4">
               Current Invoice
             </h3>
             <div className="space-y-3">
               <div>
-                <p className="text-xs text-neutral-600 font-medium">Amount</p>
-                <p className="text-3xl font-bold text-neutral-900">
+                <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">Amount</p>
+                <p className="text-3xl font-semibold text-neutral-900">
                   {formatCurrency(currentInvoice.amount)}
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-xs text-neutral-600 font-medium">
+                  <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
                     Due Date
                   </p>
                   <p className="font-medium text-neutral-900">
@@ -77,7 +69,7 @@ export default function ClientBilling() {
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs text-neutral-600 font-medium">Status</p>
+                  <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">Status</p>
                   <StatusBadge status={currentInvoice.status} />
                 </div>
               </div>
@@ -115,18 +107,18 @@ export default function ClientBilling() {
 
                 {/* Amount */}
                 <div className="text-right flex-shrink-0">
-                  <p className="text-lg font-bold text-neutral-900">
+                  <p className="text-lg font-semibold text-neutral-900">
                     {formatCurrency(invoice.amount)}
                   </p>
                 </div>
 
                 {/* Actions */}
-                <div className="flex gap-2 flex-shrink-0">
-                  <button className="p-2 text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors" title="View">
-                    <Eye size={18} />
+                <div className="flex gap-1 flex-shrink-0">
+                  <button className="p-2 text-neutral-500 hover:bg-neutral-100 hover:text-neutral-900 rounded-sm transition-colors" title="View">
+                    <Eye size={17} />
                   </button>
-                  <button className="p-2 text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors" title="Download">
-                    <Download size={18} />
+                  <button className="p-2 text-neutral-500 hover:bg-neutral-100 hover:text-neutral-900 rounded-sm transition-colors" title="Download">
+                    <Download size={17} />
                   </button>
                 </div>
               </div>
@@ -136,8 +128,8 @@ export default function ClientBilling() {
       </div>
 
       {/* Payment Methods */}
-      <Card className="p-6 bg-neutral-50">
-        <h3 className="text-lg font-bold text-neutral-900 mb-4">
+      <Card className="p-6">
+        <h3 className="text-lg font-semibold text-neutral-900 mb-4">
           Payment Methods
         </h3>
         <p className="text-neutral-600 mb-4">

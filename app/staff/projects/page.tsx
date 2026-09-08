@@ -1,9 +1,9 @@
 'use client';
 
 import { StaffLayout } from '@/components/layout/StaffLayout';
-import { Card, Badge, Button } from '@/components/ui/Card';
-import { Input } from '@/components/ui/Form';
-import { Plus } from 'lucide-react';
+import { Card, Button, StatusBadge } from '@/components/ui/Card';
+import { Input, ProgressBar, EmptyState } from '@/components/ui/Form';
+import { FolderKanban, Plus } from 'lucide-react';
 import { useState } from 'react';
 
 export default function StaffProjects() {
@@ -54,41 +54,30 @@ export default function StaffProjects() {
         />
       </div>
 
-      <div className="space-y-4">
-        {mockProjects.map((project) => (
+      <div className="space-y-3">
+        {mockProjects
+          .filter((p) => p.name.toLowerCase().includes(searchTerm.toLowerCase()) || p.client.toLowerCase().includes(searchTerm.toLowerCase()))
+          .map((project) => (
           <Card key={project.id} hover className="p-6">
-            <div className="grid md:grid-cols-4 gap-6 items-start">
-              <div>
-                <h3 className="font-bold text-neutral-900">{project.name}</h3>
-                <p className="text-sm text-neutral-600">{project.client}</p>
+            <div className="grid items-center gap-6 md:grid-cols-[2fr_1fr_auto_auto]">
+              <div className="min-w-0">
+                <h3 className="truncate font-semibold text-neutral-900">{project.name}</h3>
+                <p className="text-sm text-neutral-500">{project.client}</p>
               </div>
 
               <div>
-                <p className="text-xs text-neutral-600 font-medium">Progress</p>
-                <div className="w-full bg-neutral-200 rounded-full h-2 mt-2">
-                  <div
-                    className="bg-primary h-2 rounded-full transition-all"
-                    style={{ width: `${project.progress}%` }}
-                  />
-                </div>
-                <p className="text-sm font-medium text-neutral-900 mt-1">
-                  {project.progress}%
-                </p>
+                <p className="mb-1.5 text-xs font-medium uppercase tracking-wide text-neutral-400">Progress</p>
+                <ProgressBar value={project.progress} size="sm" />
               </div>
 
               <div>
-                <p className="text-xs text-neutral-600 font-medium">Status</p>
-                <Badge
-                  variant={project.status === 'active' ? 'success' : 'primary'}
-                  className="mt-1"
-                >
-                  {project.status}
-                </Badge>
+                <p className="mb-1 text-xs font-medium uppercase tracking-wide text-neutral-400">Status</p>
+                <StatusBadge status={project.status} />
               </div>
 
               <div className="text-right">
-                <p className="text-xs text-neutral-600 font-medium">Due Date</p>
-                <p className="text-sm font-medium text-neutral-900 mt-1">
+                <p className="mb-1 text-xs font-medium uppercase tracking-wide text-neutral-400">Due Date</p>
+                <p className="text-sm font-medium text-neutral-900">
                   {new Date(project.dueDate).toLocaleDateString()}
                 </p>
               </div>
@@ -96,6 +85,10 @@ export default function StaffProjects() {
           </Card>
         ))}
       </div>
+
+      {mockProjects.filter((p) => p.name.toLowerCase().includes(searchTerm.toLowerCase()) || p.client.toLowerCase().includes(searchTerm.toLowerCase())).length === 0 && (
+        <EmptyState icon={<FolderKanban />} title="No projects found" description="Try a different search term." />
+      )}
     </StaffLayout>
   );
 }

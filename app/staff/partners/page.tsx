@@ -2,8 +2,9 @@
 
 import { StaffLayout } from '@/components/layout/StaffLayout';
 import { Card, Badge, Button } from '@/components/ui/Card';
-import { Input } from '@/components/ui/Form';
-import { Plus } from 'lucide-react';
+import { Input, EmptyState } from '@/components/ui/Form';
+import { getInitials } from '@/lib/utils';
+import { HeartHandshake, Plus } from 'lucide-react';
 import { useState } from 'react';
 
 export default function StaffPartners() {
@@ -46,35 +47,46 @@ export default function StaffPartners() {
         />
       </div>
 
-      <div className="space-y-4">
-        {mockPartners.map((partner) => (
+      <div className="space-y-3">
+        {mockPartners
+          .filter((p) => p.name.toLowerCase().includes(searchTerm.toLowerCase()) || p.company.toLowerCase().includes(searchTerm.toLowerCase()))
+          .map((partner) => (
           <Card key={partner.id} hover className="p-6">
-            <div className="grid md:grid-cols-4 gap-6 items-center">
-              <div>
-                <h3 className="font-bold text-neutral-900">{partner.name}</h3>
-                <p className="text-sm text-neutral-600">{partner.company}</p>
+            <div className="grid items-center gap-6 md:grid-cols-[2fr_1fr_1fr_auto]">
+              <div className="flex items-center gap-3">
+                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 text-sm font-semibold text-neutral-600">
+                  {getInitials(partner.name)}
+                </div>
+                <div className="min-w-0">
+                  <h3 className="truncate font-semibold text-neutral-900">{partner.name}</h3>
+                  <p className="text-sm text-neutral-500">{partner.company}</p>
+                </div>
               </div>
               <div>
-                <p className="text-xs text-neutral-600 font-medium">Referrals</p>
-                <p className="text-2xl font-bold text-neutral-900">
+                <p className="mb-1 text-xs font-medium uppercase tracking-wide text-neutral-400">Referrals</p>
+                <p className="text-2xl font-semibold text-neutral-900">
                   {partner.referrals}
                 </p>
               </div>
               <div>
-                <p className="text-xs text-neutral-600 font-medium">
+                <p className="mb-1 text-xs font-medium uppercase tracking-wide text-neutral-400">
                   Total Commissions
                 </p>
-                <p className="text-lg font-bold text-neutral-900">
+                <p className="text-lg font-semibold text-neutral-900">
                   {partner.commissions}
                 </p>
               </div>
-              <div className="text-right">
+              <div className="flex justify-end">
                 <Badge variant="success">{partner.status}</Badge>
               </div>
             </div>
           </Card>
         ))}
       </div>
+
+      {mockPartners.filter((p) => p.name.toLowerCase().includes(searchTerm.toLowerCase()) || p.company.toLowerCase().includes(searchTerm.toLowerCase())).length === 0 && (
+        <EmptyState icon={<HeartHandshake />} title="No partners found" description="Try a different search term." />
+      )}
     </StaffLayout>
   );
 }

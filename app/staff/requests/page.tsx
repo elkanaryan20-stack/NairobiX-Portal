@@ -1,8 +1,9 @@
 'use client';
 
 import { StaffLayout } from '@/components/layout/StaffLayout';
-import { Card, Badge, Button } from '@/components/ui/Card';
-import { Tabs } from '@/components/ui/Form';
+import { Card, Badge, Button, PriorityBadge, StatusBadge } from '@/components/ui/Card';
+import { Tabs, EmptyState } from '@/components/ui/Form';
+import { Inbox } from 'lucide-react';
 import { useState } from 'react';
 
 export default function StaffRequests() {
@@ -60,50 +61,53 @@ export default function StaffRequests() {
         onTabChange={setActiveTab}
       />
 
-      <div className="space-y-4 mt-6">
+      <div className="mt-6 space-y-3">
         {filtered.map((request) => (
           <Card key={request.id} hover className="p-6">
-            <div className="grid md:grid-cols-4 gap-6 items-center">
+            <div className="grid items-center gap-6 md:grid-cols-[2fr_1fr_1fr_auto]">
               <div>
-                <h3 className="font-bold text-neutral-900">
+                <h3 className="font-semibold text-neutral-900">
                   {request.subject}
                 </h3>
-                <p className="text-sm text-neutral-600">{request.clientName}</p>
-                <Badge variant="neutral" className="mt-2 text-xs">
+                <p className="text-sm text-neutral-500">{request.clientName}</p>
+                <Badge variant="neutral" className="mt-2">
                   {request.type}
                 </Badge>
               </div>
 
               <div>
-                <p className="text-xs text-neutral-600 font-medium">Priority</p>
-                <Badge
-                  variant={request.priority === 'high' ? 'warning' : 'primary'}
-                  className="mt-1"
-                >
-                  {request.priority}
-                </Badge>
+                <p className="mb-1 text-xs font-medium uppercase tracking-wide text-neutral-400">Priority</p>
+                <PriorityBadge priority={request.priority} />
               </div>
 
               <div>
-                <p className="text-xs text-neutral-600 font-medium">Submitted</p>
-                <p className="text-sm font-medium text-neutral-900 mt-1">
+                <p className="mb-1 text-xs font-medium uppercase tracking-wide text-neutral-400">Submitted</p>
+                <p className="text-sm font-medium text-neutral-900">
                   {new Date(request.date).toLocaleDateString()}
                 </p>
               </div>
 
-              <div className="text-right">
+              <div className="flex justify-end">
                 {request.status === 'pending' ? (
                   <Button variant="primary" size="sm">
-                    Review & Respond
+                    Review &amp; Respond
                   </Button>
                 ) : (
-                  <Badge variant="success">Completed</Badge>
+                  <StatusBadge status={request.status} />
                 )}
               </div>
             </div>
           </Card>
         ))}
       </div>
+
+      {filtered.length === 0 && (
+        <EmptyState
+          icon={<Inbox />}
+          title={`No ${activeTab} requests`}
+          description="Requests will appear here as clients submit them."
+        />
+      )}
     </StaffLayout>
   );
 }

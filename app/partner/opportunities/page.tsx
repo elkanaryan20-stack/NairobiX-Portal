@@ -2,13 +2,9 @@
 
 import { PartnerLayout } from '@/components/layout/PartnerLayout';
 import { Card, Badge, Button } from '@/components/ui/Card';
-import { Tabs } from '@/components/ui/Form';
-import { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Flame, BarChart3, Target } from 'lucide-react';
 
 export default function PartnerOpportunities() {
-  const [activeTab, setActiveTab] = useState('active');
-
   const opportunities = [
     {
       id: 'opp1',
@@ -46,7 +42,7 @@ export default function PartnerOpportunities() {
     >
       {/* Top Opportunities */}
       <div className="mb-8">
-        <h3 className="text-lg font-semibold text-neutral-900 mb-4">
+        <h3 className="text-sm font-semibold uppercase tracking-wide text-neutral-500 mb-4">
           Current Demand
         </h3>
         <div className="space-y-4">
@@ -54,7 +50,7 @@ export default function PartnerOpportunities() {
             <Card key={opp.id} hover className="p-6">
               <div className="grid md:grid-cols-4 gap-6 items-start">
                 <div>
-                  <h4 className="font-bold text-neutral-900 mb-2">
+                  <h4 className="font-semibold text-neutral-900 mb-2">
                     {opp.service}
                   </h4>
                   <p className="text-sm text-neutral-600">{opp.description}</p>
@@ -71,7 +67,7 @@ export default function PartnerOpportunities() {
                   <p className="text-xs text-neutral-600 font-medium mb-1">
                     Commission
                   </p>
-                  <p className="text-lg font-bold text-primary">
+                  <p className="text-lg font-semibold text-primary">
                     {opp.commission}
                   </p>
                   <Badge variant="success" className="mt-2">
@@ -91,17 +87,20 @@ export default function PartnerOpportunities() {
       </div>
 
       {/* Industry Trends */}
-      <Card className="p-6 bg-blue-50 border-blue-200">
-        <h3 className="font-bold text-neutral-900 mb-4">Industry Trends</h3>
+      <Card className="p-6 border-blue-200 bg-blue-50/60">
+        <h3 className="font-semibold text-neutral-900 mb-4">Industry Trends</h3>
         <div className="space-y-3">
-          <p className="text-neutral-700 text-sm">
-            🔥 <span className="font-medium">E-commerce</span> services are in highest demand right now
+          <p className="flex items-start gap-2.5 text-neutral-700 text-sm">
+            <Flame size={16} className="mt-0.5 flex-shrink-0 text-blue-600" />
+            <span><span className="font-medium">E-commerce</span> services are in highest demand right now</span>
           </p>
-          <p className="text-neutral-700 text-sm">
-            📊 <span className="font-medium">Analytics</span> solutions seeing strong growth in financial sector
+          <p className="flex items-start gap-2.5 text-neutral-700 text-sm">
+            <BarChart3 size={16} className="mt-0.5 flex-shrink-0 text-blue-600" />
+            <span><span className="font-medium">Analytics</span> solutions seeing strong growth in financial sector</span>
           </p>
-          <p className="text-neutral-700 text-sm">
-            🎯 <span className="font-medium">Digital marketing</span> remains stable across all industries
+          <p className="flex items-start gap-2.5 text-neutral-700 text-sm">
+            <Target size={16} className="mt-0.5 flex-shrink-0 text-blue-600" />
+            <span><span className="font-medium">Digital marketing</span> remains stable across all industries</span>
           </p>
         </div>
       </Card>

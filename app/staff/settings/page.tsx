@@ -28,7 +28,7 @@ export default function StaffSettings() {
       {activeTab === 'account' && (
         <div className="space-y-6 mt-6">
           <Card className="p-6">
-            <h3 className="text-lg font-bold text-neutral-900 mb-4">
+            <h3 className="text-lg font-semibold text-neutral-900 mb-4">
               Profile Information
             </h3>
             <div className="space-y-4">
@@ -71,7 +71,7 @@ export default function StaffSettings() {
       {activeTab === 'notifications' && (
         <div className="space-y-6 mt-6">
           <Card className="p-6">
-            <h3 className="text-lg font-bold text-neutral-900 mb-4">
+            <h3 className="text-lg font-semibold text-neutral-900 mb-4">
               Notification Preferences
             </h3>
             <div className="space-y-3">
@@ -83,9 +83,9 @@ export default function StaffSettings() {
                 'Client communications',
                 'System alerts',
               ].map((notif) => (
-                <label key={notif} className="flex items-center gap-3 p-3">
-                  <input type="checkbox" defaultChecked className="w-4 h-4" />
-                  <span className="text-neutral-900">{notif}</span>
+                <label key={notif} className="flex items-center gap-3 rounded-sm px-3 py-2.5 hover:bg-neutral-50">
+                  <input type="checkbox" defaultChecked className="h-4 w-4 accent-primary" />
+                  <span className="text-sm text-neutral-800">{notif}</span>
                 </label>
               ))}
             </div>
@@ -97,7 +97,7 @@ export default function StaffSettings() {
       {activeTab === 'privacy' && (
         <div className="space-y-6 mt-6">
           <Card className="p-6">
-            <h3 className="text-lg font-bold text-neutral-900 mb-4">
+            <h3 className="text-lg font-semibold text-neutral-900 mb-4">
               Privacy Settings
             </h3>
             <div className="space-y-3">
@@ -106,9 +106,9 @@ export default function StaffSettings() {
                 'Allow client direct messaging',
                 'Share activity status',
               ].map((privacy) => (
-                <label key={privacy} className="flex items-center gap-3 p-3">
-                  <input type="checkbox" className="w-4 h-4" />
-                  <span className="text-neutral-900">{privacy}</span>
+                <label key={privacy} className="flex items-center gap-3 rounded-sm px-3 py-2.5 hover:bg-neutral-50">
+                  <input type="checkbox" className="h-4 w-4 accent-primary" />
+                  <span className="text-sm text-neutral-800">{privacy}</span>
                 </label>
               ))}
             </div>
@@ -120,7 +120,7 @@ export default function StaffSettings() {
       {activeTab === 'security' && (
         <div className="space-y-6 mt-6">
           <Card className="p-6">
-            <h3 className="text-lg font-bold text-neutral-900 mb-4">
+            <h3 className="text-lg font-semibold text-neutral-900 mb-4">
               Password & Security
             </h3>
             <div className="space-y-4">
@@ -151,14 +151,14 @@ export default function StaffSettings() {
             </div>
           </Card>
 
-          <Card className="p-6 border-blue-200 bg-blue-50">
-            <h3 className="font-semibold text-neutral-900 mb-2">
+          <Card className="p-6">
+            <h3 className="mb-2 font-semibold text-neutral-900">
               Two-Factor Authentication
             </h3>
-            <p className="text-sm text-neutral-700 mb-4">
+            <p className="mb-4 text-sm text-neutral-600">
               Add an extra layer of security to your account
             </p>
-            <Button variant="primary">Enable 2FA</Button>
+            <Button variant="secondary">Enable 2FA</Button>
           </Card>
         </div>
       )}

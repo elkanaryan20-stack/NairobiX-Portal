@@ -1,12 +1,12 @@
 'use client';
 
-import { ClientLayout } from '@/components/layout/ClientLayout';
-import { Card, Badge } from '@/components/ui/Card';
-import { Tabs, EmptyState } from '@/components/ui/Form';
-import { mockClientDocuments } from '@/lib/mock-data';
-import { formatDate } from '@/lib/utils';
 import { useState } from 'react';
 import { Download, Eye, FileText, FileSpreadsheet, File as FileIcon } from 'lucide-react';
+import { PartnerLayout } from '@/components/layout/PartnerLayout';
+import { Card, Badge } from '@/components/ui/Card';
+import { Tabs, EmptyState } from '@/components/ui/Form';
+import { mockPartnerDocuments } from '@/lib/mock-data';
+import { formatDate } from '@/lib/utils';
 
 const typeIcon: Record<string, React.ReactNode> = {
   pdf: <FileText />,
@@ -16,20 +16,18 @@ const typeIcon: Record<string, React.ReactNode> = {
   other: <FileIcon />,
 };
 
-export default function ClientDocuments() {
+export default function PartnerDocuments() {
   const [activeTab, setActiveTab] = useState('all');
 
-  const categories = ['all', 'strategy', 'reports', 'agreements', 'financial', 'resources'];
+  const categories = ['all', 'agreements', 'financial', 'resources'];
   const filteredDocs =
     activeTab === 'all'
-      ? mockClientDocuments
-      : mockClientDocuments.filter((d) => d.category === activeTab);
+      ? mockPartnerDocuments
+      : mockPartnerDocuments.filter((d) => d.category === activeTab);
 
   const getCategoryLabel = (cat: string) => {
     const labels: Record<string, string> = {
       all: 'All Documents',
-      strategy: 'Strategy',
-      reports: 'Reports',
       agreements: 'Agreements',
       financial: 'Financial',
       resources: 'Resources',
@@ -38,26 +36,17 @@ export default function ClientDocuments() {
   };
 
   return (
-    <ClientLayout
-      pageTitle="Documents"
-      pageSubtitle="Access your private document library"
-    >
-      {/* Tabs */}
+    <PartnerLayout pageTitle="Documents" pageSubtitle="Your partnership agreements and financial records">
       <Tabs
-        tabs={categories.map((cat) => ({
-          label: getCategoryLabel(cat),
-          value: cat,
-        }))}
+        tabs={categories.map((cat) => ({ label: getCategoryLabel(cat), value: cat }))}
         activeTab={activeTab}
         onTabChange={setActiveTab}
       />
 
-      {/* Documents List */}
       <div className="space-y-3">
         {filteredDocs.map((doc) => (
           <Card key={doc.id} className="p-4">
             <div className="flex items-center justify-between gap-4">
-              {/* Document Info */}
               <div className="flex min-w-0 flex-1 items-center gap-3">
                 <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-sm bg-neutral-100 text-neutral-500 [&>svg]:h-[18px] [&>svg]:w-[18px]">
                   {typeIcon[doc.type] || <FileIcon />}
@@ -73,7 +62,6 @@ export default function ClientDocuments() {
                 </div>
               </div>
 
-              {/* Actions */}
               <div className="flex flex-shrink-0 gap-1">
                 <button className="rounded-sm p-2 text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900" title="View">
                   <Eye size={17} />
@@ -90,6 +78,6 @@ export default function ClientDocuments() {
       {filteredDocs.length === 0 && (
         <EmptyState title="No documents found" description="Documents in this category will appear here." />
       )}
-    </ClientLayout>
+    </PartnerLayout>
   );
 }

@@ -1,20 +1,39 @@
 'use client';
 
+import {
+  LayoutDashboard,
+  Users,
+  HeartHandshake,
+  FolderKanban,
+  Inbox,
+  FolderOpen,
+  MessageSquare,
+  Share2,
+  CreditCard,
+  BarChart3,
+  Settings,
+} from 'lucide-react';
 import { PageLayout } from '@/components/layout/Sidebar';
 import { NavigationItem } from '@/lib/types';
+import { mockStaffUser } from '@/lib/mock-data';
+import { getInitials } from '@/lib/utils';
 
 const staffNavigation: NavigationItem[] = [
-  { label: 'Overview', href: '/staff', icon: '📊' },
-  { label: 'Clients', href: '/staff/clients', icon: '👥' },
-  { label: 'Partners', href: '/staff/partners', icon: '🤝' },
-  { label: 'Projects', href: '/staff/projects', icon: '📋' },
-  { label: 'Service Requests', href: '/staff/requests', icon: '✉️' },
-  { label: 'Documents', href: '/staff/documents', icon: '📑' },
-  { label: 'Communications', href: '/staff/communications', icon: '💬' },
-  { label: 'Referrals', href: '/staff/referrals', icon: '🔗' },
-  { label: 'Billing', href: '/staff/billing', icon: '💳' },
-  { label: 'Analytics', href: '/staff/analytics', icon: '📈' },
-  { label: 'Settings', href: '/staff/settings', icon: '⚙️' },
+  { label: 'Overview', href: '/staff', icon: <LayoutDashboard />, section: 'Workspace' },
+
+  { label: 'Clients', href: '/staff/clients', icon: <Users />, section: 'Relationships' },
+  { label: 'Partners', href: '/staff/partners', icon: <HeartHandshake />, section: 'Relationships' },
+  { label: 'Referrals', href: '/staff/referrals', icon: <Share2 />, section: 'Relationships' },
+
+  { label: 'Projects', href: '/staff/projects', icon: <FolderKanban />, section: 'Delivery' },
+  { label: 'Service Requests', href: '/staff/requests', icon: <Inbox />, section: 'Delivery' },
+  { label: 'Communications', href: '/staff/communications', icon: <MessageSquare />, section: 'Delivery' },
+
+  { label: 'Documents', href: '/staff/documents', icon: <FolderOpen />, section: 'Operations' },
+  { label: 'Billing', href: '/staff/billing', icon: <CreditCard />, section: 'Operations' },
+  { label: 'Analytics', href: '/staff/analytics', icon: <BarChart3 />, section: 'Operations' },
+
+  { label: 'Settings', href: '/staff/settings', icon: <Settings />, section: 'Account' },
 ];
 
 interface StaffLayoutProps {
@@ -37,8 +56,8 @@ export function StaffLayout({
       pageTitle={pageTitle}
       pageSubtitle={pageSubtitle}
       headerActions={headerActions}
-      userName="Grace Kipchoge"
-      userInitials="GK"
+      userName={mockStaffUser.name}
+      userInitials={getInitials(mockStaffUser.name)}
       onLogout={() => (window.location.href = '/')}
     >
       {children}

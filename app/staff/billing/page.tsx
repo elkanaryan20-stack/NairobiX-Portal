@@ -1,8 +1,10 @@
 'use client';
 
 import { StaffLayout } from '@/components/layout/StaffLayout';
-import { Card, Badge } from '@/components/ui/Card';
+import { Card, StatusBadge } from '@/components/ui/Card';
+import { MetricCard } from '@/components/ui/Form';
 import { formatCurrency, formatDate } from '@/lib/utils';
+import { Wallet, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 export default function StaffBilling() {
   const mockInvoices = [
@@ -46,80 +48,49 @@ export default function StaffBilling() {
       pageSubtitle="Manage invoices and client payments"
     >
       {/* Summary */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <Card className="p-6 bg-blue-50 border-blue-200">
-          <p className="text-sm text-neutral-600 font-medium mb-2">
-            Total Revenue
-          </p>
-          <p className="text-3xl font-bold text-blue-700">
-            {formatCurrency(totalRevenue)}
-          </p>
-        </Card>
-
-        <Card className="p-6 bg-green-50 border-green-200">
-          <p className="text-sm text-neutral-600 font-medium mb-2">Paid</p>
-          <p className="text-3xl font-bold text-green-700">
-            {formatCurrency(paidAmount)}
-          </p>
-        </Card>
-
-        <Card className="p-6 bg-red-50 border-red-200">
-          <p className="text-sm text-neutral-600 font-medium mb-2">
-            Pending/Overdue
-          </p>
-          <p className="text-3xl font-bold text-red-700">
-            {formatCurrency(pendingAmount)}
-          </p>
-        </Card>
+      <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3">
+        <MetricCard label="Total Revenue" value={formatCurrency(totalRevenue)} icon={<Wallet />} />
+        <MetricCard label="Paid" value={formatCurrency(paidAmount)} icon={<CheckCircle2 />} />
+        <MetricCard label="Pending / Overdue" value={formatCurrency(pendingAmount)} icon={<AlertTriangle />} />
       </div>
 
       {/* Invoices */}
-      <h3 className="text-lg font-semibold text-neutral-900 mb-4">
+      <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-neutral-500">
         Invoice History
       </h3>
 
-      <div className="space-y-3">
+      <div className="space-y-2.5">
         {mockInvoices.map((inv) => (
           <Card key={inv.id} hover className="p-4">
-            <div className="grid md:grid-cols-5 gap-4 items-center">
+            <div className="grid items-center gap-4 md:grid-cols-5">
               <div>
                 <h4 className="font-medium text-neutral-900">{inv.client}</h4>
-                <p className="text-sm text-neutral-600">INV-{inv.id}</p>
+                <p className="text-sm text-neutral-500">INV-{inv.id}</p>
               </div>
 
               <div>
-                <p className="text-xs text-neutral-600 font-medium">Amount</p>
-                <p className="text-lg font-bold text-neutral-900">
+                <p className="text-xs font-medium uppercase tracking-wide text-neutral-400">Amount</p>
+                <p className="text-lg font-semibold text-neutral-900">
                   {formatCurrency(inv.amount)}
                 </p>
               </div>
 
               <div>
-                <p className="text-xs text-neutral-600 font-medium">Invoice Date</p>
+                <p className="text-xs font-medium uppercase tracking-wide text-neutral-400">Invoice Date</p>
                 <p className="text-sm text-neutral-900">
                   {formatDate(inv.date)}
                 </p>
               </div>
 
               <div>
-                <p className="text-xs text-neutral-600 font-medium">Due Date</p>
+                <p className="text-xs font-medium uppercase tracking-wide text-neutral-400">Due Date</p>
                 <p className="text-sm text-neutral-900">
                   {formatDate(inv.dueDate)}
                 </p>
               </div>
 
               <div className="text-right">
-                <Badge
-                  variant={
-                    inv.status === 'paid'
-                      ? 'success'
-                      : inv.status === 'overdue'
-                      ? 'warning'
-                      : 'primary'
-                  }
-                >
-                  {inv.status}
-                </Badge>
+                <StatusBadge status={inv.status} />
               </div>
             </div>
           </Card>

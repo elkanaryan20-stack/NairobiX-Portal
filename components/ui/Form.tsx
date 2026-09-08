@@ -1,4 +1,5 @@
 import React from 'react';
+import { Inbox, Info, CheckCircle2, AlertTriangle, XCircle, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
@@ -71,21 +72,32 @@ interface MetricCardProps {
 
 export function MetricCard({ label, value, subtitle, trend, icon }: MetricCardProps) {
   return (
-    <div className="card p-4">
-      <div className="flex items-start justify-between">
-        <div className="flex-1">
-          <p className="text-sm text-neutral-600 font-medium">{label}</p>
-          <div className="flex items-baseline gap-2 mt-2">
-            <h3 className="text-3xl font-bold text-neutral-900">{value}</h3>
+    <div className="card p-5">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">{label}</p>
+          <div className="mt-2.5 flex items-baseline gap-2">
+            <h3 className="text-[1.75rem] font-semibold leading-none tracking-tight text-neutral-900">
+              {value}
+            </h3>
             {trend && (
-              <span className={trend.direction === 'up' ? 'text-green-600' : 'text-red-600'}>
+              <span
+                className={cn(
+                  'text-xs font-semibold',
+                  trend.direction === 'up' ? 'text-emerald-600' : 'text-red-600'
+                )}
+              >
                 {trend.direction === 'up' ? '↑' : '↓'} {Math.abs(trend.value)}%
               </span>
             )}
           </div>
-          {subtitle && <p className="text-xs text-neutral-500 mt-2">{subtitle}</p>}
+          {subtitle && <p className="mt-2 text-xs text-neutral-500">{subtitle}</p>}
         </div>
-        {icon && <div className="text-2xl opacity-50">{icon}</div>}
+        {icon && (
+          <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 text-neutral-500 [&>svg]:h-4 [&>svg]:w-4">
+            {icon}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -94,24 +106,23 @@ export function MetricCard({ label, value, subtitle, trend, icon }: MetricCardPr
 interface EmptyStateProps {
   title: string;
   description: string;
-  icon?: string;
+  icon?: React.ReactNode;
   action?: {
     label: string;
     onClick: () => void;
   };
 }
 
-export function EmptyState({ title, description, icon = '📭', action }: EmptyStateProps) {
+export function EmptyState({ title, description, icon, action }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center py-12 px-4">
-      <div className="text-4xl mb-4">{icon}</div>
-      <h3 className="text-lg font-semibold text-neutral-900 mb-2">{title}</h3>
-      <p className="text-neutral-600 text-center mb-6">{description}</p>
+    <div className="flex flex-col items-center justify-center rounded-md border border-dashed border-neutral-200 px-4 py-16 text-center">
+      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-neutral-100 text-neutral-400 [&>svg]:h-5 [&>svg]:w-5">
+        {icon || <Inbox />}
+      </div>
+      <h3 className="mb-1.5 text-base font-semibold text-neutral-900">{title}</h3>
+      <p className="max-w-sm text-sm text-neutral-500">{description}</p>
       {action && (
-        <button
-          onClick={action.onClick}
-          className="px-4 py-2 bg-primary text-white rounded-md hover:bg-orange-600 transition-colors"
-        >
+        <button onClick={action.onClick} className="btn btn-primary mt-6">
           {action.label}
         </button>
       )}
@@ -220,27 +231,28 @@ interface AlertProps {
 
 export function Alert({ title, description, type = 'info', onClose }: AlertProps) {
   const typeStyles = {
-    info: { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-800', icon: 'ℹ️' },
-    success: { bg: 'bg-green-50', border: 'border-green-200', text: 'text-green-800', icon: '✅' },
-    warning: { bg: 'bg-yellow-50', border: 'border-yellow-200', text: 'text-yellow-800', icon: '⚠️' },
-    error: { bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-800', icon: '❌' },
+    info: { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-800', Icon: Info },
+    success: { bg: 'bg-emerald-50', border: 'border-emerald-200', text: 'text-emerald-800', Icon: CheckCircle2 },
+    warning: { bg: 'bg-amber-50', border: 'border-amber-200', text: 'text-amber-800', Icon: AlertTriangle },
+    error: { bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-800', Icon: XCircle },
   };
 
   const style = typeStyles[type];
+  const Icon = style.Icon;
 
   return (
-    <div className={cn('rounded-md border p-4', style.bg, style.border, style.text)}>
-      <div className="flex items-start justify-between">
+    <div className={cn('rounded-sm border p-4', style.bg, style.border, style.text)}>
+      <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-3">
-          <span className="text-lg">{style.icon}</span>
+          <Icon className="mt-0.5 flex-shrink-0" size={18} />
           <div>
             <h4 className="font-medium">{title}</h4>
             {description && <p className="text-sm mt-1 opacity-90">{description}</p>}
           </div>
         </div>
         {onClose && (
-          <button onClick={onClose} className="text-lg hover:opacity-60">
-            ✕
+          <button onClick={onClose} className="flex-shrink-0 opacity-60 hover:opacity-100">
+            <X size={16} />
           </button>
         )}
       </div>

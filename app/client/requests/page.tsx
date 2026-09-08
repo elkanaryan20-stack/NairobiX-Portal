@@ -1,42 +1,43 @@
 'use client';
 
 import { ClientLayout } from '@/components/layout/ClientLayout';
-import { Card, Badge, Button, PriorityBadge } from '@/components/ui/Card';
+import { Card, Button, StatusBadge, PriorityBadge } from '@/components/ui/Card';
+import { EmptyState } from '@/components/ui/Form';
 import { mockClientServiceRequests } from '@/lib/mock-data';
 import { formatDate } from '@/lib/utils';
 import { useState } from 'react';
-import { Plus } from 'lucide-react';
+import { Plus, Rocket, Settings2, Globe, BarChart3, Target, Calendar, User, Mail } from 'lucide-react';
 
 const requestTypes = [
   {
     id: 'growth-initiative',
     title: 'Growth Initiative',
     description: 'Explore a new growth opportunity',
-    icon: '🚀',
+    icon: <Rocket size={18} />,
   },
   {
     id: 'system-request',
     title: 'System Request',
     description: 'Request a change or implementation',
-    icon: '⚙️',
+    icon: <Settings2 size={18} />,
   },
   {
     id: 'website-request',
     title: 'Website Request',
     description: 'Request a website or landing-page update',
-    icon: '🌐',
+    icon: <Globe size={18} />,
   },
   {
     id: 'reporting-question',
     title: 'Reporting Question',
     description: 'Ask about performance data',
-    icon: '📊',
+    icon: <BarChart3 size={18} />,
   },
   {
     id: 'strategy-session',
     title: 'Strategy Session',
     description: 'Request time with the NairobiX team',
-    icon: '🎯',
+    icon: <Target size={18} />,
   },
 ];
 
@@ -56,22 +57,18 @@ export default function ClientRequests() {
       {/* Request Types */}
       {!showForm && (
         <div className="mb-12">
-          <h3 className="text-lg font-semibold text-neutral-900 mb-6">
+          <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-neutral-500">
             What would you like to request?
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5">
             {requestTypes.map((type) => (
-              <button
-                key={type.id}
-                onClick={() => setShowForm(true)}
-                className="text-left"
-              >
-                <Card hover className="p-4 h-full">
-                  <p className="text-3xl mb-2">{type.icon}</p>
-                  <h4 className="font-semibold text-neutral-900 mb-1">
-                    {type.title}
-                  </h4>
-                  <p className="text-xs text-neutral-600">{type.description}</p>
+              <button key={type.id} onClick={() => setShowForm(true)} className="text-left">
+                <Card hover className="h-full p-4">
+                  <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-full bg-neutral-100 text-neutral-500">
+                    {type.icon}
+                  </div>
+                  <h4 className="mb-1 font-semibold text-neutral-900">{type.title}</h4>
+                  <p className="text-xs text-neutral-500">{type.description}</p>
                 </Card>
               </button>
             ))}
@@ -81,52 +78,37 @@ export default function ClientRequests() {
 
       {/* Request History */}
       <div>
-        <h3 className="text-lg font-semibold text-neutral-900 mb-4">
+        <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-neutral-500">
           Request History
         </h3>
 
         <div className="space-y-4">
           {mockClientServiceRequests.map((request) => (
             <Card key={request.id} className="p-6">
-              <div className="flex items-start justify-between gap-4 mb-4">
+              <div className="mb-4 flex items-start justify-between gap-4">
                 <div className="flex-1">
-                  <h4 className="text-lg font-bold text-neutral-900 mb-1">
-                    {request.title}
-                  </h4>
-                  <p className="text-neutral-600 text-sm mb-3">
-                    {request.description}
-                  </p>
-                  <div className="flex items-center gap-3 text-xs text-neutral-600">
-                    <span>📅 {formatDate(request.createdDate)}</span>
+                  <h4 className="mb-1 text-lg font-semibold text-neutral-900">{request.title}</h4>
+                  <p className="mb-3 text-sm text-neutral-600">{request.description}</p>
+                  <div className="flex flex-wrap items-center gap-4 text-xs text-neutral-500">
+                    <span className="flex items-center gap-1.5">
+                      <Calendar size={13} /> {formatDate(request.createdDate)}
+                    </span>
                     {request.assignedTo && (
-                      <span>👤 {request.assignedTo}</span>
+                      <span className="flex items-center gap-1.5">
+                        <User size={13} /> {request.assignedTo}
+                      </span>
                     )}
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-2 items-end flex-shrink-0">
-                  <Badge
-                    variant={
-                      request.status === 'completed'
-                        ? 'success'
-                        : request.status === 'in-progress'
-                        ? 'primary'
-                        : request.status === 'acknowledged'
-                        ? 'neutral'
-                        : 'warning'
-                    }
-                  >
-                    {request.status === 'submitted' && 'Submitted'}
-                    {request.status === 'acknowledged' && 'Acknowledged'}
-                    {request.status === 'in-progress' && 'In Progress'}
-                    {request.status === 'completed' && 'Completed'}
-                  </Badge>
+                <div className="flex flex-shrink-0 flex-col items-end gap-2">
+                  <StatusBadge status={request.status} />
                   <PriorityBadge priority={request.priority} />
                 </div>
               </div>
 
               {request.dueDate && (
-                <div className="pt-4 border-t border-neutral-200">
+                <div className="border-t border-neutral-100 pt-4">
                   <p className="text-sm text-neutral-600">
                     Due: <span className="font-medium">{formatDate(request.dueDate)}</span>
                   </p>
@@ -137,18 +119,12 @@ export default function ClientRequests() {
         </div>
 
         {mockClientServiceRequests.length === 0 && (
-          <Card className="p-12 text-center">
-            <div className="text-4xl mb-4">✉️</div>
-            <h3 className="text-lg font-semibold text-neutral-900 mb-2">
-              No requests yet
-            </h3>
-            <p className="text-neutral-600 mb-6">
-              Submit your first service request to get started
-            </p>
-            <Button variant="primary" icon={<Plus size={16} />}>
-              Submit a Request
-            </Button>
-          </Card>
+          <EmptyState
+            icon={<Mail />}
+            title="No requests yet"
+            description="Submit your first service request to get started."
+            action={{ label: 'Submit a Request', onClick: () => setShowForm(true) }}
+          />
         )}
       </div>
     </ClientLayout>

@@ -1,14 +1,24 @@
+import type { ReactNode } from 'react';
+
 // User and Workspace Types
+//
+// A portal User always resolves to CRM Contact → Account (see lib/crm/).
+// nairobixContactId / nairobixAccountId are the stable identifiers that
+// resolution will use once these are backed by Zoho CRM instead of mock data.
 export interface User {
   id: string;
   name: string;
   email: string;
   avatar?: string;
   role: 'client' | 'partner' | 'staff';
+  /** NairobiX Contact ID — this user as a CRM Contact. */
+  nairobixContactId?: string;
 }
 
 export interface ClientProfile {
   id: string;
+  /** NairobiX Account ID — the CRM Account (business) this client belongs to. */
+  nairobixAccountId?: string;
   businessName: string;
   businessType: string;
   industry: string;
@@ -22,6 +32,8 @@ export interface ClientProfile {
 
 export interface PartnerProfile {
   id: string;
+  /** NairobiX Account ID — the CRM Account (business) this partner belongs to. */
+  nairobixAccountId?: string;
   businessName: string;
   partnerType: string;
   industry: string;
@@ -142,8 +154,12 @@ export interface Notification {
 }
 
 // Referral Types
+//
+// A Referral is the portal-facing view of a CRM Deal (commercial opportunity).
 export interface Referral {
   id: string;
+  /** NairobiX Deal ID — this referral as a CRM Deal once qualified. */
+  nairobixDealId?: string;
   businessName: string;
   contactPerson: string;
   phone: string;
@@ -281,6 +297,8 @@ export interface PartnerApplication {
 export interface NavigationItem {
   label: string;
   href: string;
-  icon: string;
+  icon: ReactNode;
   badge?: number;
+  /** Groups items under a section heading in the sidebar. Items sharing a section render together. */
+  section?: string;
 }

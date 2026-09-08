@@ -108,11 +108,11 @@ export function getPriorityColor(
  */
 export function getTrendIndicator(trend: 'up' | 'down' | 'stable'): string {
   const trendMap = {
-    up: '📈',
-    down: '📉',
-    stable: '➡️',
+    up: '↑',
+    down: '↓',
+    stable: '→',
   };
-  return trendMap[trend] || '➡️';
+  return trendMap[trend] || '→';
 }
 
 /**

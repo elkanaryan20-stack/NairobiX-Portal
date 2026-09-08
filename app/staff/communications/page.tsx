@@ -2,8 +2,8 @@
 
 import { StaffLayout } from '@/components/layout/StaffLayout';
 import { Card, Badge, Button } from '@/components/ui/Card';
-import { Input } from '@/components/ui/Form';
-import { MessageCircle, Send } from 'lucide-react';
+import { Input, EmptyState } from '@/components/ui/Form';
+import { MessageCircle, MessageSquare, Send } from 'lucide-react';
 import { useState } from 'react';
 
 export default function StaffCommunications() {
@@ -46,20 +46,24 @@ export default function StaffCommunications() {
         />
       </div>
 
-      <div className="space-y-3">
-        {mockConversations.map((conv) => (
+      <div className="space-y-2">
+        {mockConversations
+          .filter((c) => c.name.toLowerCase().includes(searchTerm.toLowerCase()))
+          .map((conv) => (
           <Card key={conv.id} hover className="p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <MessageCircle size={16} className="text-neutral-600" />
-                  <h3 className="font-medium text-neutral-900">{conv.name}</h3>
-                  {conv.unread > 0 && (
-                    <Badge variant="primary">{conv.unread}</Badge>
-                  )}
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex min-w-0 flex-1 items-start gap-3">
+                <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 text-neutral-500">
+                  <MessageCircle size={16} />
                 </div>
-                <p className="text-sm text-neutral-600">{conv.lastMessage}</p>
-                <p className="text-xs text-neutral-500 mt-1">{conv.date}</p>
+                <div className="min-w-0">
+                  <div className="mb-0.5 flex items-center gap-2">
+                    <h3 className="truncate font-medium text-neutral-900">{conv.name}</h3>
+                    {conv.unread > 0 && <Badge variant="primary">{conv.unread}</Badge>}
+                  </div>
+                  <p className="truncate text-sm text-neutral-600">{conv.lastMessage}</p>
+                  <p className="mt-0.5 text-xs text-neutral-400">{conv.date}</p>
+                </div>
               </div>
               <Button variant="ghost" size="sm" icon={<Send size={14} />}>
                 Reply
@@ -68,6 +72,10 @@ export default function StaffCommunications() {
           </Card>
         ))}
       </div>
+
+      {mockConversations.filter((c) => c.name.toLowerCase().includes(searchTerm.toLowerCase())).length === 0 && (
+        <EmptyState icon={<MessageSquare />} title="No conversations found" description="Try a different search term." />
+      )}
     </StaffLayout>
   );
 }

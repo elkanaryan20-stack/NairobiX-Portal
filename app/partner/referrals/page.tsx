@@ -2,11 +2,11 @@
 
 import { PartnerLayout } from '@/components/layout/PartnerLayout';
 import { Card, Badge, Button, StatusBadge } from '@/components/ui/Card';
-import { Input, Textarea, Tabs } from '@/components/ui/Form';
+import { Input, Textarea, Tabs, EmptyState } from '@/components/ui/Form';
 import { mockPartnerReferrals } from '@/lib/mock-data';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { useState } from 'react';
-import { Plus } from 'lucide-react';
+import { Plus, ArrowLeft, Share2 } from 'lucide-react';
 
 export default function PartnerReferrals() {
   const [showForm, setShowForm] = useState(false);
@@ -32,23 +32,23 @@ export default function PartnerReferrals() {
         <>
           {/* Referral Pipeline Overview */}
           <div className="mb-8">
-            <h3 className="text-lg font-semibold text-neutral-900 mb-4">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-neutral-500 mb-4">
               Referral Pipeline
             </h3>
 
             <div className="grid grid-cols-2 md:grid-cols-5 gap-2 mb-6">
               {[
                 { status: 'submitted', count: mockPartnerReferrals.filter((r) => r.status === 'submitted').length, color: 'bg-neutral-50' },
-                { status: 'contacted', count: mockPartnerReferrals.filter((r) => r.status === 'contacted').length, color: 'bg-blue-50' },
-                { status: 'qualified', count: mockPartnerReferrals.filter((r) => r.status === 'qualified').length, color: 'bg-blue-50' },
-                { status: 'proposal', count: mockPartnerReferrals.filter((r) => r.status === 'proposal').length, color: 'bg-yellow-50' },
-                { status: 'won', count: mockPartnerReferrals.filter((r) => r.status === 'won').length, color: 'bg-green-50' },
+                { status: 'contacted', count: mockPartnerReferrals.filter((r) => r.status === 'contacted').length, color: 'bg-blue-50/60' },
+                { status: 'qualified', count: mockPartnerReferrals.filter((r) => r.status === 'qualified').length, color: 'bg-blue-50/60' },
+                { status: 'proposal', count: mockPartnerReferrals.filter((r) => r.status === 'proposal').length, color: 'bg-amber-50/60' },
+                { status: 'won', count: mockPartnerReferrals.filter((r) => r.status === 'won').length, color: 'bg-emerald-50/60' },
               ].map((stage) => (
                 <Card key={stage.status} className={`p-3 text-center ${stage.color}`}>
-                  <p className="text-2xl font-bold text-neutral-900">
+                  <p className="text-2xl font-semibold text-neutral-900">
                     {stage.count}
                   </p>
-                  <p className="text-xs text-neutral-600 capitalize">
+                  <p className="text-xs text-neutral-500 capitalize">
                     {stage.status}
                   </p>
                 </Card>
@@ -77,7 +77,7 @@ export default function PartnerReferrals() {
                   {/* Business Info */}
                   <div className="md:col-span-2">
                     <div className="flex items-start justify-between mb-3">
-                      <h3 className="text-lg font-bold text-neutral-900">
+                      <h3 className="text-lg font-semibold text-neutral-900">
                         {referral.businessName}
                       </h3>
                       <StatusBadge status={referral.status} />
@@ -109,37 +109,37 @@ export default function PartnerReferrals() {
                   {/* Commission & Value */}
                   <div className="space-y-3">
                     {referral.potentialValue && (
-                      <div className="bg-blue-50 p-3 rounded-lg">
+                      <div className="bg-blue-50/60 p-3 rounded-sm">
                         <p className="text-xs text-neutral-600 font-medium mb-1">
                           Potential Value
                         </p>
-                        <p className="text-lg font-bold text-blue-700">
+                        <p className="text-lg font-semibold text-blue-700">
                           {formatCurrency(referral.potentialValue)}
                         </p>
                       </div>
                     )}
 
                     {referral.commission && (
-                      <div className={`p-3 rounded-lg ${
+                      <div className={`p-3 rounded-sm ${
                         referral.commission.status === 'paid'
-                          ? 'bg-green-50'
+                          ? 'bg-emerald-50/60'
                           : referral.commission.status === 'approved'
-                          ? 'bg-yellow-50'
+                          ? 'bg-amber-50/60'
                           : 'bg-neutral-50'
                       }`}>
                         <p className="text-xs text-neutral-600 font-medium mb-1">
                           Commission
                         </p>
-                        <p className="text-lg font-bold text-neutral-900">
+                        <p className="text-lg font-semibold text-neutral-900">
                           {formatCurrency(referral.commission.amount)}
                         </p>
                         <Badge
                           variant={
                             referral.commission.status === 'paid'
                               ? 'success'
-                              : 'primary'
+                              : 'info'
                           }
-                          className="mt-2 text-xs"
+                          className="mt-2"
                         >
                           {referral.commission.status}
                         </Badge>
@@ -156,18 +156,12 @@ export default function PartnerReferrals() {
           </div>
 
           {filteredReferrals.length === 0 && (
-            <Card className="p-12 text-center">
-              <div className="text-4xl mb-4">🔗</div>
-              <h3 className="text-lg font-semibold text-neutral-900 mb-2">
-                No referrals yet
-              </h3>
-              <p className="text-neutral-600 mb-6">
-                Submit your first business referral to get started
-              </p>
-              <Button variant="primary" icon={<Plus size={16} />}>
-                Submit a Referral
-              </Button>
-            </Card>
+            <EmptyState
+              icon={<Share2 />}
+              title="No referrals yet"
+              description="Submit your first business referral to get started."
+              action={{ label: 'Submit a Referral', onClick: () => setShowForm(true) }}
+            />
           )}
         </>
       ) : (
@@ -175,12 +169,12 @@ export default function PartnerReferrals() {
         <Card className="p-6 mb-8">
           <button
             onClick={() => setShowForm(false)}
-            className="text-primary font-medium text-sm mb-4 hover:underline"
+            className="flex items-center gap-1.5 text-primary font-medium text-sm mb-4 hover:underline"
           >
-            ← Back to referrals
+            <ArrowLeft size={15} /> Back to referrals
           </button>
 
-          <h3 className="text-xl font-bold text-neutral-900 mb-6">
+          <h3 className="text-xl font-semibold text-neutral-900 mb-6">
             Submit a Business Referral
           </h3>
 

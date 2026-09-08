@@ -6,6 +6,7 @@ import { MetricCard, Tabs } from '@/components/ui/Form';
 import { mockClientPerformanceMetrics } from '@/lib/mock-data';
 import { getTrendIndicator, formatNumber } from '@/lib/utils';
 import { useState } from 'react';
+import { BarChart3, ArrowRight } from 'lucide-react';
 
 export default function ClientPerformance() {
   const [activeTab, setActiveTab] = useState('Acquisition');
@@ -56,7 +57,7 @@ export default function ClientPerformance() {
 
       {/* Insights by Category */}
       <div className="mb-8">
-        <h3 className="text-lg font-semibold text-neutral-900 mb-4">
+        <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-neutral-500">
           {activeTab} Insights
         </h3>
 
@@ -76,7 +77,7 @@ export default function ClientPerformance() {
                     <p className="text-sm text-neutral-600 mb-1">
                       Top Channel Performance
                     </p>
-                    <p className="text-lg font-bold text-neutral-900">
+                    <p className="text-lg font-semibold text-neutral-900">
                       Organic Search
                     </p>
                     <p className="text-sm text-neutral-600 mt-1">
@@ -87,7 +88,7 @@ export default function ClientPerformance() {
                     <p className="text-sm text-neutral-600 mb-1">
                       Monthly Growth
                     </p>
-                    <p className="text-lg font-bold text-green-700">+32%</p>
+                    <p className="text-lg font-semibold text-green-700">+32%</p>
                     <p className="text-sm text-neutral-600 mt-1">
                       YoY lead increase
                     </p>
@@ -112,7 +113,7 @@ export default function ClientPerformance() {
                     <p className="text-sm text-neutral-600 mb-1">
                       Average Deal Size
                     </p>
-                    <p className="text-lg font-bold text-neutral-900">KES 2.4M</p>
+                    <p className="text-lg font-semibold text-neutral-900">KES 2.4M</p>
                     <p className="text-sm text-neutral-600 mt-1">
                       Up 15% from Q3
                     </p>
@@ -121,7 +122,7 @@ export default function ClientPerformance() {
                     <p className="text-sm text-neutral-600 mb-1">
                       Sales Cycle Length
                     </p>
-                    <p className="text-lg font-bold text-neutral-900">38 days</p>
+                    <p className="text-lg font-semibold text-neutral-900">38 days</p>
                     <p className="text-sm text-neutral-600 mt-1">
                       -12% vs industry average
                     </p>
@@ -146,7 +147,7 @@ export default function ClientPerformance() {
                     <p className="text-sm text-neutral-600 mb-1">
                       Search Keyword Rankings
                     </p>
-                    <p className="text-lg font-bold text-neutral-900">234</p>
+                    <p className="text-lg font-semibold text-neutral-900">234</p>
                     <p className="text-sm text-neutral-600 mt-1">
                       Page 1 keywords
                     </p>
@@ -155,7 +156,7 @@ export default function ClientPerformance() {
                     <p className="text-sm text-neutral-600 mb-1">
                       Organic Engagement
                     </p>
-                    <p className="text-lg font-bold text-neutral-900">12.4%</p>
+                    <p className="text-lg font-semibold text-neutral-900">12.4%</p>
                     <p className="text-sm text-neutral-600 mt-1">
                       CTR improvement YoY
                     </p>
@@ -180,7 +181,7 @@ export default function ClientPerformance() {
                     <p className="text-sm text-neutral-600 mb-1">
                       Retention Rate
                     </p>
-                    <p className="text-lg font-bold text-neutral-900">94%</p>
+                    <p className="text-lg font-semibold text-neutral-900">94%</p>
                     <p className="text-sm text-neutral-600 mt-1">
                       Annual retention rate
                     </p>
@@ -189,7 +190,7 @@ export default function ClientPerformance() {
                     <p className="text-sm text-neutral-600 mb-1">
                       Repeat Business
                     </p>
-                    <p className="text-lg font-bold text-neutral-900">48%</p>
+                    <p className="text-lg font-semibold text-neutral-900">48%</p>
                     <p className="text-sm text-neutral-600 mt-1">
                       Customers with repeat purchases
                     </p>
@@ -202,24 +203,23 @@ export default function ClientPerformance() {
       </div>
 
       {/* Recommendations */}
-      <Card className="bg-amber-50 border-amber-200 p-6">
-        <h3 className="font-bold text-neutral-900 mb-3">📊 Performance Recommendations</h3>
-        <ul className="space-y-2 text-neutral-700">
+      <Card className="border-amber-200 bg-amber-50/60 p-6">
+        <h3 className="mb-3 flex items-center gap-2 font-semibold text-neutral-900">
+          <BarChart3 size={17} className="text-amber-600" />
+          Performance Recommendations
+        </h3>
+        <ul className="space-y-2.5 text-neutral-700">
           <li className="flex gap-3">
-            <span className="text-amber-600 font-bold">→</span>
+            <ArrowRight size={16} className="mt-0.5 flex-shrink-0 text-amber-600" />
             <span>Scale your top-performing acquisition channels</span>
           </li>
           <li className="flex gap-3">
-            <span className="text-amber-600 font-bold">→</span>
-            <span>
-              Implement advanced lead scoring to prioritize high-intent prospects
-            </span>
+            <ArrowRight size={16} className="mt-0.5 flex-shrink-0 text-amber-600" />
+            <span>Implement advanced lead scoring to prioritize high-intent prospects</span>
           </li>
           <li className="flex gap-3">
-            <span className="text-amber-600 font-bold">→</span>
-            <span>
-              Test behavioral triggers for personalized email nurture campaigns
-            </span>
+            <ArrowRight size={16} className="mt-0.5 flex-shrink-0 text-amber-600" />
+            <span>Test behavioral triggers for personalized email nurture campaigns</span>
           </li>
         </ul>
       </Card>
