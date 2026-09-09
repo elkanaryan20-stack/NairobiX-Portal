@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { PartnerLayout } from '@/components/layout/PartnerLayout';
 import { Card, Badge, StatusBadge } from '@/components/ui/Card';
 import { MetricCard } from '@/components/ui/Form';
-import { ArrowRight, HeartHandshake, Share2, Briefcase, BookOpen, Trophy } from 'lucide-react';
+import { ArrowRight, HeartHandshake, Share2, Briefcase, ListChecks, BookOpen, Trophy } from 'lucide-react';
 import {
   mockPartnerProfile,
   mockPartnerReferrals,
@@ -13,6 +13,9 @@ import {
 import { formatCurrency } from '@/lib/utils';
 
 export default function PartnerOverview() {
+  const { capabilities } = mockPartnerProfile;
+  const hasWorkAccess =
+    capabilities.projects || capabilities.tasks || capabilities.consultations || capabilities.deliverables;
   const wonReferrals = mockPartnerReferrals.filter((r) => r.status === 'won').length;
   const paidCommissions = mockPartnerCommissions
     .filter((c) => c.status === 'paid')
@@ -162,7 +165,7 @@ export default function PartnerOverview() {
             </Card>
           </div>
 
-          <Link href="/partner/commissions">
+          <Link href="/partner/earnings">
             <button className="w-full mt-4 px-4 py-2.5 bg-primary text-white rounded-sm hover:bg-primary-600 transition-colors font-medium flex items-center justify-center gap-2">
               View Commission Details <ArrowRight size={16} />
             </button>
@@ -173,11 +176,15 @@ export default function PartnerOverview() {
       {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { href: '/partner/referrals', icon: <Share2 size={18} />, label: 'Refer a Business', desc: 'Submit a new referral' },
-          { href: '/partner/opportunities', icon: <Briefcase size={18} />, label: 'Opportunities', desc: 'See current opportunities' },
+          capabilities.referrals && { href: '/partner/referrals', icon: <Share2 size={18} />, label: 'Refer a Business', desc: 'Submit a new referral' },
+          capabilities.opportunities && { href: '/partner/opportunities', icon: <Briefcase size={18} />, label: 'Opportunities', desc: 'See current opportunities' },
+          hasWorkAccess && { href: '/partner/work', icon: <ListChecks size={18} />, label: 'Work', desc: 'Projects, tasks & deliverables' },
+          capabilities.commissions && { href: '/partner/earnings', icon: <Trophy size={18} />, label: 'Earnings', desc: 'Commissions & milestones' },
           { href: '/partner/resources', icon: <BookOpen size={18} />, label: 'Resources', desc: 'Access partner tools' },
-          { href: '/partner/rewards', icon: <Trophy size={18} />, label: 'Rewards', desc: 'Track your milestones' },
-        ].map((action) => (
+        ]
+          .filter(Boolean)
+          .map((action) => action as { href: string; icon: React.ReactNode; label: string; desc: string })
+          .map((action) => (
           <Link key={action.href} href={action.href}>
             <Card hover className="group flex h-full flex-col items-center gap-2 p-5 text-center">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100 text-neutral-500 transition-colors group-hover:bg-primary-50 group-hover:text-primary">

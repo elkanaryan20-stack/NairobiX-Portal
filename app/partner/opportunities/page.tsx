@@ -2,9 +2,23 @@
 
 import { PartnerLayout } from '@/components/layout/PartnerLayout';
 import { Card, Badge, Button } from '@/components/ui/Card';
-import { ArrowRight, Flame, BarChart3, Target } from 'lucide-react';
+import { EmptyState } from '@/components/ui/Form';
+import { ArrowRight, Flame, BarChart3, Target, Briefcase } from 'lucide-react';
+import { mockPartnerProfile } from '@/lib/mock-data';
 
 export default function PartnerOpportunities() {
+  if (!mockPartnerProfile.capabilities.opportunities) {
+    return (
+      <PartnerLayout pageTitle="Opportunities" pageSubtitle="High-demand services your network needs">
+        <EmptyState
+          icon={<Briefcase />}
+          title="Not available for your partner type"
+          description="Opportunity tracking isn't part of your current partner capabilities. Reach out to your NairobiX contact if this should change."
+        />
+      </PartnerLayout>
+    );
+  }
+
   const opportunities = [
     {
       id: 'opp1',

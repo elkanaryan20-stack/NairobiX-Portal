@@ -1,6 +1,8 @@
 import {
   ClientProfile,
   PartnerProfile,
+  PartnerType,
+  PartnerCapabilities,
   Project,
   Service,
   Report,
@@ -14,11 +16,75 @@ import {
   GrowthInsight,
   PerformanceMetric,
   ServiceRequest,
+  ClientCampaign,
+  ClientLead,
+  ClientTask,
   GrowthPhase,
-  OnboardingStep,
+  OnboardingApplication,
   PartnerApplication,
+  AssessmentQuestion,
+  PartnerAssessment,
+  PartnerProjectAssignment,
+  PartnerTaskAssignment,
+  ConsultationSession,
+  Deliverable,
   User,
 } from './types';
+
+// ============================================================================
+// PARTNER CAPABILITY PRESETS
+// ============================================================================
+//
+// Default capability set granted to each partner type on approval. Staff can
+// still adjust an individual partner's capabilities after activation — this
+// preset only seeds sensible defaults.
+export const PARTNER_CAPABILITY_PRESETS: Record<PartnerType, PartnerCapabilities> = {
+  'Business Consultant': {
+    referrals: true,
+    opportunities: true,
+    projects: true,
+    tasks: true,
+    consultations: true,
+    deliverables: true,
+    commissions: true,
+  },
+  'Marketing Agency': {
+    referrals: true,
+    opportunities: true,
+    projects: true,
+    tasks: true,
+    consultations: true,
+    deliverables: true,
+    commissions: true,
+  },
+  'Business Centre': {
+    referrals: true,
+    opportunities: true,
+    projects: false,
+    tasks: false,
+    consultations: false,
+    deliverables: false,
+    commissions: true,
+  },
+  'Cyber Cafe / ICT Centre': {
+    referrals: true,
+    opportunities: false,
+    projects: false,
+    tasks: false,
+    consultations: false,
+    deliverables: false,
+    commissions: true,
+  },
+  'Printing / Branding Centre': {
+    referrals: true,
+    opportunities: false,
+    projects: true,
+    tasks: true,
+    consultations: false,
+    deliverables: true,
+    commissions: true,
+  },
+};
 
 // ============================================================================
 // USERS
@@ -439,6 +505,11 @@ export const mockClientServiceRequests: ServiceRequest[] = [
     createdDate: '2024-02-20',
     priority: 'high',
     assignedTo: 'Emma Wanjiru',
+    timeline: [
+      { id: 'req1-t1', title: 'Request submitted', description: 'Ticket created by Sarah Johnson', timestamp: '2024-02-20', type: 'status-change' },
+      { id: 'req1-t2', title: 'Assigned to Emma Wanjiru', description: 'Routed to the web performance team', timestamp: '2024-02-21', type: 'status-change', performedBy: 'NairobiX Support' },
+      { id: 'req1-t3', title: 'Diagnostics underway', description: 'Server response times and asset sizes are being audited', timestamp: '2024-02-23', type: 'update', performedBy: 'Emma Wanjiru' },
+    ],
   },
   {
     id: 'req-2',
@@ -448,7 +519,70 @@ export const mockClientServiceRequests: ServiceRequest[] = [
     status: 'submitted',
     createdDate: '2024-02-25',
     priority: 'medium',
+    timeline: [
+      { id: 'req2-t1', title: 'Request submitted', description: 'Ticket created by Sarah Johnson', timestamp: '2024-02-25', type: 'status-change' },
+    ],
   },
+  {
+    id: 'req-3',
+    title: 'Reporting discrepancy on lead source',
+    type: 'reporting-question',
+    description: 'Lead source attribution looks off for the last two weeks of campaign data',
+    status: 'resolved',
+    createdDate: '2024-02-08',
+    dueDate: '2024-02-12',
+    priority: 'low',
+    assignedTo: 'David Kiplagat',
+    timeline: [
+      { id: 'req3-t1', title: 'Request submitted', description: 'Ticket created by Sarah Johnson', timestamp: '2024-02-08', type: 'status-change' },
+      { id: 'req3-t2', title: 'Assigned to David Kiplagat', description: 'Routed to analytics', timestamp: '2024-02-08', type: 'status-change', performedBy: 'NairobiX Support' },
+      { id: 'req3-t3', title: 'Root cause found', description: 'UTM tagging gap identified on the paid social campaign', timestamp: '2024-02-10', type: 'update', performedBy: 'David Kiplagat' },
+      { id: 'req3-t4', title: 'Resolved', description: 'Attribution corrected and historical data backfilled', timestamp: '2024-02-12', type: 'status-change', performedBy: 'David Kiplagat' },
+    ],
+  },
+];
+
+export const mockClientCampaigns: ClientCampaign[] = [
+  {
+    id: 'camp-1',
+    name: 'Q1 Paid Search — SaaS Buyers',
+    channel: 'ppc',
+    status: 'active',
+    startDate: '2024-01-15',
+    leadsGenerated: 42,
+    conversionRate: 18,
+  },
+  {
+    id: 'camp-2',
+    name: 'LinkedIn Thought Leadership',
+    channel: 'social',
+    status: 'active',
+    startDate: '2024-02-01',
+    leadsGenerated: 19,
+    conversionRate: 11,
+  },
+  {
+    id: 'camp-3',
+    name: 'SEO Content Sprint — H1',
+    channel: 'seo',
+    status: 'planning',
+    startDate: '2024-03-10',
+    leadsGenerated: 0,
+  },
+];
+
+export const mockClientLeads: ClientLead[] = [
+  { id: 'clead-1', name: 'Wanjiku Mercy', company: 'Amka Retailers', source: 'Paid Search', campaignId: 'camp-1', status: 'qualified', receivedDate: '2024-02-26', value: 180000 },
+  { id: 'clead-2', name: 'Brian Otieno', company: 'Otieno & Partners', source: 'LinkedIn', campaignId: 'camp-2', status: 'contacted', receivedDate: '2024-02-24', value: 95000 },
+  { id: 'clead-3', name: 'Faith Mwikali', company: 'Mwikali Logistics', source: 'Paid Search', campaignId: 'camp-1', status: 'new', receivedDate: '2024-02-28' },
+  { id: 'clead-4', name: 'Kevin Njoroge', source: 'Referral form', status: 'converted', receivedDate: '2024-02-14', value: 220000 },
+];
+
+export const mockClientTasks: ClientTask[] = [
+  { id: 'ctask-1', title: 'Approve homepage redesign mockups', status: 'pending', dueDate: '2024-03-05', relatedTo: 'Website Redesign', priority: 'high' },
+  { id: 'ctask-2', title: 'Provide brand assets for campaign creative', status: 'in-progress', dueDate: '2024-03-08', relatedTo: 'Q1 Paid Search', priority: 'medium' },
+  { id: 'ctask-3', title: 'Confirm CRM user list for training', status: 'pending', dueDate: '2024-03-10', relatedTo: 'CRM Implementation', priority: 'medium' },
+  { id: 'ctask-4', title: 'Sign off on Q4 strategy review notes', status: 'completed', dueDate: '2024-02-20', relatedTo: 'Strategy Review', priority: 'low' },
 ];
 
 export const mockClientBenefits: Benefit[] = [
@@ -578,6 +712,7 @@ export const mockPartnerProfile: PartnerProfile = {
   nairobixAccountId: 'ACC-20077',
   businessName: 'Mwangi Business Solutions',
   partnerType: 'Business Consultant',
+  capabilities: PARTNER_CAPABILITY_PRESETS['Business Consultant'],
   industry: 'Business Consulting',
   location: 'Nairobi, Kenya',
   phone: '+254 722 987 654',
@@ -588,6 +723,74 @@ export const mockPartnerProfile: PartnerProfile = {
   totalReferrals: 12,
   totalCommissionsEarned: 450000,
 };
+
+// Roster used by the Staff Command Center to demonstrate the capability
+// system across different partner types (the logged-in demo partner above
+// is one of these — Business Consultant).
+export const mockAllPartners: PartnerProfile[] = [
+  mockPartnerProfile,
+  {
+    id: 'partner-2',
+    nairobixAccountId: 'ACC-20081',
+    businessName: 'Nova Digital Marketing',
+    partnerType: 'Marketing Agency',
+    capabilities: PARTNER_CAPABILITY_PRESETS['Marketing Agency'],
+    industry: 'Marketing & Advertising',
+    location: 'Nairobi, Kenya',
+    phone: '+254 733 221 456',
+    email: 'hello@novadigital.co.ke',
+    website: 'www.novadigital.co.ke',
+    partnerStatus: 'active',
+    joinDate: '2023-11-02',
+    totalReferrals: 7,
+    totalCommissionsEarned: 210000,
+  },
+  {
+    id: 'partner-3',
+    nairobixAccountId: 'ACC-20094',
+    businessName: 'Ngong Road Business Centre',
+    partnerType: 'Business Centre',
+    capabilities: PARTNER_CAPABILITY_PRESETS['Business Centre'],
+    industry: 'Business Services',
+    location: 'Ngong Road, Nairobi',
+    phone: '+254 701 445 998',
+    email: 'info@ngongbc.co.ke',
+    partnerStatus: 'active',
+    joinDate: '2024-01-10',
+    totalReferrals: 4,
+    totalCommissionsEarned: 60000,
+  },
+  {
+    id: 'partner-4',
+    nairobixAccountId: 'ACC-20101',
+    businessName: 'Kilimani CyberPoint',
+    partnerType: 'Cyber Cafe / ICT Centre',
+    capabilities: PARTNER_CAPABILITY_PRESETS['Cyber Cafe / ICT Centre'],
+    industry: 'ICT Services',
+    location: 'Kilimani, Nairobi',
+    phone: '+254 700 112 233',
+    email: 'kilimanicyberpoint@gmail.com',
+    partnerStatus: 'active',
+    joinDate: '2024-02-01',
+    totalReferrals: 2,
+    totalCommissionsEarned: 20000,
+  },
+  {
+    id: 'partner-5',
+    nairobixAccountId: 'ACC-20112',
+    businessName: 'PrintCraft Branding Studio',
+    partnerType: 'Printing / Branding Centre',
+    capabilities: PARTNER_CAPABILITY_PRESETS['Printing / Branding Centre'],
+    industry: 'Printing & Branding',
+    location: 'Industrial Area, Nairobi',
+    phone: '+254 720 556 331',
+    email: 'orders@printcraft.co.ke',
+    partnerStatus: 'onboarding',
+    joinDate: '2024-02-20',
+    totalReferrals: 0,
+    totalCommissionsEarned: 0,
+  },
+];
 
 export const mockPartnerReferrals: Referral[] = [
   {
@@ -669,14 +872,56 @@ export const mockPartnerCommissions: Commission[] = [
   },
 ];
 
-export const mockPartnerOnboarding: OnboardingStep[] = [
-  { id: 'step-1', name: 'Application Submitted', status: 'completed', order: 1 },
-  { id: 'step-2', name: 'Application Review', status: 'completed', order: 2 },
-  { id: 'step-3', name: 'Partner Agreement', status: 'completed', order: 3 },
-  { id: 'step-4', name: 'Profile Completion', status: 'completed', order: 4 },
-  { id: 'step-5', name: 'Orientation', status: 'in-progress', order: 5 },
-  { id: 'step-6', name: 'Partner Activation', status: 'pending', order: 6 },
-];
+// The full 10-stage onboarding wizard state for PrintCraft Branding Studio
+// (partner-5), the one partner currently mid-onboarding. Payment/commission
+// setup is intentionally last and stays locked until review is approved.
+export const mockOnboardingApplication: OnboardingApplication = {
+  id: 'onb-5',
+  partnerType: 'Printing / Branding Centre',
+  currentStepId: 'verification',
+  steps: [
+    { id: 'partner-details', name: 'Partner Details', status: 'completed', order: 1 },
+    { id: 'business-info', name: 'Business Information', status: 'completed', order: 2 },
+    { id: 'location', name: 'Location', status: 'completed', order: 3 },
+    { id: 'experience', name: 'Experience & Background', status: 'completed', order: 4 },
+    { id: 'documents', name: 'Supporting Documents', status: 'completed', order: 5 },
+    { id: 'verification', name: 'Verification', status: 'in-progress', order: 6 },
+    { id: 'agreement', name: 'Partnership Agreement', status: 'pending', order: 7 },
+    { id: 'assessment', name: 'Partner Assessment', status: 'pending', order: 8 },
+    { id: 'review', name: 'Review & Approval', status: 'pending', order: 9 },
+    { id: 'payment-setup', name: 'Payment & Commission Setup', status: 'locked', order: 10 },
+  ],
+  partnerDetails: {
+    fullName: 'Daniel Mutiso',
+    email: 'orders@printcraft.co.ke',
+    phone: '+254 720 556 331',
+  },
+  businessInfo: {
+    businessName: 'PrintCraft Branding Studio',
+    businessDescription: 'Commercial printing, signage and branded merchandise for SMEs across Nairobi.',
+    website: 'www.printcraftstudio.co.ke',
+  },
+  location: {
+    city: 'Nairobi',
+    address: 'Enterprise Road, Industrial Area',
+  },
+  experience: {
+    yearsExperience: 6,
+    background: 'Six years running a print production studio serving retail and hospitality clients, with an in-house design team.',
+    clientNetwork: 'Active relationships with roughly 40 SMEs across retail, hospitality and events.',
+  },
+  documents: [
+    { id: 'odoc-1', name: 'National ID', requirement: 'id', status: 'verified', uploadedDate: '2024-02-21' },
+    { id: 'odoc-2', name: 'Business Registration Certificate', requirement: 'business-registration', status: 'uploaded', uploadedDate: '2024-02-21' },
+    { id: 'odoc-3', name: 'Portfolio — recent branding work', requirement: 'portfolio', status: 'uploaded', uploadedDate: '2024-02-22' },
+  ],
+  verificationStatus: 'pending',
+  agreementAccepted: false,
+  assessmentId: 'assess-5',
+  reviewStatus: 'not-submitted',
+  paymentSetupComplete: false,
+  lastSavedDate: '2024-02-22',
+};
 
 export const mockPartnerRewards: Reward[] = [
   {
@@ -701,6 +946,31 @@ export const mockPartnerRewards: Reward[] = [
     progress: { current: 120, target: 100 },
     earnedDate: '2024-02-20',
   },
+];
+
+// Partner Work — only rendered for partners whose capabilities enable each
+// area (projects/tasks/consultations/deliverables). The logged-in demo
+// partner (Business Consultant) has all four enabled.
+export const mockPartnerProjectAssignments: PartnerProjectAssignment[] = [
+  { id: 'passign-1', projectName: 'CRM Implementation', clientName: 'TechStart Kenya Ltd', role: 'Delivery Consultant', status: 'active', startDate: '2024-01-15' },
+  { id: 'passign-2', projectName: 'Retail Digital Transformation', clientName: 'Boutique Retail Ltd', role: 'Strategy Advisor', status: 'active', startDate: '2024-02-01' },
+];
+
+export const mockPartnerTaskAssignments: PartnerTaskAssignment[] = [
+  { id: 'ptask-1', title: 'Review CRM field mapping proposal', projectName: 'CRM Implementation', status: 'pending', dueDate: '2024-03-06', priority: 'high' },
+  { id: 'ptask-2', title: 'Draft go-to-market notes for retail rollout', projectName: 'Retail Digital Transformation', status: 'in-progress', dueDate: '2024-03-10', priority: 'medium' },
+  { id: 'ptask-3', title: 'Share client intro deck template', status: 'completed', dueDate: '2024-02-18', priority: 'low' },
+];
+
+export const mockConsultationSessions: ConsultationSession[] = [
+  { id: 'cons-1', topic: 'Growth strategy alignment — TechStart Kenya', clientName: 'TechStart Kenya Ltd', scheduledDate: '2024-03-07', status: 'scheduled' },
+  { id: 'cons-2', topic: 'Retail rollout kickoff', clientName: 'Boutique Retail Ltd', scheduledDate: '2024-02-22', status: 'completed', notes: 'Agreed phased rollout starting with two flagship stores.' },
+];
+
+export const mockDeliverables: Deliverable[] = [
+  { id: 'deliv-1', title: 'CRM field-mapping recommendation', projectName: 'CRM Implementation', status: 'in-progress', dueDate: '2024-03-08' },
+  { id: 'deliv-2', title: 'Retail rollout readiness checklist', projectName: 'Retail Digital Transformation', status: 'submitted', dueDate: '2024-02-28', submittedDate: '2024-02-27' },
+  { id: 'deliv-3', title: 'Client intro deck template', status: 'approved', dueDate: '2024-02-15', submittedDate: '2024-02-14' },
 ];
 
 export const mockPartnerDocuments: Document[] = [
@@ -800,6 +1070,7 @@ export const mockPartnerApplications: PartnerApplication[] = [
     email: 'john@techinnovations.ke',
     phone: '+254 712 999 000',
     industry: 'Technology',
+    partnerType: 'Business Consultant',
     applicationDate: '2024-02-25',
     status: 'under-review',
     notes: 'Strong background in tech sector, good network',
@@ -811,10 +1082,92 @@ export const mockPartnerApplications: PartnerApplication[] = [
     email: 'lisa@strategypartners.ke',
     phone: '+254 712 555 999',
     industry: 'Business Consulting',
+    partnerType: 'Business Consultant',
     applicationDate: '2024-02-20',
     status: 'submitted',
   },
+  {
+    id: 'papp-3',
+    businessName: 'PrintCraft Branding Studio',
+    contactPerson: 'Daniel Mutiso',
+    email: 'orders@printcraft.co.ke',
+    phone: '+254 720 556 331',
+    industry: 'Printing & Branding',
+    partnerType: 'Printing / Branding Centre',
+    applicationDate: '2024-02-20',
+    status: 'verification',
+    onboardingApplicationId: 'onb-5',
+    notes: 'Strong portfolio, ID and business registration submitted — awaiting document verification.',
+  },
 ];
+
+// ============================================================================
+// PARTNER ASSESSMENT
+// ============================================================================
+
+export const mockAssessmentQuestions: AssessmentQuestion[] = [
+  {
+    id: 'aq-1',
+    category: 'Experience',
+    question: 'How many years has your business been operating?',
+    type: 'choice',
+    options: ['Less than 1 year', '1–3 years', '3–5 years', '5+ years'],
+  },
+  {
+    id: 'aq-2',
+    category: 'Experience',
+    question: 'Describe the type of work you or your business are best known for.',
+    type: 'text',
+    helperText: 'A short description helps NairobiX match the right opportunities to you.',
+  },
+  {
+    id: 'aq-3',
+    category: 'Network & Reach',
+    question: 'Roughly how many active business clients or contacts do you engage with regularly?',
+    type: 'choice',
+    options: ['Fewer than 10', '10–40', '40–100', '100+'],
+  },
+  {
+    id: 'aq-4',
+    category: 'Network & Reach',
+    question: 'How confident are you in identifying businesses that need growth or digital transformation support?',
+    type: 'scale',
+    helperText: '1 = Not confident, 5 = Very confident',
+  },
+  {
+    id: 'aq-5',
+    category: 'Service Capability',
+    question: 'What services could you directly support or deliver as part of a NairobiX engagement?',
+    type: 'text',
+  },
+  {
+    id: 'aq-6',
+    category: 'Service Capability',
+    question: 'How would you rate your capacity to take on new client work in the next 3 months?',
+    type: 'scale',
+    helperText: '1 = Very limited, 5 = High capacity',
+  },
+  {
+    id: 'aq-7',
+    category: 'NairobiX Fit',
+    question: 'What does "business growth partner" mean to you in the context of NairobiX?',
+    type: 'text',
+  },
+  {
+    id: 'aq-8',
+    category: 'NairobiX Fit',
+    question: 'How aligned do you feel your business values are with a premium, consultative growth partner?',
+    type: 'scale',
+    helperText: '1 = Not aligned, 5 = Strongly aligned',
+  },
+];
+
+export const mockPartnerAssessment: PartnerAssessment = {
+  id: 'assess-5',
+  partnerApplicationId: 'papp-3',
+  status: 'not-started',
+  responses: [],
+};
 
 // ============================================================================
 // DASHBOARD SUMMARY DATA

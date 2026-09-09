@@ -24,6 +24,13 @@ const attentionIcons: Record<string, React.ReactNode> = {
   invoice: <CreditCard size={18} />,
 };
 
+const attentionLinks: Record<string, string> = {
+  request: '/staff/support',
+  partner: '/staff/pipeline',
+  referral: '/staff/pipeline',
+  invoice: '/staff/billing',
+};
+
 export default function StaffOverview() {
   return (
     <StaffLayout
@@ -53,24 +60,26 @@ export default function StaffOverview() {
 
         <div className="space-y-2.5">
           {mockStaffNeedsAttention.map((item) => (
-            <Card key={item.id} hover className="p-4">
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex flex-1 items-start gap-3">
-                  <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-amber-50 text-amber-600">
-                    {attentionIcons[item.type] ?? <Inbox size={18} />}
+            <Link key={item.id} href={attentionLinks[item.type] ?? '/staff'}>
+              <Card hover className="p-4">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex flex-1 items-start gap-3">
+                    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-amber-50 text-amber-600">
+                      {attentionIcons[item.type] ?? <Inbox size={18} />}
+                    </div>
+                    <div className="min-w-0">
+                      <h4 className="font-semibold text-neutral-900">{item.title}</h4>
+                      <p className="mt-0.5 text-sm text-neutral-600">{item.description}</p>
+                    </div>
                   </div>
-                  <div className="min-w-0">
-                    <h4 className="font-semibold text-neutral-900">{item.title}</h4>
-                    <p className="mt-0.5 text-sm text-neutral-600">{item.description}</p>
-                  </div>
-                </div>
 
-                <div className="flex-shrink-0 text-right">
-                  <Badge variant="warning">{item.type}</Badge>
-                  <p className="mt-2 text-xs text-neutral-500">{item.date}</p>
+                  <div className="flex-shrink-0 text-right">
+                    <Badge variant="warning">{item.type}</Badge>
+                    <p className="mt-2 text-xs text-neutral-500">{item.date}</p>
+                  </div>
                 </div>
-              </div>
-            </Card>
+              </Card>
+            </Link>
           ))}
         </div>
       </div>
@@ -82,10 +91,10 @@ export default function StaffOverview() {
         </h3>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            { href: '/staff/clients', icon: <Users />, label: 'Manage Clients', stat: `${mockStaffMetrics.activeClients} active clients` },
-            { href: '/staff/partners', icon: <HeartHandshake />, label: 'Manage Partners', stat: `${mockStaffMetrics.activePartners} active partners` },
-            { href: '/staff/projects', icon: <FolderKanban />, label: 'Projects', stat: `${mockStaffMetrics.activeProjects} active` },
-            { href: '/staff/requests', icon: <Inbox />, label: 'Requests', stat: `${mockStaffMetrics.openRequests} pending` },
+            { href: '/staff/accounts', icon: <Users />, label: 'Manage Accounts', stat: `${mockStaffMetrics.activeClients} clients · ${mockStaffMetrics.activePartners} partners` },
+            { href: '/staff/pipeline', icon: <HeartHandshake />, label: 'Review Pipeline', stat: `${mockStaffNeedsAttention.filter((a) => a.type === 'partner' || a.type === 'referral').length} awaiting review` },
+            { href: '/staff/delivery', icon: <FolderKanban />, label: 'Delivery', stat: `${mockStaffMetrics.activeProjects} active` },
+            { href: '/staff/support', icon: <Inbox />, label: 'Support', stat: `${mockStaffMetrics.openRequests} open` },
           ].map((action) => (
             <Link key={action.href} href={action.href}>
               <Card hover className="group flex h-full flex-col items-center gap-3 p-6 text-center">

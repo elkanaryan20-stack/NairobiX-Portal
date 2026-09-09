@@ -2,38 +2,34 @@
 
 import {
   LayoutDashboard,
-  Users,
-  HeartHandshake,
+  GitBranch,
+  Building2,
   FolderKanban,
-  Inbox,
-  FolderOpen,
-  MessageSquare,
-  Share2,
+  LifeBuoy,
   CreditCard,
   BarChart3,
-  Settings,
 } from 'lucide-react';
 import { PageLayout } from '@/components/layout/Sidebar';
 import { NavigationItem } from '@/lib/types';
-import { mockStaffUser } from '@/lib/mock-data';
+import { mockStaffUser, mockStaffNeedsAttention } from '@/lib/mock-data';
 import { getInitials } from '@/lib/utils';
 
+// Seven destinations that mirror how staff actually operate the business —
+// pipeline review, account management, delivery, support, billing and
+// reporting — rather than one nav item per CRM module.
 const staffNavigation: NavigationItem[] = [
-  { label: 'Overview', href: '/staff', icon: <LayoutDashboard />, section: 'Workspace' },
-
-  { label: 'Clients', href: '/staff/clients', icon: <Users />, section: 'Relationships' },
-  { label: 'Partners', href: '/staff/partners', icon: <HeartHandshake />, section: 'Relationships' },
-  { label: 'Referrals', href: '/staff/referrals', icon: <Share2 />, section: 'Relationships' },
-
-  { label: 'Projects', href: '/staff/projects', icon: <FolderKanban />, section: 'Delivery' },
-  { label: 'Service Requests', href: '/staff/requests', icon: <Inbox />, section: 'Delivery' },
-  { label: 'Communications', href: '/staff/communications', icon: <MessageSquare />, section: 'Delivery' },
-
-  { label: 'Documents', href: '/staff/documents', icon: <FolderOpen />, section: 'Operations' },
-  { label: 'Billing', href: '/staff/billing', icon: <CreditCard />, section: 'Operations' },
-  { label: 'Analytics', href: '/staff/analytics', icon: <BarChart3 />, section: 'Operations' },
-
-  { label: 'Settings', href: '/staff/settings', icon: <Settings />, section: 'Account' },
+  { label: 'Overview', href: '/staff', icon: <LayoutDashboard /> },
+  {
+    label: 'Pipeline',
+    href: '/staff/pipeline',
+    icon: <GitBranch />,
+    badge: mockStaffNeedsAttention.filter((a) => a.type === 'partner' || a.type === 'referral').length,
+  },
+  { label: 'Accounts', href: '/staff/accounts', icon: <Building2 /> },
+  { label: 'Delivery', href: '/staff/delivery', icon: <FolderKanban /> },
+  { label: 'Support', href: '/staff/support', icon: <LifeBuoy /> },
+  { label: 'Billing', href: '/staff/billing', icon: <CreditCard /> },
+  { label: 'Reports', href: '/staff/reports', icon: <BarChart3 /> },
 ];
 
 interface StaffLayoutProps {
@@ -56,6 +52,7 @@ export function StaffLayout({
       pageTitle={pageTitle}
       pageSubtitle={pageSubtitle}
       headerActions={headerActions}
+      settingsHref="/staff/settings"
       userName={mockStaffUser.name}
       userInitials={getInitials(mockStaffUser.name)}
       onLogout={() => (window.location.href = '/')}

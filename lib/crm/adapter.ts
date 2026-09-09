@@ -20,6 +20,7 @@
 import {
   mockClientProfile,
   mockPartnerProfile,
+  mockAllPartners,
   mockCurrentUser,
   mockPartnerUser,
   mockStaffUser,
@@ -30,6 +31,7 @@ import {
   mockClientServiceRequests,
   mockPartnerReferrals,
 } from '@/lib/mock-data';
+import type { PartnerCapabilities } from '@/lib/types';
 import type {
   Account,
   Campaign,
@@ -81,6 +83,16 @@ export function getAccountByContactId(contactId: string): Account | undefined {
   if (contactId === mockCurrentUser.nairobixContactId) return accountFromClientProfile();
   if (contactId === mockPartnerUser.nairobixContactId) return accountFromPartnerProfile();
   return undefined;
+}
+
+/**
+ * What a partner Account is approved to do inside the portal. Every partner
+ * page that conditionally renders a section (Work, Opportunities, Earnings)
+ * reads this rather than checking partnerType directly, so the capability
+ * model can be adjusted per-partner by staff without touching the UI.
+ */
+export function getPartnerCapabilities(accountId: string): PartnerCapabilities | undefined {
+  return mockAllPartners.find((partner) => partner.nairobixAccountId === accountId)?.capabilities;
 }
 
 export function getContactById(contactId: string): Contact | undefined {

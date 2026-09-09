@@ -3,48 +3,33 @@
 import {
   LayoutDashboard,
   Rocket,
-  FolderKanban,
-  Layers,
+  Briefcase,
   BarChart3,
-  Lightbulb,
-  FileText,
-  FolderOpen,
-  Mail,
-  Compass,
   CreditCard,
-  Gift,
-  Bell,
-  Settings,
+  LifeBuoy,
+  FolderOpen,
 } from 'lucide-react';
 import { PageLayout } from '@/components/layout/Sidebar';
 import { NavigationItem } from '@/lib/types';
-import { mockClientNotifications, mockCurrentUser } from '@/lib/mock-data';
+import { mockClientNotifications, mockCurrentUser, mockClientServiceRequests } from '@/lib/mock-data';
 import { getInitials } from '@/lib/utils';
 
+// Six concise destinations that answer what the client actually comes to
+// the portal to do — not a page per CRM module. Settings and Notifications
+// live in the user menu / header bell instead of taking a nav slot.
 const clientNavigation: NavigationItem[] = [
-  { label: 'Overview', href: '/client', icon: <LayoutDashboard />, section: 'Workspace' },
-  { label: 'Growth Journey', href: '/client/growth', icon: <Rocket />, section: 'Workspace' },
-
-  { label: 'Projects', href: '/client/projects', icon: <FolderKanban />, section: 'Delivery' },
-  { label: 'Services', href: '/client/services', icon: <Layers />, section: 'Delivery' },
-  { label: 'Performance', href: '/client/performance', icon: <BarChart3 />, section: 'Delivery' },
-  { label: 'Insights', href: '/client/insights', icon: <Lightbulb />, section: 'Delivery' },
-  { label: 'Reports', href: '/client/reports', icon: <FileText />, section: 'Delivery' },
-
-  { label: 'Documents', href: '/client/documents', icon: <FolderOpen />, section: 'Account' },
-  { label: 'Requests', href: '/client/requests', icon: <Mail />, section: 'Account' },
-  { label: 'Concierge', href: '/client/concierge', icon: <Compass />, section: 'Account' },
-  { label: 'Billing', href: '/client/billing', icon: <CreditCard />, section: 'Account' },
-  { label: 'Benefits', href: '/client/benefits', icon: <Gift />, section: 'Account' },
-
+  { label: 'Overview', href: '/client', icon: <LayoutDashboard /> },
+  { label: 'Growth', href: '/client/growth', icon: <Rocket /> },
+  { label: 'Work', href: '/client/work', icon: <Briefcase /> },
+  { label: 'Insights', href: '/client/insights', icon: <BarChart3 /> },
+  { label: 'Billing', href: '/client/billing', icon: <CreditCard /> },
   {
-    label: 'Notifications',
-    href: '/client/notifications',
-    icon: <Bell />,
-    badge: mockClientNotifications.filter((n) => !n.read).length,
-    section: 'Settings',
+    label: 'Support',
+    href: '/client/support',
+    icon: <LifeBuoy />,
+    badge: mockClientServiceRequests.filter((r) => r.status !== 'resolved').length,
   },
-  { label: 'Settings', href: '/client/settings', icon: <Settings />, section: 'Settings' },
+  { label: 'Resources', href: '/client/resources', icon: <FolderOpen /> },
 ];
 
 interface ClientLayoutProps {
@@ -68,6 +53,8 @@ export function ClientLayout({
       pageSubtitle={pageSubtitle}
       headerActions={headerActions}
       notifications={mockClientNotifications}
+      notificationsHref="/client/notifications"
+      settingsHref="/client/settings"
       userName={mockCurrentUser.name}
       userInitials={getInitials(mockCurrentUser.name)}
       onLogout={() => (window.location.href = '/')}

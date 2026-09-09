@@ -5,37 +5,14 @@ import {
   ClipboardCheck,
   Share2,
   Briefcase,
+  ListChecks,
   Wallet,
-  Lightbulb,
-  Megaphone,
   BookOpen,
-  Trophy,
-  FolderOpen,
-  Bell,
-  Settings,
 } from 'lucide-react';
 import { PageLayout } from '@/components/layout/Sidebar';
 import { NavigationItem } from '@/lib/types';
-import { mockPartnerUser } from '@/lib/mock-data';
+import { mockPartnerUser, mockPartnerProfile } from '@/lib/mock-data';
 import { getInitials } from '@/lib/utils';
-
-const partnerNavigation: NavigationItem[] = [
-  { label: 'Overview', href: '/partner', icon: <LayoutDashboard />, section: 'Workspace' },
-  { label: 'Onboarding', href: '/partner/onboarding', icon: <ClipboardCheck />, section: 'Workspace' },
-
-  { label: 'Referrals', href: '/partner/referrals', icon: <Share2 />, section: 'Pipeline' },
-  { label: 'Opportunities', href: '/partner/opportunities', icon: <Briefcase />, section: 'Pipeline' },
-  { label: 'Commissions', href: '/partner/commissions', icon: <Wallet />, section: 'Pipeline' },
-
-  { label: 'Insights', href: '/partner/insights', icon: <Lightbulb />, section: 'Growth' },
-  { label: 'Updates', href: '/partner/updates', icon: <Megaphone />, section: 'Growth' },
-  { label: 'Resources', href: '/partner/resources', icon: <BookOpen />, section: 'Growth' },
-  { label: 'Rewards', href: '/partner/rewards', icon: <Trophy />, section: 'Growth' },
-
-  { label: 'Documents', href: '/partner/documents', icon: <FolderOpen />, section: 'Account' },
-  { label: 'Notifications', href: '/partner/notifications', icon: <Bell />, section: 'Account' },
-  { label: 'Settings', href: '/partner/settings', icon: <Settings />, section: 'Account' },
-];
 
 interface PartnerLayoutProps {
   children: React.ReactNode;
@@ -44,12 +21,39 @@ interface PartnerLayoutProps {
   headerActions?: React.ReactNode;
 }
 
+// Navigation is capability-aware: a partner only sees Opportunities and Work
+// if their approved capabilities include them, and Onboarding disappears
+// once they're fully active. This keeps every partner type looking at a
+// nav built for what they actually do, not a fixed list of every module.
 export function PartnerLayout({
   children,
   pageTitle,
   pageSubtitle,
   headerActions,
 }: PartnerLayoutProps) {
+  const { capabilities, partnerStatus } = mockPartnerProfile;
+  const isOnboarding = partnerStatus !== 'active';
+  const hasWorkAccess =
+    capabilities.projects || capabilities.tasks || capabilities.consultations || capabilities.deliverables;
+
+  const partnerNavigation: NavigationItem[] = [
+    { label: 'Overview', href: '/partner', icon: <LayoutDashboard /> },
+    ...(isOnboarding
+      ? [{ label: 'Onboarding', href: '/partner/onboarding', icon: <ClipboardCheck /> }]
+      : []),
+    ...(capabilities.referrals
+      ? [{ label: 'Referrals', href: '/partner/referrals', icon: <Share2 /> }]
+      : []),
+    ...(capabilities.opportunities
+      ? [{ label: 'Opportunities', href: '/partner/opportunities', icon: <Briefcase /> }]
+      : []),
+    ...(hasWorkAccess ? [{ label: 'Work', href: '/partner/work', icon: <ListChecks /> }] : []),
+    ...(capabilities.commissions
+      ? [{ label: 'Earnings', href: '/partner/earnings', icon: <Wallet /> }]
+      : []),
+    { label: 'Resources', href: '/partner/resources', icon: <BookOpen /> },
+  ];
+
   return (
     <PageLayout
       workspaceName="Partner Workspace"
@@ -57,6 +61,8 @@ export function PartnerLayout({
       pageTitle={pageTitle}
       pageSubtitle={pageSubtitle}
       headerActions={headerActions}
+      notificationsHref="/partner/notifications"
+      settingsHref="/partner/settings"
       userName={mockPartnerUser.name}
       userInitials={getInitials(mockPartnerUser.name)}
       onLogout={() => (window.location.href = '/')}

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, LogOut, Bell, ChevronDown } from 'lucide-react';
+import { Menu, X, LogOut, Bell, ChevronDown, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Notification, NavigationItem } from '@/lib/types';
 
@@ -12,6 +12,7 @@ interface SidebarProps {
   navigation: NavigationItem[];
   userInitials?: string;
   userName?: string;
+  settingsHref?: string;
   onLogout?: () => void;
 }
 
@@ -69,6 +70,7 @@ function SidebarContent({
   navigation,
   userInitials = 'SJ',
   userName = 'Sarah Johnson',
+  settingsHref,
   onLogout,
   onNavigate,
 }: SidebarProps & { onNavigate?: () => void }) {
@@ -126,6 +128,14 @@ function SidebarContent({
 
           {showUserMenu && (
             <div className="absolute bottom-full left-0 right-0 mb-2 overflow-hidden rounded-sm border border-neutral-200 bg-white shadow-lg">
+              {settingsHref && (
+                <Link href={settingsHref} onClick={onNavigate}>
+                  <span className="flex w-full items-center gap-2 border-b border-neutral-100 px-4 py-2.5 text-left text-sm text-neutral-700 transition-colors hover:bg-neutral-50">
+                    <Settings size={15} />
+                    Settings
+                  </span>
+                </Link>
+              )}
               <button
                 onClick={onLogout}
                 className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm text-neutral-700 transition-colors hover:bg-neutral-50"
@@ -212,7 +222,7 @@ interface HeaderProps {
   subtitle?: string;
   actions?: React.ReactNode;
   notifications?: Notification[];
-  onNotificationClick?: () => void;
+  notificationsHref?: string;
 }
 
 export function Header({
@@ -220,7 +230,7 @@ export function Header({
   subtitle,
   actions,
   notifications = [],
-  onNotificationClick,
+  notificationsHref,
 }: HeaderProps) {
   const unreadNotifications = notifications.filter((n) => !n.read).length;
 
@@ -237,18 +247,20 @@ export function Header({
         <div className="flex flex-shrink-0 items-center gap-3 md:gap-5">
           {actions}
 
-          <button
-            onClick={onNotificationClick}
-            aria-label="Notifications"
-            className="relative rounded-sm p-2 text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900"
-          >
-            <Bell size={19} />
-            {unreadNotifications > 0 && (
-              <span className="absolute right-1.5 top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-primary text-[9px] font-bold text-white ring-2 ring-white">
-                {unreadNotifications > 9 ? '9+' : unreadNotifications}
-              </span>
-            )}
-          </button>
+          {notificationsHref && (
+            <Link
+              href={notificationsHref}
+              aria-label="Notifications"
+              className="relative rounded-sm p-2 text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900"
+            >
+              <Bell size={19} />
+              {unreadNotifications > 0 && (
+                <span className="absolute right-1.5 top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-primary text-[9px] font-bold text-white ring-2 ring-white">
+                  {unreadNotifications > 9 ? '9+' : unreadNotifications}
+                </span>
+              )}
+            </Link>
+          )}
         </div>
       </div>
     </header>
@@ -263,10 +275,11 @@ interface PageLayoutProps {
   pageSubtitle?: string;
   headerActions?: React.ReactNode;
   notifications?: Notification[];
+  notificationsHref?: string;
+  settingsHref?: string;
   userName?: string;
   userInitials?: string;
   onLogout?: () => void;
-  onNotificationClick?: () => void;
 }
 
 export function PageLayout({
@@ -277,10 +290,11 @@ export function PageLayout({
   pageSubtitle,
   headerActions,
   notifications = [],
+  notificationsHref,
+  settingsHref,
   userName,
   userInitials,
   onLogout,
-  onNotificationClick,
 }: PageLayoutProps) {
   return (
     <div className="flex h-screen bg-neutral-50">
@@ -289,6 +303,7 @@ export function PageLayout({
         navigation={navigation}
         userName={userName}
         userInitials={userInitials}
+        settingsHref={settingsHref}
         onLogout={onLogout}
       />
 
@@ -298,7 +313,7 @@ export function PageLayout({
           subtitle={pageSubtitle}
           actions={headerActions}
           notifications={notifications}
-          onNotificationClick={onNotificationClick}
+          notificationsHref={notificationsHref}
         />
 
         <main className="flex-1 overflow-y-auto">
