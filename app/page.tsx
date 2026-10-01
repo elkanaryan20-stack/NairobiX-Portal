@@ -1,140 +1,104 @@
-'use client';
-
-import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowUpRight, HeartHandshake, ShieldCheck, TrendingUp } from 'lucide-react';
+import { ArrowRight, Fingerprint, KeyRound, LayoutGrid, Lock } from 'lucide-react';
+import { GatewayFrame } from '@/components/portal/GatewayFrame';
 
-export default function Home() {
+/**
+ * NairobiX Portal entry. One Portal, one way in: people sign in and the
+ * Portal determines their NairobiX relationship. Nobody is asked to choose
+ * Client, Partner or Staff.
+ */
+export default function PortalEntry() {
   return (
-    <div className="relative min-h-screen bg-ink-950 overflow-hidden">
-      {/* Ambient background photography */}
-      <div className="absolute inset-0">
-        <Image
-          src="/images/landing/hero-skyline.jpg"
-          alt=""
-          fill
-          priority
-          className="object-cover opacity-[0.16]"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink-950 via-ink-950/95 to-ink-950" />
-        <div className="absolute inset-0 bg-grain mix-blend-overlay opacity-[0.03]" />
-      </div>
+    <GatewayFrame>
+      <div className="mx-auto grid w-full max-w-6xl items-center gap-14 lg:grid-cols-[1.15fr_1fr] lg:gap-20">
+        <section>
+          <p className="animate-fade-up mb-7 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.3em] text-primary-400">
+            <span className="h-px w-8 bg-primary/60" />
+            NairobiX Portal
+          </p>
 
-      <div className="relative flex flex-col items-center px-6 py-16 md:py-24">
-        {/* Wordmark */}
-        <div className="animate-fade-up mb-16 flex items-center gap-2 md:mb-20">
-          <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-          <span className="text-xs font-medium uppercase tracking-[0.3em] text-neutral-400">
-            NairobiX
-          </span>
-        </div>
-
-        {/* Header */}
-        <div className="mb-16 max-w-2xl text-center md:mb-20">
           <h1
-            className="animate-fade-up mb-6 font-serif text-5xl font-medium tracking-tight text-white [animation-delay:80ms] md:text-6xl"
+            className="animate-fade-up mb-6 max-w-xl font-serif text-[2.6rem] font-medium leading-[1.08] tracking-tight text-white [animation-delay:80ms] md:text-6xl"
             style={{ fontOpticalSizing: 'auto' } as React.CSSProperties}
           >
-            Your growth workspace,
-            <br />
-            engineered.
+            One secure workspace for your relationship with NairobiX.
           </h1>
-          <p className="animate-fade-up text-lg font-light text-neutral-400 [animation-delay:160ms] md:text-xl">
-            One connected system for your growth partnership, referral network and internal operations.
+
+          <p className="animate-fade-up mb-10 max-w-lg text-base font-light leading-relaxed text-neutral-400 [animation-delay:160ms] md:text-lg">
+            Access your authorized NairobiX services, engagements, resources and business relationship from one
+            secure environment.
           </p>
-        </div>
 
-        {/* Workspace Cards */}
-        <div className="grid w-full max-w-6xl grid-cols-1 gap-5 md:grid-cols-3">
-          <WorkspaceCard
-            index={0}
-            title="Client"
-            subtitle="Growth Workspace"
-            description="Track your growth partnership, performance and projects in one place."
-            href="/client"
-            image="/images/landing/client-card.jpg"
-            icon={<TrendingUp className="h-5 w-5" strokeWidth={1.75} />}
-          />
-          <WorkspaceCard
-            index={1}
-            title="Partner"
-            subtitle="Partner Workspace"
-            description="Manage referrals, opportunities, commissions and partner benefits."
-            href="/partner"
-            image="/images/landing/partner-card.jpg"
-            icon={<HeartHandshake className="h-5 w-5" strokeWidth={1.75} />}
-          />
-          <WorkspaceCard
-            index={2}
-            title="Staff"
-            subtitle="Command Center"
-            description="Oversee clients, partners, projects and NairobiX operations."
-            href="/staff"
-            image="/images/landing/staff-card.jpg"
-            icon={<ShieldCheck className="h-5 w-5" strokeWidth={1.75} />}
-          />
-        </div>
+          <div className="animate-fade-up flex flex-col items-start gap-5 [animation-delay:240ms] sm:flex-row sm:items-center sm:gap-7">
+            <Link
+              href="/login"
+              className="group inline-flex items-center gap-2.5 rounded-sm bg-primary px-6 py-3.5 text-sm font-semibold text-white shadow-glow transition-all duration-200 ease-smooth hover:bg-primary-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-ink-950 active:scale-[0.98]"
+            >
+              Sign in to NairobiX
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+            </Link>
+            <p className="flex items-center gap-2 text-sm text-neutral-500">
+              <Lock className="h-3.5 w-3.5 flex-shrink-0" />
+              Access is restricted to authorized NairobiX users.
+            </p>
+          </div>
+        </section>
 
-        {/* Footer */}
-        <div className="animate-fade-in mt-20 text-center text-sm text-neutral-600 [animation-delay:400ms] md:mt-24">
-          <p>Premium business growth &amp; digital transformation platform</p>
-          <p className="mt-1.5">NairobiX &copy; {new Date().getFullYear()}. All rights reserved.</p>
-        </div>
+        <AccessFlow />
       </div>
-    </div>
+    </GatewayFrame>
   );
 }
 
-interface WorkspaceCardProps {
-  index: number;
-  title: string;
-  subtitle: string;
-  description: string;
-  href: string;
-  image: string;
-  icon: React.ReactNode;
-}
+const ACCESS_STEPS = [
+  {
+    icon: <Fingerprint className="h-4 w-4" />,
+    title: 'Verified identity',
+    detail: 'You sign in once with your NairobiX account.',
+  },
+  {
+    icon: <KeyRound className="h-4 w-4" />,
+    title: 'Relationship recognised',
+    detail: 'Your authorized relationship with NairobiX is resolved securely on our side.',
+  },
+  {
+    icon: <LayoutGrid className="h-4 w-4" />,
+    title: 'Your workspace',
+    detail: 'Only the services, engagements and resources you are authorized for.',
+  },
+];
 
-function WorkspaceCard({ index, title, subtitle, description, href, image, icon }: WorkspaceCardProps) {
+/** Explains how access works — without ever asking the visitor who they are. */
+function AccessFlow() {
   return (
-    <Link
-      href={href}
-      className="animate-fade-up group relative block h-[420px] overflow-hidden rounded-md border border-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary md:h-[460px]"
-      style={{ animationDelay: `${240 + index * 90}ms` }}
+    <aside
+      aria-label="How Portal access works"
+      className="animate-fade-up rounded-md border border-white/10 bg-white/[0.02] p-6 backdrop-blur-sm [animation-delay:320ms] md:p-8"
     >
-      {/* Photography */}
-      <Image
-        src={image}
-        alt=""
-        fill
-        className="object-cover object-center transition-transform duration-700 ease-smooth group-hover:scale-[1.06]"
-        sizes="(min-width: 768px) 33vw, 100vw"
-      />
-
-      {/* Overlays for legibility */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 to-black/10 transition-opacity duration-500 group-hover:from-black/95 group-hover:via-black/55" />
-      <div className="absolute inset-0 opacity-0 ring-1 ring-inset ring-primary/60 transition-opacity duration-300 group-hover:opacity-100" />
-
-      {/* Content */}
-      <div className="relative flex h-full flex-col justify-end p-7">
-        <div className="mb-4 flex items-center justify-between">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.2em] text-white backdrop-blur-sm">
-            {title}
-          </span>
-          <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white backdrop-blur-sm">
-            {icon}
-          </span>
-        </div>
-
-        <h3 className="mb-2 font-serif text-2xl font-medium text-white">{subtitle}</h3>
-        <p className="mb-6 text-sm leading-relaxed text-neutral-300">{description}</p>
-
-        <div className="flex items-center gap-1.5 text-sm font-medium text-primary-400">
-          <span>Enter workspace</span>
-          <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-        </div>
-      </div>
-    </Link>
+      <p className="mb-7 text-[11px] font-medium uppercase tracking-[0.2em] text-neutral-500">How access works</p>
+      <ol className="relative space-y-7">
+        <span className="absolute bottom-3 left-[17px] top-3 w-px bg-gradient-to-b from-white/10 via-white/10 to-primary/50" aria-hidden />
+        {ACCESS_STEPS.map((step, index) => {
+          const isLast = index === ACCESS_STEPS.length - 1;
+          return (
+            <li key={step.title} className="relative flex gap-4">
+              <span
+                className={
+                  isLast
+                    ? 'relative flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-primary/40 bg-primary/10 text-primary-400'
+                    : 'relative flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-white/10 bg-ink-900 text-neutral-400'
+                }
+              >
+                {step.icon}
+              </span>
+              <div className="pt-1.5">
+                <p className="text-sm font-medium text-white">{step.title}</p>
+                <p className="mt-1 text-sm leading-relaxed text-neutral-500">{step.detail}</p>
+              </div>
+            </li>
+          );
+        })}
+      </ol>
+    </aside>
   );
 }

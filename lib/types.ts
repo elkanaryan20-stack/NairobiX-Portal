@@ -2,15 +2,15 @@ import type { ReactNode } from 'react';
 
 // User and Workspace Types
 //
-// A portal User always resolves to CRM Contact → Account (see lib/crm/).
-// nairobixContactId / nairobixAccountId are the stable identifiers that
-// resolution will use once these are backed by Zoho CRM instead of mock data.
+// A portal User always resolves to a CRM Contact (see lib/crm/). What the
+// Contact is authorized to do is NOT stored here: Relationships (Client /
+// Partner / Staff) and their Roles are resolved server-side by lib/access/
+// after authentication. A User deliberately carries no role field.
 export interface User {
   id: string;
   name: string;
   email: string;
   avatar?: string;
-  role: 'client' | 'partner' | 'staff';
   /** NairobiX Contact ID — this user as a CRM Contact. */
   nairobixContactId?: string;
 }

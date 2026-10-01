@@ -6,14 +6,16 @@ import { usePathname } from 'next/navigation';
 import { Menu, X, LogOut, Bell, ChevronDown, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Notification, NavigationItem } from '@/lib/types';
+import { signOut } from '@/lib/auth/actions';
 
 interface SidebarProps {
-  workspaceName: string;
+  /** Who the Portal is showing, e.g. "Client · TechStart Kenya Ltd". */
+  contextLabel: string;
   navigation: NavigationItem[];
-  userInitials?: string;
-  userName?: string;
+  userInitials: string;
+  userName: string;
+  userEmail: string;
   settingsHref?: string;
-  onLogout?: () => void;
 }
 
 function groupNavigation(navigation: NavigationItem[]) {
@@ -66,12 +68,12 @@ function NavLink({ item, onClick }: { item: NavigationItem; onClick?: () => void
 }
 
 function SidebarContent({
-  workspaceName,
+  contextLabel,
   navigation,
-  userInitials = 'SJ',
-  userName = 'Sarah Johnson',
+  userInitials,
+  userName,
+  userEmail,
   settingsHref,
-  onLogout,
   onNavigate,
 }: SidebarProps & { onNavigate?: () => void }) {
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -85,7 +87,7 @@ function SidebarContent({
           <span className="h-1.5 w-1.5 rounded-full bg-primary" />
           <span className="text-sm font-semibold tracking-wide text-neutral-900">NairobiX</span>
         </div>
-        <p className="mt-1 text-xs text-neutral-500">{workspaceName}</p>
+        <p className="mt-1 truncate text-xs text-neutral-500">{contextLabel}</p>
       </div>
 
       {/* Navigation */}
@@ -121,7 +123,7 @@ function SidebarContent({
             </div>
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-medium text-neutral-900">{userName}</p>
-              <p className="text-xs text-neutral-500">View profile</p>
+              <p className="truncate text-xs text-neutral-500">{userEmail}</p>
             </div>
             <ChevronDown size={14} className="flex-shrink-0 text-neutral-400" />
           </button>
@@ -136,13 +138,15 @@ function SidebarContent({
                   </span>
                 </Link>
               )}
-              <button
-                onClick={onLogout}
-                className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm text-neutral-700 transition-colors hover:bg-neutral-50"
-              >
-                <LogOut size={15} />
-                Switch workspace
-              </button>
+              <form action={signOut}>
+                <button
+                  type="submit"
+                  className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm text-neutral-700 transition-colors hover:bg-neutral-50"
+                >
+                  <LogOut size={15} />
+                  Sign out
+                </button>
+              </form>
             </div>
           )}
         </div>
@@ -269,7 +273,7 @@ export function Header({
 
 interface PageLayoutProps {
   children: React.ReactNode;
-  workspaceName: string;
+  contextLabel: string;
   navigation: NavigationItem[];
   pageTitle: string;
   pageSubtitle?: string;
@@ -277,14 +281,14 @@ interface PageLayoutProps {
   notifications?: Notification[];
   notificationsHref?: string;
   settingsHref?: string;
-  userName?: string;
-  userInitials?: string;
-  onLogout?: () => void;
+  userName: string;
+  userEmail: string;
+  userInitials: string;
 }
 
 export function PageLayout({
   children,
-  workspaceName,
+  contextLabel,
   navigation,
   pageTitle,
   pageSubtitle,
@@ -293,18 +297,18 @@ export function PageLayout({
   notificationsHref,
   settingsHref,
   userName,
+  userEmail,
   userInitials,
-  onLogout,
 }: PageLayoutProps) {
   return (
     <div className="flex h-screen bg-neutral-50">
       <Sidebar
-        workspaceName={workspaceName}
+        contextLabel={contextLabel}
         navigation={navigation}
         userName={userName}
+        userEmail={userEmail}
         userInitials={userInitials}
         settingsHref={settingsHref}
-        onLogout={onLogout}
       />
 
       <div className="flex flex-1 flex-col overflow-hidden">

@@ -95,7 +95,6 @@ export const mockCurrentUser: User = {
   name: 'Sarah Johnson',
   email: 'sarah@example.com',
   avatar: undefined,
-  role: 'client',
   nairobixContactId: 'CNT-10021',
 };
 
@@ -104,7 +103,6 @@ export const mockPartnerUser: User = {
   name: 'James Mwangi',
   email: 'james@partner.com',
   avatar: undefined,
-  role: 'partner',
   nairobixContactId: 'CNT-10088',
 };
 
@@ -113,8 +111,38 @@ export const mockStaffUser: User = {
   name: 'Grace Kipchoge',
   email: 'grace@nairobix.com',
   avatar: undefined,
-  role: 'staff',
   nairobixContactId: 'CNT-10004',
+};
+
+// Demo Contacts that exist only to exercise the unified Portal's access
+// states (see lib/access/directory.ts). They are linked to the existing demo
+// Accounts above — no new Accounts or business data are created for them.
+
+/** Holds two Relationships: Client (TechStart Kenya) and Partner (Mwangi Business Solutions). */
+export const mockMultiRelationshipUser: User = {
+  id: 'user-4',
+  name: 'Amina Wanjiru',
+  email: 'amina@techstart.ke',
+  avatar: undefined,
+  nairobixContactId: 'CNT-10107',
+};
+
+/** Partner Contact for PrintCraft, whose partner application is still onboarding. */
+export const mockOnboardingPartnerUser: User = {
+  id: 'partner-5',
+  name: 'Faith Njeri',
+  email: 'faith@printcraft.co.ke',
+  avatar: undefined,
+  nairobixContactId: 'CNT-10126',
+};
+
+/** Former client Contact whose Portal access has been suspended. */
+export const mockSuspendedUser: User = {
+  id: 'user-6',
+  name: 'Peter Otieno',
+  email: 'peter@example.com',
+  avatar: undefined,
+  nairobixContactId: 'CNT-10131',
 };
 
 // ============================================================================

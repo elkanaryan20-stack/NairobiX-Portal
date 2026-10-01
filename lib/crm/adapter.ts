@@ -107,7 +107,6 @@ export function getContactById(contactId: string): Contact | undefined {
     accountId: account?.id ?? '',
     name: match.name,
     email: match.email,
-    role: match.role,
   };
 }
 

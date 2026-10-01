@@ -15,7 +15,7 @@ export type NairobiXAccountId = string;
 export type NairobiXContactId = string;
 export type NairobiXDealId = string;
 
-/** Account = Business. The primary boundary for authorization: every Contact resolves to exactly one Account. */
+/** Account = Business. The data-scope boundary for authorization: every Client / Partner Relationship is scoped to one Account. */
 export interface Account {
   id: NairobiXAccountId;
   name: string;
@@ -27,13 +27,18 @@ export interface Account {
   status: string;
 }
 
-/** Contact = Person / Portal user. A portal session always resolves through Contact → Account. */
+/**
+ * Contact = Person. A Portal session always resolves through Contact, but a
+ * Contact is not automatically a Portal user (Lead ≠ Portal User), and its
+ * Relationships to Accounts are resolved separately (lib/access/), since one
+ * Contact may hold several (e.g. Client and Partner).
+ */
 export interface Contact {
   id: NairobiXContactId;
+  /** The Contact's primary Account. Empty for NairobiX-internal (Staff) Contacts. */
   accountId: NairobiXAccountId;
   name: string;
   email: string;
-  role: 'client' | 'partner' | 'staff';
 }
 
 /** Deal = Commercial opportunity (e.g. a qualified partner referral). */
