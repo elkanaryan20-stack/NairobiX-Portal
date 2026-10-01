@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter, Fraunces } from 'next/font/google';
+import { PORTAL_ORIGIN } from '@/lib/site';
 import './globals.css';
 
 const inter = Inter({
@@ -14,6 +15,7 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(PORTAL_ORIGIN),
   title: 'NairobiX Portal',
   description: 'Your growth. Your systems. One connected workspace.',
 };

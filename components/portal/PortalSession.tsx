@@ -4,6 +4,7 @@ import { createContext, useContext } from 'react';
 import type { PortalNavItem } from '@/lib/access/navigation';
 import type { Permission } from '@/lib/access/permissions';
 import type { RelationshipStatus, RelationshipType } from '@/lib/access/types';
+import type { Notification } from '@/lib/types';
 
 /**
  * Display-only snapshot of the server-resolved principal, used to render the
@@ -17,6 +18,8 @@ export interface PortalSessionView {
   relationships: { type: RelationshipType; accountName: string; status: RelationshipStatus }[];
   permissions: Permission[];
   navigation: PortalNavItem[];
+  /** Client header notifications, loaded server-side (empty until a CRM source exists). */
+  clientNotifications: Notification[];
 }
 
 const PortalSessionContext = createContext<PortalSessionView | null>(null);

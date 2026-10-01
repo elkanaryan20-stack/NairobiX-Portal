@@ -4,12 +4,22 @@ const nextConfig = {
 
   // The former standalone workspaces now live inside the one NairobiX Portal.
   // Old links keep working, but they only redirect — authorization happens
-  // at /portal (middleware.ts), never at these paths.
+  // inside /portal (lib/access/server.ts), never at these paths.
   async redirects() {
-    return ['client', 'partner', 'staff'].flatMap((context) => [
-      { source: `/${context}`, destination: `/portal/${context}`, permanent: false },
-      { source: `/${context}/:path*`, destination: `/portal/${context}/:path*`, permanent: false },
-    ]);
+    const legacy = [
+      ['client', 'client'],
+      ['staff', 'staff'],
+      // "Partner" was renamed to Opportunity Network Participant.
+      ['partner', 'participant'],
+    ];
+    return [
+      ...legacy.flatMap(([from, to]) => [
+        { source: `/${from}`, destination: `/portal/${to}`, permanent: false },
+        { source: `/${from}/:path*`, destination: `/portal/${to}/:path*`, permanent: false },
+      ]),
+      { source: '/portal/partner', destination: '/portal/participant', permanent: false },
+      { source: '/portal/partner/:path*', destination: '/portal/participant/:path*', permanent: false },
+    ];
   },
 };
 

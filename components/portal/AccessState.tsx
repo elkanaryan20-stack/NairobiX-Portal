@@ -23,6 +23,12 @@ const COPY: Record<DeniedState['state'], { icon: React.ReactNode; title: string;
     body: 'Portal access for this account is currently unavailable.',
     hint: 'If you believe this is a mistake, contact NairobiX.',
   },
+  unavailable: {
+    icon: <ShieldAlert className="h-5 w-5" />,
+    title: 'Access can’t be confirmed right now',
+    body: 'We couldn’t confirm your NairobiX Portal access at the moment, so access is paused for your security.',
+    hint: 'Please try again in a few minutes. If this continues, contact NairobiX.',
+  },
   unverified: {
     icon: <MailWarning className="h-5 w-5" />,
     title: 'Verify your email address',

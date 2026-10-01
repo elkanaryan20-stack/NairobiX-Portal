@@ -87,12 +87,13 @@ export interface Project {
   name: string;
   description: string;
   status: 'planning' | 'active' | 'completed' | 'on-hold';
-  progress: number;
+  /** Not tracked in the CRM; shown only when known. */
+  progress?: number;
   startDate: string;
   endDate: string;
   team: string[];
   milestones: Milestone[];
-  nextAction: string;
+  nextAction?: string;
   recentActivity: Activity[];
 }
 
@@ -121,12 +122,12 @@ export interface Service {
 export interface ServiceRequest {
   id: string;
   title: string;
-  type: 'growth-initiative' | 'system-request' | 'website-request' | 'reporting-question' | 'strategy-session';
+  type?: 'growth-initiative' | 'system-request' | 'website-request' | 'reporting-question' | 'strategy-session';
   description: string;
-  status: 'submitted' | 'assigned' | 'in-progress' | 'resolved';
+  status: 'submitted' | 'assigned' | 'in-progress' | 'on-hold' | 'resolved';
   createdDate: string;
   dueDate?: string;
-  priority: 'low' | 'medium' | 'high' | 'urgent';
+  priority?: 'low' | 'medium' | 'high' | 'urgent';
   assignedTo?: string;
   timeline: Activity[];
 }

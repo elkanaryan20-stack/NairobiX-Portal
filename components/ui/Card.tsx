@@ -150,7 +150,8 @@ export function StatusBadge({ status }: StatusBadgeProps) {
     assessment: { label: 'Assessment', variant: 'warning' },
   };
 
-  const config = statusMap[status] || statusMap.pending;
+  // CRM values outside the map are shown as-is rather than mislabelled.
+  const config = statusMap[status] ?? { label: status.replace(/[-_]/g, ' ').replace(/^./, (c) => c.toUpperCase()), variant: 'neutral' as BadgeVariant };
   return <Badge variant={config.variant}>{config.label}</Badge>;
 }
 

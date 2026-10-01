@@ -3,10 +3,11 @@
  * protected Portal route to the permission that opens it.
  *
  * The same registry drives both the sidebar (lib/access/navigation.ts) and
- * route enforcement (middleware.ts), so a module can never appear in the
- * navigation without also being enforced on the server, or vice versa.
+ * route enforcement (requireModule in lib/access/server.ts, called by every
+ * module page), so a module can never appear in the navigation without also
+ * being enforced on the server, or vice versa.
  *
- * Kept free of React imports so it can run in middleware.
+ * Kept free of React imports.
  */
 
 import type { Permission } from './permissions';
@@ -45,12 +46,12 @@ export interface PortalModule {
 
 export const RELATIONSHIP_LABELS: Record<RelationshipType, string> = {
   client: 'Client',
-  partner: 'Partner',
+  participant: 'Opportunity Network',
   staff: 'Staff',
 };
 
 export const PORTAL_ROOT = '/portal';
-/** Shown (URL unchanged) when an authorized user opens a module outside their permissions. */
+/** Where an authorized user is sent when they open a module outside their permissions. */
 export const PORTAL_RESTRICTED_PATH = '/portal/restricted';
 
 export const PORTAL_MODULES: readonly PortalModule[] = [
@@ -65,16 +66,16 @@ export const PORTAL_MODULES: readonly PortalModule[] = [
   { permission: 'client.notifications', relationship: 'client', label: 'Notifications', href: '/portal/client/notifications', icon: 'notifications', inNavigation: false },
   { permission: 'client.settings', relationship: 'client', label: 'Settings', href: '/portal/client/settings', icon: 'settings', inNavigation: false },
 
-  // Partner Relationship
-  { permission: 'partner.overview', relationship: 'partner', label: 'Overview', href: '/portal/partner', icon: 'overview', inNavigation: true },
-  { permission: 'partner.onboarding', relationship: 'partner', label: 'Onboarding', href: '/portal/partner/onboarding', icon: 'onboarding', inNavigation: true },
-  { permission: 'partner.referrals', relationship: 'partner', label: 'Referrals', href: '/portal/partner/referrals', icon: 'referrals', inNavigation: true },
-  { permission: 'partner.opportunities', relationship: 'partner', label: 'Opportunities', href: '/portal/partner/opportunities', icon: 'opportunities', inNavigation: true },
-  { permission: 'partner.work', relationship: 'partner', label: 'Work', href: '/portal/partner/work', icon: 'tasks', inNavigation: true },
-  { permission: 'partner.earnings', relationship: 'partner', label: 'Earnings', href: '/portal/partner/earnings', icon: 'earnings', inNavigation: true },
-  { permission: 'partner.resources', relationship: 'partner', label: 'Resources', href: '/portal/partner/resources', icon: 'resources', inNavigation: true },
-  { permission: 'partner.notifications', relationship: 'partner', label: 'Notifications', href: '/portal/partner/notifications', icon: 'notifications', inNavigation: false },
-  { permission: 'partner.settings', relationship: 'partner', label: 'Settings', href: '/portal/partner/settings', icon: 'settings', inNavigation: false },
+  // Opportunity Network Participant Relationship
+  { permission: 'participant.overview', relationship: 'participant', label: 'Overview', href: '/portal/participant', icon: 'overview', inNavigation: true },
+  { permission: 'participant.onboarding', relationship: 'participant', label: 'Onboarding', href: '/portal/participant/onboarding', icon: 'onboarding', inNavigation: true },
+  { permission: 'participant.referrals', relationship: 'participant', label: 'Referrals', href: '/portal/participant/referrals', icon: 'referrals', inNavigation: true },
+  { permission: 'participant.opportunities', relationship: 'participant', label: 'Opportunities', href: '/portal/participant/opportunities', icon: 'opportunities', inNavigation: true },
+  { permission: 'participant.work', relationship: 'participant', label: 'Work', href: '/portal/participant/work', icon: 'tasks', inNavigation: true },
+  { permission: 'participant.earnings', relationship: 'participant', label: 'Earnings', href: '/portal/participant/earnings', icon: 'earnings', inNavigation: true },
+  { permission: 'participant.resources', relationship: 'participant', label: 'Resources', href: '/portal/participant/resources', icon: 'resources', inNavigation: true },
+  { permission: 'participant.notifications', relationship: 'participant', label: 'Notifications', href: '/portal/participant/notifications', icon: 'notifications', inNavigation: false },
+  { permission: 'participant.settings', relationship: 'participant', label: 'Settings', href: '/portal/participant/settings', icon: 'settings', inNavigation: false },
 
   // Staff Relationship
   { permission: 'staff.overview', relationship: 'staff', label: 'Overview', href: '/portal/staff', icon: 'overview', inNavigation: true },
@@ -101,10 +102,10 @@ export function moduleForPath(pathname: string): PortalModule | undefined {
   return match;
 }
 
-/** Relationship context a pathname belongs to, e.g. /portal/partner/work → 'partner'. */
+/** Relationship context a pathname belongs to, e.g. /portal/participant/work → 'participant'. */
 export function relationshipForPath(pathname: string): RelationshipType | undefined {
   const segment = pathname.split('/')[2];
-  return segment === 'client' || segment === 'partner' || segment === 'staff' ? segment : undefined;
+  return segment === 'client' || segment === 'participant' || segment === 'staff' ? segment : undefined;
 }
 
 /**

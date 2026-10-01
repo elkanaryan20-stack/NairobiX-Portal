@@ -11,14 +11,14 @@ export function GatewayFrame({ children }: { children: React.ReactNode }) {
     <div className="relative flex min-h-screen flex-col overflow-hidden bg-ink-950 text-white">
       <div className="pointer-events-none absolute inset-0" aria-hidden>
         <Image
-          src="/images/landing/hero-skyline.jpg"
+          src="/images/landing/portal-office.jpg"
           alt=""
           fill
           priority
-          className="object-cover opacity-[0.10]"
+          className="object-cover opacity-50"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink-950/80 via-ink-950/95 to-ink-950" />
+        <div className="absolute inset-0 bg-gradient-to-b from-ink-950/70 via-ink-950/75 to-ink-950/95" />
         <div className="absolute -top-40 left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-primary/[0.07] blur-3xl" />
         <div className="absolute inset-0 bg-grain opacity-[0.03] mix-blend-overlay" />
       </div>

@@ -1,11 +1,9 @@
 /**
  * Canonical CRM entity contracts for the NairobiX Portal.
  *
- * These mirror the modules in NairobiX's Zoho CRM. The portal UI is built
- * against these shapes (via lib/crm/adapter.ts) rather than against
- * lib/mock-data.ts directly wherever a page needs CRM-scoped data, so that
- * swapping the adapter's implementation from mock data to a Next.js API
- * route backed by Zoho CRM requires no UI changes.
+ * These mirror the modules in NairobiX's Zoho CRM. The Portal reads Zoho
+ * server-side through lib/crm/zoho/ (exact field mapping in schema.ts) and
+ * shapes records for pages in lib/portal-data/.
  *
  * Do not add fields here that aren't already surfaced by the portal today —
  * this file structures existing data, it does not anticipate new ones.

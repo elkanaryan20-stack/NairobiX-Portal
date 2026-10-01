@@ -22,7 +22,6 @@ import {
 import { PageLayout } from '@/components/layout/Sidebar';
 import { usePortalSession } from '@/components/portal/PortalSession';
 import { RELATIONSHIP_LABELS, relationshipForPath, type ModuleIcon } from '@/lib/access/modules';
-import { mockClientNotifications } from '@/lib/mock-data';
 import type { NavigationItem } from '@/lib/types';
 import { getInitials } from '@/lib/utils';
 
@@ -84,7 +83,9 @@ export function PortalLayout({ children, pageTitle, pageSubtitle, headerActions 
     session.relationships.length === 1 && only
       ? only.type === 'staff'
         ? 'NairobiX Staff'
-        : `${RELATIONSHIP_LABELS[only.type]} · ${only.accountName}`
+        : only.type === 'participant'
+          ? 'Opportunity Network Participant'
+          : `${RELATIONSHIP_LABELS[only.type]} · ${only.accountName}`
       : 'NairobiX Portal';
 
   return (
@@ -94,7 +95,7 @@ export function PortalLayout({ children, pageTitle, pageSubtitle, headerActions 
       pageTitle={pageTitle}
       pageSubtitle={pageSubtitle}
       headerActions={headerActions}
-      notifications={context === 'client' ? mockClientNotifications : []}
+      notifications={context === 'client' ? session.clientNotifications : []}
       notificationsHref={notificationsHref}
       settingsHref={settingsHref}
       userName={session.name}

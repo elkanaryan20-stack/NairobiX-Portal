@@ -4,6 +4,7 @@ import { AccessState } from '@/components/portal/AccessState';
 import { PortalSessionProvider } from '@/components/portal/PortalSession';
 import { buildNavigation } from '@/lib/access/navigation';
 import { getCurrentAccess } from '@/lib/access/server';
+import { getClientUnsourced } from '@/lib/portal-data/client';
 
 export const metadata: Metadata = {
   title: 'NairobiX Portal',
@@ -22,6 +23,8 @@ export default async function PortalRootLayout({ children }: { children: React.R
   if (access.state !== 'authorized') return <AccessState access={access} />;
 
   const { principal } = access;
+  const isClient = principal.relationships.some((r) => r.type === 'client');
+
   return (
     <PortalSessionProvider
       value={{
@@ -34,6 +37,7 @@ export default async function PortalRootLayout({ children }: { children: React.R
         })),
         permissions: principal.permissions,
         navigation: buildNavigation(principal),
+        clientNotifications: isClient ? getClientUnsourced(principal).notifications : [],
       }}
     >
       {children}

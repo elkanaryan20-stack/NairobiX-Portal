@@ -19,16 +19,16 @@ export const PERMISSIONS = [
   'client.resources',
   'client.notifications',
   'client.settings',
-  // Partner Relationship
-  'partner.overview',
-  'partner.onboarding',
-  'partner.referrals',
-  'partner.opportunities',
-  'partner.work',
-  'partner.earnings',
-  'partner.resources',
-  'partner.notifications',
-  'partner.settings',
+  // Opportunity Network Participant Relationship
+  'participant.overview',
+  'participant.onboarding',
+  'participant.referrals',
+  'participant.opportunities',
+  'participant.work',
+  'participant.earnings',
+  'participant.resources',
+  'participant.notifications',
+  'participant.settings',
   // Staff Relationship
   'staff.overview',
   'staff.pipeline',
@@ -45,32 +45,34 @@ export type Permission = (typeof PERMISSIONS)[number];
 /** Upper bound of what each Role may be granted. Relationship status and capabilities narrow it further. */
 const ROLE_PERMISSIONS: Record<RelationshipRole, readonly Permission[]> = {
   'client-contact': PERMISSIONS.filter((p) => p.startsWith('client.')),
-  'partner-contact': PERMISSIONS.filter((p) => p.startsWith('partner.')),
+  participant: PERMISSIONS.filter((p) => p.startsWith('participant.')),
   'staff-member': PERMISSIONS.filter((p) => p.startsWith('staff.')),
 };
 
 /**
- * Partner permissions depend on both approval and capability.
+ * Participant permissions depend on both approval and capability.
  *
- * Eligibility ≠ Approval: a partner still onboarding holds capabilities from
- * their type preset, but none of the capability-gated modules open until the
- * partner is approved (status `active`). Onboarding itself closes once active,
- * matching the existing Partner navigation behaviour.
+ * Referrals, Opportunities, Work and Earnings open only for an approved
+ * (`active`) Participant holding the matching capability. No CRM field grants
+ * capabilities yet — Participation Type is a relationship attribute, not an
+ * entitlement — so CRM-resolved Participants receive Overview, Resources,
+ * Notifications and Settings only. Onboarding applies to the demo directory's
+ * onboarding Participants; CRM Participants are always `active`.
  */
-function isPartnerPermissionGranted(permission: Permission, relationship: Relationship): boolean {
-  const caps = relationship.partnerCapabilities;
+function isParticipantPermissionGranted(permission: Permission, relationship: Relationship): boolean {
+  const caps = relationship.capabilities;
   const approved = relationship.status === 'active';
 
   switch (permission) {
-    case 'partner.onboarding':
+    case 'participant.onboarding':
       return !approved;
-    case 'partner.referrals':
+    case 'participant.referrals':
       return approved && !!caps?.referrals;
-    case 'partner.opportunities':
+    case 'participant.opportunities':
       return approved && !!caps?.opportunities;
-    case 'partner.work':
+    case 'participant.work':
       return approved && !!(caps?.projects || caps?.tasks || caps?.consultations || caps?.deliverables);
-    case 'partner.earnings':
+    case 'participant.earnings':
       return approved && !!caps?.commissions;
     default:
       return true;
@@ -81,7 +83,7 @@ export function permissionsForRelationship(relationship: Relationship): Permissi
   if (relationship.status === 'inactive') return [];
 
   return ROLE_PERMISSIONS[relationship.role].filter((permission) =>
-    relationship.type === 'partner' ? isPartnerPermissionGranted(permission, relationship) : true
+    relationship.type === 'participant' ? isParticipantPermissionGranted(permission, relationship) : true
   );
 }
 
