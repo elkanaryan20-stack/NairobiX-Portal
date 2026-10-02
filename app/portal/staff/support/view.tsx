@@ -130,30 +130,30 @@ export function StaffSupportView({
                   className="flex w-full items-center justify-between gap-4 p-5 text-left"
                 >
                   <div className="min-w-0">
-                    <h3 className="truncate font-semibold text-neutral-900">{ticket.title}</h3>
-                    <p className="text-sm text-neutral-500">{ticket.accountName ?? '—'}</p>
+                    <h3 className="truncate font-semibold text-fg">{ticket.title}</h3>
+                    <p className="text-sm text-fg-tertiary">{ticket.accountName ?? '—'}</p>
                   </div>
                   <div className="flex flex-shrink-0 items-center gap-3">
                     {ticket.priority && <PriorityBadge priority={ticket.priority} />}
                     <StatusBadge status={ticket.status} />
-                    {isExpanded ? <ChevronDown size={18} className="text-neutral-400" /> : <ChevronRight size={18} className="text-neutral-400" />}
+                    {isExpanded ? <ChevronDown size={18} className="text-fg-tertiary" /> : <ChevronRight size={18} className="text-fg-tertiary" />}
                   </div>
                 </button>
 
                 {isExpanded && (
-                  <div className="border-t border-neutral-100 p-5 pt-4">
-                    <p className="mb-4 text-sm text-neutral-600">{ticket.description}</p>
+                  <div className="border-t border-line p-5 pt-4">
+                    <p className="mb-4 text-sm text-fg-secondary">{ticket.description}</p>
 
-                    {ticket.assignedTo && <p className="mb-4 text-sm text-neutral-500">Owner: {ticket.assignedTo}</p>}
+                    {ticket.assignedTo && <p className="mb-4 text-sm text-fg-tertiary">Owner: {ticket.assignedTo}</p>}
                     {ticket.timeline.length > 0 && (
                     <>
-                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-neutral-500">Activity</p>
-                    <div className="mb-5 space-y-3 border-l-2 border-neutral-100 pl-4">
+                    <p className="mb-2 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Activity</p>
+                    <div className="mb-5 space-y-3 border-l-2 border-line pl-4">
                       {ticket.timeline.map((entry) => (
                         <div key={entry.id}>
-                          <p className="text-sm font-medium text-neutral-900">{entry.title}</p>
-                          {entry.description && <p className="text-sm text-neutral-600">{entry.description}</p>}
-                          <p className="text-xs text-neutral-400">
+                          <p className="text-sm font-medium text-fg">{entry.title}</p>
+                          {entry.description && <p className="text-sm text-fg-secondary">{entry.description}</p>}
+                          <p className="text-xs text-fg-tertiary">
                             {formatRelativeTime(entry.timestamp)}
                             {entry.performedBy ? ` · ${entry.performedBy}` : ''}
                           </p>
@@ -193,16 +193,16 @@ export function StaffSupportView({
               <Card key={conv.id} hover className="p-4">
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex min-w-0 flex-1 items-start gap-3">
-                    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 text-neutral-500">
+                    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white/[0.05] text-fg-tertiary">
                       <MessageCircle size={16} />
                     </div>
                     <div className="min-w-0">
                       <div className="mb-0.5 flex items-center gap-2">
-                        <h3 className="truncate font-medium text-neutral-900">{conv.name}</h3>
+                        <h3 className="truncate font-medium text-fg">{conv.name}</h3>
                         {conv.unread > 0 && <Badge variant="primary">{conv.unread}</Badge>}
                       </div>
-                      <p className="truncate text-sm text-neutral-600">{conv.lastMessage}</p>
-                      <p className="mt-0.5 text-xs text-neutral-400">{formatDate(conv.date)}</p>
+                      <p className="truncate text-sm text-fg-secondary">{conv.lastMessage}</p>
+                      <p className="mt-0.5 text-xs text-fg-tertiary">{formatDate(conv.date)}</p>
                     </div>
                   </div>
                   <Button variant="ghost" size="sm" icon={<Send size={14} />}>

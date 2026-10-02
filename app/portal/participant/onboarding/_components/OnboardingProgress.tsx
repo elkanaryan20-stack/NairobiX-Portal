@@ -17,15 +17,15 @@ export function OnboardingProgress({ steps, currentStepId, onSelectStep }: Onboa
   return (
     <div className="card mb-8 p-5">
       <div className="mb-4 flex items-center justify-between">
-        <p className="text-sm font-semibold uppercase tracking-wide text-neutral-500">
+        <p className="font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">
           Onboarding Progress
         </p>
-        <p className="text-sm font-semibold text-neutral-900">
+        <p className="text-sm font-semibold text-fg">
           {completed} of {steps.length} steps &middot; {percent}%
         </p>
       </div>
 
-      <div className="mb-5 h-1.5 w-full overflow-hidden rounded-full bg-neutral-200">
+      <div className="mb-5 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
         <div
           className="h-full rounded-full bg-primary transition-all duration-500 ease-out"
           style={{ width: `${percent}%` }}
@@ -45,10 +45,10 @@ export function OnboardingProgress({ steps, currentStepId, onSelectStep }: Onboa
               className={cn(
                 'flex min-w-[7.5rem] flex-1 flex-col items-start gap-2 rounded-sm border px-3 py-2.5 text-left transition-colors',
                 isCurrent
-                  ? 'border-primary-200 bg-primary-50/50'
+                  ? 'border-primary/25 bg-primary/10'
                   : step.status === 'completed'
-                  ? 'border-neutral-200 bg-white hover:bg-neutral-50'
-                  : 'border-neutral-100 bg-neutral-50',
+                  ? 'border-line bg-surface hover:bg-surface-2'
+                  : 'border-line bg-surface-2',
                 !isReachable && 'cursor-not-allowed opacity-60'
               )}
             >
@@ -56,12 +56,12 @@ export function OnboardingProgress({ steps, currentStepId, onSelectStep }: Onboa
                 className={cn(
                   'flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold',
                   step.status === 'completed'
-                    ? 'bg-emerald-500 text-white'
+                    ? 'bg-emerald-500 text-canvas'
                     : isCurrent
-                    ? 'bg-primary text-white'
+                    ? 'bg-primary text-canvas'
                     : step.status === 'locked'
-                    ? 'bg-neutral-200 text-neutral-400'
-                    : 'bg-neutral-200 text-neutral-600'
+                    ? 'bg-white/10 text-fg-tertiary'
+                    : 'bg-white/10 text-fg-secondary'
                 )}
               >
                 {step.status === 'completed' ? (
@@ -75,7 +75,7 @@ export function OnboardingProgress({ steps, currentStepId, onSelectStep }: Onboa
               <span
                 className={cn(
                   'text-xs font-medium leading-snug',
-                  isCurrent ? 'text-primary-700' : 'text-neutral-700'
+                  isCurrent ? 'text-primary-400' : 'text-fg-secondary'
                 )}
               >
                 {step.name}

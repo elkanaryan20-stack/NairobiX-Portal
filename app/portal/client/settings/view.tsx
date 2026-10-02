@@ -36,52 +36,52 @@ export function ClientSettingsView({ source, profile }: { source: DataSource; pr
           {(
             <Card className="p-6">
               <div className="mb-4 flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-neutral-900">NairobiX Connection</h3>
+                <h3 className="text-lg font-semibold text-fg">NairobiX Connection</h3>
                 <Badge variant="success">Active</Badge>
               </div>
-              <p className="mb-5 text-sm text-neutral-500">
+              <p className="mb-5 text-sm text-fg-tertiary">
                 Your portal identity, as resolved from the NairobiX CRM.
               </p>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <div>
-                  <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">Account</p>
-                  <p className="mt-1 text-sm font-medium text-neutral-900">{profile.businessName}</p>
-                  <p className="font-mono text-xs text-neutral-400">{profile.accountId}</p>
+                  <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Account</p>
+                  <p className="mt-1 text-sm font-medium text-fg">{profile.businessName}</p>
+                  <p className="font-mono text-xs text-fg-tertiary">{profile.accountId}</p>
                 </div>
                 <div>
-                  <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">Contact</p>
-                  <p className="mt-1 text-sm font-medium text-neutral-900">{profile.contactName}</p>
-                  <p className="font-mono text-xs text-neutral-400">{profile.contactId}</p>
+                  <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Contact</p>
+                  <p className="mt-1 text-sm font-medium text-fg">{profile.contactName}</p>
+                  <p className="font-mono text-xs text-fg-tertiary">{profile.contactId}</p>
                 </div>
                 <div>
-                  <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">Client since</p>
-                  <p className="mt-1 text-sm font-medium text-neutral-900">{profile.clientSince ? formatDate(profile.clientSince) : '—'}</p>
+                  <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Client since</p>
+                  <p className="mt-1 text-sm font-medium text-fg">{profile.clientSince ? formatDate(profile.clientSince) : '—'}</p>
                 </div>
               </div>
             </Card>
           )}
 
           <Card className="p-6">
-            <h3 className="text-lg font-semibold text-neutral-900 mb-4">
+            <h3 className="text-lg font-semibold text-fg mb-4">
               Profile Information
             </h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-neutral-900 mb-2">
+                <label className="block text-sm font-medium text-fg mb-2">
                   Full Name
                 </label>
                 <Input defaultValue={profile.contactName} readOnly={!demo} />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-neutral-900 mb-2">
+                <label className="block text-sm font-medium text-fg mb-2">
                   Email Address
                 </label>
                 <Input type="email" defaultValue={profile.contactEmail} readOnly={!demo} />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-neutral-900 mb-2">
+                <label className="block text-sm font-medium text-fg mb-2">
                   Business Name
                 </label>
                 <Input defaultValue={profile.businessName} readOnly={!demo} />
@@ -92,7 +92,7 @@ export function ClientSettingsView({ source, profile }: { source: DataSource; pr
                   Save Changes
                 </Button>
               ) : (
-                <p className="mt-4 text-sm text-neutral-500">
+                <p className="mt-4 text-sm text-fg-tertiary">
                   To update these details, contact your NairobiX representative.
                 </p>
               )}
@@ -100,14 +100,14 @@ export function ClientSettingsView({ source, profile }: { source: DataSource; pr
           </Card>
 
           <Card className="p-6">
-            <h3 className="text-lg font-semibold text-neutral-900 mb-4">
+            <h3 className="text-lg font-semibold text-fg mb-4">
               Workspace Preferences
             </h3>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium text-neutral-900">Theme</p>
-                  <p className="text-sm text-neutral-600">Light theme (default)</p>
+                  <p className="font-medium text-fg">Theme</p>
+                  <p className="text-sm text-fg-secondary">Light theme (default)</p>
                 </div>
                 <select className="input">
                   <option>Light</option>
@@ -115,10 +115,10 @@ export function ClientSettingsView({ source, profile }: { source: DataSource; pr
                 </select>
               </div>
 
-              <div className="flex items-center justify-between pt-4 border-t border-neutral-200">
+              <div className="flex items-center justify-between pt-4 border-t border-line">
                 <div>
-                  <p className="font-medium text-neutral-900">Language</p>
-                  <p className="text-sm text-neutral-600">English</p>
+                  <p className="font-medium text-fg">Language</p>
+                  <p className="text-sm text-fg-secondary">English</p>
                 </div>
                 <select className="input">
                   <option>English</option>
@@ -133,7 +133,7 @@ export function ClientSettingsView({ source, profile }: { source: DataSource; pr
       {/* Notification Settings */}
       {activeTab === 'notifications' && (
         <Card className="p-6">
-          <h3 className="text-lg font-semibold text-neutral-900 mb-6">
+          <h3 className="text-lg font-semibold text-fg mb-6">
             Notification Preferences
           </h3>
 
@@ -156,10 +156,10 @@ export function ClientSettingsView({ source, profile }: { source: DataSource; pr
                 description: 'Invoice and payment notifications',
               },
             ].map((notif, i) => (
-              <div key={i} className="flex items-start justify-between py-3 border-b border-neutral-200 last:border-b-0">
+              <div key={i} className="flex items-start justify-between py-3 border-b border-line last:border-b-0">
                 <div>
-                  <p className="font-medium text-neutral-900">{notif.title}</p>
-                  <p className="text-sm text-neutral-600">{notif.description}</p>
+                  <p className="font-medium text-fg">{notif.title}</p>
+                  <p className="text-sm text-fg-secondary">{notif.description}</p>
                 </div>
                 <input type="checkbox" defaultChecked className="mt-1" />
               </div>
@@ -171,28 +171,28 @@ export function ClientSettingsView({ source, profile }: { source: DataSource; pr
       {/* Privacy Settings */}
       {activeTab === 'privacy' && (
         <Card className="p-6">
-          <h3 className="text-lg font-semibold text-neutral-900 mb-6">
+          <h3 className="text-lg font-semibold text-fg mb-6">
             Privacy Settings
           </h3>
-          <p className="text-neutral-600 mb-6">
+          <p className="text-fg-secondary mb-6">
             Control how your information is used and shared
           </p>
 
           <div className="space-y-4">
-            <div className="flex items-start justify-between py-3 border-b border-neutral-200">
+            <div className="flex items-start justify-between py-3 border-b border-line">
               <div>
-                <p className="font-medium text-neutral-900">Profile Visibility</p>
-                <p className="text-sm text-neutral-600">
+                <p className="font-medium text-fg">Profile Visibility</p>
+                <p className="text-sm text-fg-secondary">
                   Visible to NairobiX team members only
                 </p>
               </div>
               <input type="checkbox" defaultChecked className="mt-1" />
             </div>
 
-            <div className="flex items-start justify-between py-3 border-b border-neutral-200">
+            <div className="flex items-start justify-between py-3 border-b border-line">
               <div>
-                <p className="font-medium text-neutral-900">Data Collection</p>
-                <p className="text-sm text-neutral-600">
+                <p className="font-medium text-fg">Data Collection</p>
+                <p className="text-sm text-fg-secondary">
                   Allow usage analytics for service improvement
                 </p>
               </div>
@@ -206,10 +206,10 @@ export function ClientSettingsView({ source, profile }: { source: DataSource; pr
       {activeTab === 'security' && (
         <div className="space-y-6">
           <Card className="p-6">
-            <h3 className="text-lg font-semibold text-neutral-900 mb-4">
+            <h3 className="text-lg font-semibold text-fg mb-4">
               Sign-in & Security
             </h3>
-            <p className="text-sm text-neutral-600">
+            <p className="text-sm text-fg-secondary">
               You sign in with a one-time link or code sent to {profile.contactEmail}. There is no password to
               manage, and sessions end automatically after 8 hours.
             </p>

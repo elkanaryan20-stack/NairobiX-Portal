@@ -56,7 +56,7 @@ export function ParticipantOpportunitiesView({ demo }: { demo: ParticipantDemoMo
     >
       {/* Top Opportunities */}
       <div className="mb-8">
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-neutral-500 mb-4">
+        <h3 className="font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary mb-4">
           Current Demand
         </h3>
         <div className="space-y-4">
@@ -64,21 +64,21 @@ export function ParticipantOpportunitiesView({ demo }: { demo: ParticipantDemoMo
             <Card key={opp.id} hover className="p-6">
               <div className="grid md:grid-cols-4 gap-6 items-start">
                 <div>
-                  <h4 className="font-semibold text-neutral-900 mb-2">
+                  <h4 className="font-semibold text-fg mb-2">
                     {opp.service}
                   </h4>
-                  <p className="text-sm text-neutral-600">{opp.description}</p>
+                  <p className="text-sm text-fg-secondary">{opp.description}</p>
                 </div>
 
                 <div>
-                  <p className="text-xs text-neutral-600 font-medium mb-1">
+                  <p className="text-xs text-fg-secondary font-medium mb-1">
                     Industry
                   </p>
                   <Badge variant="neutral">{opp.industry}</Badge>
                 </div>
 
                 <div>
-                  <p className="text-xs text-neutral-600 font-medium mb-1">
+                  <p className="text-xs text-fg-secondary font-medium mb-1">
                     Commission
                   </p>
                   <p className="text-lg font-semibold text-primary">
@@ -101,19 +101,19 @@ export function ParticipantOpportunitiesView({ demo }: { demo: ParticipantDemoMo
       </div>
 
       {/* Industry Trends */}
-      <Card className="p-6 border-blue-200 bg-blue-50/60">
-        <h3 className="font-semibold text-neutral-900 mb-4">Industry Trends</h3>
+      <Card className="p-6 border-blue-500/20 bg-blue-500/[0.06]">
+        <h3 className="font-semibold text-fg mb-4">Industry Trends</h3>
         <div className="space-y-3">
-          <p className="flex items-start gap-2.5 text-neutral-700 text-sm">
-            <Flame size={16} className="mt-0.5 flex-shrink-0 text-blue-600" />
+          <p className="flex items-start gap-2.5 text-fg-secondary text-sm">
+            <Flame size={16} className="mt-0.5 flex-shrink-0 text-blue-400" />
             <span><span className="font-medium">E-commerce</span> services are in highest demand right now</span>
           </p>
-          <p className="flex items-start gap-2.5 text-neutral-700 text-sm">
-            <BarChart3 size={16} className="mt-0.5 flex-shrink-0 text-blue-600" />
+          <p className="flex items-start gap-2.5 text-fg-secondary text-sm">
+            <BarChart3 size={16} className="mt-0.5 flex-shrink-0 text-blue-400" />
             <span><span className="font-medium">Analytics</span> solutions seeing strong growth in financial sector</span>
           </p>
-          <p className="flex items-start gap-2.5 text-neutral-700 text-sm">
-            <Target size={16} className="mt-0.5 flex-shrink-0 text-blue-600" />
+          <p className="flex items-start gap-2.5 text-fg-secondary text-sm">
+            <Target size={16} className="mt-0.5 flex-shrink-0 text-blue-400" />
             <span><span className="font-medium">Digital marketing</span> remains stable across all industries</span>
           </p>
         </div>

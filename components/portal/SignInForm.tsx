@@ -12,7 +12,7 @@ export function SignInForm({ next, error }: { next: string; error?: string }) {
       <input type="hidden" name="next" value={next} />
 
       <div>
-        <label htmlFor="email" className="mb-2 block text-xs font-medium uppercase tracking-[0.15em] text-neutral-400">
+        <label htmlFor="email" className="mb-2 block font-mono text-[10px] uppercase tracking-[0.18em] text-fg-tertiary">
           Email address
         </label>
         <input
@@ -25,7 +25,7 @@ export function SignInForm({ next, error }: { next: string; error?: string }) {
           placeholder="you@company.com"
           aria-invalid={!!error}
           aria-describedby={error ? 'email-error' : undefined}
-          className="block w-full rounded-sm border border-white/10 bg-ink-950/60 px-4 py-3 text-sm text-white placeholder:text-neutral-600 transition-colors focus:border-primary/60 focus:outline-none focus:ring-2 focus:ring-primary/30"
+          className="block w-full rounded-lg border border-line bg-surface-2 px-4 py-3 text-sm text-fg placeholder:text-fg-tertiary transition-colors focus:border-primary/60 focus:outline-none focus:ring-2 focus:ring-primary/30"
         />
         {error && (
           <p id="email-error" role="alert" className="mt-2 text-sm text-red-400">
@@ -37,7 +37,7 @@ export function SignInForm({ next, error }: { next: string; error?: string }) {
       <button
         type="submit"
         disabled={pending}
-        className="group inline-flex w-full items-center justify-center gap-2 rounded-sm bg-primary px-5 py-3 text-sm font-semibold text-white shadow-glow transition-all duration-200 ease-smooth hover:bg-primary-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900 disabled:cursor-wait disabled:opacity-70"
+        className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-canvas transition-colors hover:bg-primary-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-canvas disabled:cursor-wait disabled:opacity-70"
       >
         {pending ? (
           <>

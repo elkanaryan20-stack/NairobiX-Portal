@@ -30,7 +30,7 @@ export function StaffBillingView({ invoices }: { invoices: StaffInvoiceRow[] }) 
       </div>
 
       {/* Invoices */}
-      <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-neutral-500">
+      <h3 className="mb-4 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">
         Invoice History
       </h3>
 
@@ -42,27 +42,27 @@ export function StaffBillingView({ invoices }: { invoices: StaffInvoiceRow[] }) 
           <Card key={inv.id} hover className="p-4">
             <div className="grid items-center gap-4 md:grid-cols-5">
               <div>
-                <h4 className="font-medium text-neutral-900">{inv.client}</h4>
-                <p className="text-sm text-neutral-500">{inv.invoiceNumber}</p>
+                <h4 className="font-medium text-fg">{inv.client}</h4>
+                <p className="text-sm text-fg-tertiary">{inv.invoiceNumber}</p>
               </div>
 
               <div>
-                <p className="text-xs font-medium uppercase tracking-wide text-neutral-400">Amount</p>
-                <p className="text-lg font-semibold text-neutral-900">
+                <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Amount</p>
+                <p className="text-lg font-semibold text-fg">
                   {formatCurrency(inv.amount, inv.currency)}
                 </p>
               </div>
 
               <div>
-                <p className="text-xs font-medium uppercase tracking-wide text-neutral-400">Invoice Date</p>
-                <p className="text-sm text-neutral-900">
+                <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Invoice Date</p>
+                <p className="text-sm text-fg">
                   {inv.date ? formatDate(inv.date) : '—'}
                 </p>
               </div>
 
               <div>
-                <p className="text-xs font-medium uppercase tracking-wide text-neutral-400">Due Date</p>
-                <p className="text-sm text-neutral-900">
+                <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Due Date</p>
+                <p className="text-sm text-fg">
                   {inv.dueDate ? formatDate(inv.dueDate) : '—'}
                 </p>
               </div>

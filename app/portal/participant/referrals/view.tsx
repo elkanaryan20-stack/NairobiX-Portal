@@ -130,20 +130,20 @@ export function ParticipantReferralsView({ demo }: { demo: ParticipantDemoModule
       {!showForm ? (
         <>
           <div className="mb-8">
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-neutral-500">Referral Pipeline</h3>
+            <h3 className="mb-4 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">Referral Pipeline</h3>
             <div className="mb-6 grid grid-cols-2 gap-2 md:grid-cols-5">
               {[
-                { status: 'submitted', label: 'Submitted', color: 'bg-neutral-50' },
-                { status: 'contacted', label: 'Contacted', color: 'bg-blue-50/60' },
-                { status: 'qualified', label: 'Qualified', color: 'bg-blue-50/60' },
-                { status: 'proposal', label: 'Proposal', color: 'bg-amber-50/60' },
-                { status: 'won', label: 'Won', color: 'bg-emerald-50/60' },
+                { status: 'submitted', label: 'Submitted', color: 'bg-surface-2' },
+                { status: 'contacted', label: 'Contacted', color: 'bg-blue-500/[0.06]' },
+                { status: 'qualified', label: 'Qualified', color: 'bg-blue-500/[0.06]' },
+                { status: 'proposal', label: 'Proposal', color: 'bg-amber-500/[0.06]' },
+                { status: 'won', label: 'Won', color: 'bg-emerald-500/[0.06]' },
               ].map((stage) => (
                 <Card key={stage.status} className={`p-3 text-center ${stage.color}`}>
-                  <p className="text-2xl font-semibold text-neutral-900">
+                  <p className="text-2xl font-semibold text-fg">
                     {referrals.filter((r) => r.status === stage.status).length}
                   </p>
-                  <p className="text-xs text-neutral-500">{stage.label}</p>
+                  <p className="text-xs text-fg-tertiary">{stage.label}</p>
                 </Card>
               ))}
             </div>
@@ -172,25 +172,25 @@ export function ParticipantReferralsView({ demo }: { demo: ParticipantDemoModule
                   >
                     <div className="min-w-0">
                       <div className="mb-1 flex items-center gap-2">
-                        <h3 className="truncate font-semibold text-neutral-900">{referral.businessName}</h3>
+                        <h3 className="truncate font-semibold text-fg">{referral.businessName}</h3>
                         <StatusBadge status={referral.status} />
                       </div>
-                      <p className="truncate text-sm text-neutral-500">
+                      <p className="truncate text-sm text-fg-tertiary">
                         {referral.contactPerson} &middot; {referral.industry} &middot; Referred {formatDate(referral.referralDate)}
                       </p>
                     </div>
-                    <ChevronDown size={18} className={`flex-shrink-0 text-neutral-400 transition-transform ${expanded ? 'rotate-180' : ''}`} />
+                    <ChevronDown size={18} className={`flex-shrink-0 text-fg-tertiary transition-transform ${expanded ? 'rotate-180' : ''}`} />
                   </button>
 
                   {expanded && (
-                    <div className="grid gap-6 border-t border-neutral-100 p-5 md:grid-cols-3">
+                    <div className="grid gap-6 border-t border-line p-5 md:grid-cols-3">
                       <div className="md:col-span-2">
                         <div className="mb-3 space-y-2">
-                          <p className="text-sm text-neutral-600">
-                            <span className="font-medium text-neutral-900">Contact:</span> {referral.contactPerson} &middot; {referral.phone} &middot; {referral.email}
+                          <p className="text-sm text-fg-secondary">
+                            <span className="font-medium text-fg">Contact:</span> {referral.contactPerson} &middot; {referral.phone} &middot; {referral.email}
                           </p>
-                          <p className="text-sm text-neutral-600">
-                            <span className="font-medium text-neutral-900">Growth need:</span> {referral.businessNeed}
+                          <p className="text-sm text-fg-secondary">
+                            <span className="font-medium text-fg">Growth need:</span> {referral.businessNeed}
                           </p>
                         </div>
                         <div className="flex flex-wrap gap-2">
@@ -200,19 +200,19 @@ export function ParticipantReferralsView({ demo }: { demo: ParticipantDemoModule
                       </div>
                       <div className="space-y-3">
                         {referral.potentialValue && (
-                          <div className="rounded-sm bg-blue-50/60 p-3">
-                            <p className="mb-1 text-xs font-medium text-neutral-500">Potential Value</p>
-                            <p className="text-lg font-semibold text-blue-700">{formatCurrency(referral.potentialValue)}</p>
+                          <div className="rounded-sm bg-blue-500/[0.06] p-3">
+                            <p className="mb-1 text-xs font-medium text-fg-tertiary">Potential Value</p>
+                            <p className="text-lg font-semibold text-blue-400">{formatCurrency(referral.potentialValue)}</p>
                           </div>
                         )}
                         {referral.commission && (
                           <div
                             className={`rounded-sm p-3 ${
-                              referral.commission.status === 'paid' ? 'bg-emerald-50/60' : referral.commission.status === 'approved' ? 'bg-amber-50/60' : 'bg-neutral-50'
+                              referral.commission.status === 'paid' ? 'bg-emerald-500/[0.06]' : referral.commission.status === 'approved' ? 'bg-amber-500/[0.06]' : 'bg-surface-2'
                             }`}
                           >
-                            <p className="mb-1 text-xs font-medium text-neutral-500">Commission</p>
-                            <p className="text-lg font-semibold text-neutral-900">{formatCurrency(referral.commission.amount)}</p>
+                            <p className="mb-1 text-xs font-medium text-fg-tertiary">Commission</p>
+                            <p className="text-lg font-semibold text-fg">{formatCurrency(referral.commission.amount)}</p>
                             <StatusBadge status={referral.commission.status} />
                           </div>
                         )}
@@ -242,38 +242,38 @@ export function ParticipantReferralsView({ demo }: { demo: ParticipantDemoModule
             <ArrowLeft size={15} /> Back to referrals
           </button>
 
-          <h3 className="mb-6 text-xl font-semibold text-neutral-900">Submit a Business Referral</h3>
+          <h3 className="mb-6 text-xl font-semibold text-fg">Submit a Business Referral</h3>
 
           <form className="space-y-4" onSubmit={handleSubmit} noValidate>
             <div className="grid gap-4 md:grid-cols-2">
               <div>
-                <label className="mb-2 block text-sm font-medium text-neutral-900">Business Name *</label>
+                <label className="mb-2 block text-sm font-medium text-fg">Business Name *</label>
                 <Input placeholder="Company name" value={form.businessName} onChange={setField('businessName')} />
-                {errors.businessName && <p className="mt-1 text-xs text-red-600">{errors.businessName}</p>}
+                {errors.businessName && <p className="mt-1 text-xs text-red-400">{errors.businessName}</p>}
               </div>
               <div>
-                <label className="mb-2 block text-sm font-medium text-neutral-900">Contact Person *</label>
+                <label className="mb-2 block text-sm font-medium text-fg">Contact Person *</label>
                 <Input placeholder="Full name" value={form.contactPerson} onChange={setField('contactPerson')} />
-                {errors.contactPerson && <p className="mt-1 text-xs text-red-600">{errors.contactPerson}</p>}
+                {errors.contactPerson && <p className="mt-1 text-xs text-red-400">{errors.contactPerson}</p>}
               </div>
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
               <div>
-                <label className="mb-2 block text-sm font-medium text-neutral-900">Email *</label>
+                <label className="mb-2 block text-sm font-medium text-fg">Email *</label>
                 <Input type="email" placeholder="email@example.com" value={form.email} onChange={setField('email')} />
-                {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email}</p>}
+                {errors.email && <p className="mt-1 text-xs text-red-400">{errors.email}</p>}
               </div>
               <div>
-                <label className="mb-2 block text-sm font-medium text-neutral-900">Phone *</label>
+                <label className="mb-2 block text-sm font-medium text-fg">Phone *</label>
                 <Input placeholder="+254 XXX XXX XXX" value={form.phone} onChange={setField('phone')} />
-                {errors.phone && <p className="mt-1 text-xs text-red-600">{errors.phone}</p>}
+                {errors.phone && <p className="mt-1 text-xs text-red-400">{errors.phone}</p>}
               </div>
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
               <div>
-                <label className="mb-2 block text-sm font-medium text-neutral-900">Industry *</label>
+                <label className="mb-2 block text-sm font-medium text-fg">Industry *</label>
                 <Select
                   value={form.industry}
                   onChange={setField('industry')}
@@ -287,32 +287,32 @@ export function ParticipantReferralsView({ demo }: { demo: ParticipantDemoModule
                     { value: 'Other', label: 'Other' },
                   ]}
                 />
-                {errors.industry && <p className="mt-1 text-xs text-red-600">{errors.industry}</p>}
+                {errors.industry && <p className="mt-1 text-xs text-red-400">{errors.industry}</p>}
               </div>
               <div>
-                <label className="mb-2 block text-sm font-medium text-neutral-900">Location</label>
+                <label className="mb-2 block text-sm font-medium text-fg">Location</label>
                 <Input placeholder="City, Country" value={form.location} onChange={setField('location')} />
               </div>
             </div>
 
             <div>
-              <label className="mb-2 block text-sm font-medium text-neutral-900">Growth Need *</label>
+              <label className="mb-2 block text-sm font-medium text-fg">Growth Need *</label>
               <Textarea
                 placeholder="What is this business looking to solve or achieve?"
                 rows={4}
                 value={form.businessNeed}
                 onChange={setField('businessNeed')}
               />
-              {errors.businessNeed && <p className="mt-1 text-xs text-red-600">{errors.businessNeed}</p>}
+              {errors.businessNeed && <p className="mt-1 text-xs text-red-400">{errors.businessNeed}</p>}
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
               <div>
-                <label className="mb-2 block text-sm font-medium text-neutral-900">Website</label>
+                <label className="mb-2 block text-sm font-medium text-fg">Website</label>
                 <Input placeholder="www.example.com" value={form.website} onChange={setField('website')} />
               </div>
               <div>
-                <label className="mb-2 block text-sm font-medium text-neutral-900">Notes</label>
+                <label className="mb-2 block text-sm font-medium text-fg">Notes</label>
                 <Input placeholder="Any other relevant details…" value={form.notes} onChange={setField('notes')} />
               </div>
             </div>

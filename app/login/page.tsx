@@ -43,30 +43,30 @@ export default async function LoginPage({
     <GatewayFrame>
       <div className="w-full">
         <GatewayCard>
-          <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.3em] text-primary-400">NairobiX Portal</p>
+          <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-primary">NairobiX Portal</p>
 
           {provider && pending ? (
             <>
-              <span className="mb-5 flex h-11 w-11 items-center justify-center rounded-full border border-primary/30 bg-primary/10 text-primary-400">
+              <span className="mb-5 flex h-11 w-11 items-center justify-center rounded-full border border-primary/30 bg-primary/10 text-primary">
                 <MailCheck className="h-5 w-5" />
               </span>
-              <h1 className="mb-2 font-serif text-3xl font-medium tracking-tight text-white">Check your email</h1>
-              <p className="mb-8 text-sm leading-relaxed text-neutral-400">
-                We sent a sign-in link and code to <span className="text-neutral-200">{pending.email}</span>. Open the
+              <h1 className="mb-2 font-serif text-3xl font-medium tracking-tight text-fg">Check your email</h1>
+              <p className="mb-8 text-sm leading-relaxed text-fg-secondary">
+                We sent a sign-in link and code to <span className="text-fg-secondary">{pending.email}</span>. Open the
                 link, or enter the code below.
               </p>
               <VerifyCodeForm error={error} />
-              <p className="mt-5 text-center text-xs text-neutral-500">
+              <p className="mt-5 text-center text-xs text-fg-tertiary">
                 Wrong address or no email?{' '}
-                <Link href={`/login?next=${encodeURIComponent(pending.next)}`} className="text-neutral-300 underline-offset-2 hover:underline">
+                <Link href={`/login?next=${encodeURIComponent(pending.next)}`} className="text-fg-secondary underline-offset-2 hover:underline">
                   Start again
                 </Link>
               </p>
             </>
           ) : (
             <>
-              <h1 className="mb-2 font-serif text-3xl font-medium tracking-tight text-white">Sign in to NairobiX</h1>
-              <p className="mb-8 text-sm leading-relaxed text-neutral-400">
+              <h1 className="mb-2 font-serif text-3xl font-medium tracking-tight text-fg">Sign in to NairobiX</h1>
+              <p className="mb-8 text-sm leading-relaxed text-fg-secondary">
                 Use the email address associated with your NairobiX relationship. We&apos;ll email you a secure sign-in
                 link — no password needed.
               </p>
@@ -74,7 +74,7 @@ export default async function LoginPage({
               {provider ? (
                 <SignInForm next={next} error={error} />
               ) : (
-                <p className="rounded-sm border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-neutral-300">
+                <p className="rounded-sm border border-line bg-surface-2 px-4 py-3 text-sm text-fg-secondary">
                   Sign-in is not available yet. Please contact your NairobiX representative.
                 </p>
               )}
@@ -88,7 +88,7 @@ export default async function LoginPage({
             </>
           )}
 
-          <div className="mt-8 flex items-center gap-2 border-t border-white/10 pt-6 text-xs text-neutral-500">
+          <div className="mt-8 flex items-center gap-2 border-t border-line pt-6 text-xs text-fg-tertiary">
             <Lock className="h-3.5 w-3.5 flex-shrink-0" />
             Access is restricted to authorized NairobiX users.
           </div>
@@ -97,7 +97,7 @@ export default async function LoginPage({
         <div className="mt-6 text-center">
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 text-sm text-neutral-500 transition-colors hover:text-neutral-300"
+            className="inline-flex items-center gap-1.5 text-sm text-fg-tertiary transition-colors hover:text-fg-secondary"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             Back

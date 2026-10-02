@@ -93,18 +93,18 @@ export function ParticipantResourcesView({
       {activeTab === 'playbooks' && (playbooks.length > 0 || discounts.length > 0) && (
         <>
           <div className="mb-10">
-            <h3 className="mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-neutral-500">
-              <BookOpen size={16} className="text-neutral-400" />
+            <h3 className="mb-5 flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">
+              <BookOpen size={16} className="text-fg-tertiary" />
               Playbooks &amp; Guides
             </h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {playbooks.map((benefit) => (
                 <Card key={benefit.id} hover className="p-6">
-                  <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-full bg-neutral-100 text-neutral-500">
+                  <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.05] text-fg-tertiary">
                     <FileStack size={17} />
                   </div>
-                  <h4 className="mb-1.5 font-semibold text-neutral-900">{benefit.name}</h4>
-                  <p className="mb-4 text-sm text-neutral-600">{benefit.description}</p>
+                  <h4 className="mb-1.5 font-semibold text-fg">{benefit.name}</h4>
+                  <p className="mb-4 text-sm text-fg-secondary">{benefit.description}</p>
                   <Button variant="secondary" size="sm">
                     Open
                   </Button>
@@ -115,15 +115,15 @@ export function ParticipantResourcesView({
 
           {discounts.length > 0 && (
             <div>
-              <h3 className="mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-neutral-500">
-                <Percent size={16} className="text-neutral-400" />
+              <h3 className="mb-5 flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">
+                <Percent size={16} className="text-fg-tertiary" />
                 Commission Tiers
               </h3>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {discounts.map((benefit) => (
-                  <Card key={benefit.id} className="border-primary-200 bg-primary-50/40 p-6">
-                    <h4 className="mb-1.5 font-semibold text-neutral-900">{benefit.name}</h4>
-                    <p className="mb-3 text-sm text-neutral-600">{benefit.description}</p>
+                  <Card key={benefit.id} className="border-primary/25 bg-primary/10 p-6">
+                    <h4 className="mb-1.5 font-semibold text-fg">{benefit.name}</h4>
+                    <p className="mb-3 text-sm text-fg-secondary">{benefit.description}</p>
                     <Badge variant="primary">Active</Badge>
                   </Card>
                 ))}
@@ -141,7 +141,7 @@ export function ParticipantResourcesView({
                 key={cat}
                 onClick={() => setDocFilter(cat)}
                 className={`rounded-full px-3 py-1.5 text-xs font-medium capitalize transition-colors ${
-                  docFilter === cat ? 'bg-primary-50 text-primary-700' : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
+                  docFilter === cat ? 'bg-primary/10 text-primary-400' : 'bg-white/[0.05] text-fg-secondary hover:bg-white/10'
                 }`}
               >
                 {cat === 'all' ? 'All Documents' : cat}
@@ -153,25 +153,25 @@ export function ParticipantResourcesView({
               <Card key={doc.id} className="p-4">
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex min-w-0 flex-1 items-center gap-3">
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-sm bg-neutral-100 text-neutral-500 [&>svg]:h-[18px] [&>svg]:w-[18px]">
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-sm bg-white/[0.05] text-fg-tertiary [&>svg]:h-[18px] [&>svg]:w-[18px]">
                       {typeIcon[doc.type] || <FileIcon />}
                     </div>
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
-                        <h4 className="truncate font-medium text-neutral-900">{doc.name}</h4>
+                        <h4 className="truncate font-medium text-fg">{doc.name}</h4>
                         {doc.status === 'active' && <Badge variant="success">Active</Badge>}
                       </div>
-                      <p className="text-xs text-neutral-500">
+                      <p className="text-xs text-fg-tertiary">
                         {doc.type.toUpperCase()} &middot; {formatDate(doc.uploadDate)}
                       </p>
                     </div>
                   </div>
                   {demoContent && (
                     <div className="flex flex-shrink-0 gap-1">
-                      <button className="rounded-sm p-2 text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900" title="View">
+                      <button className="rounded-sm p-2 text-fg-tertiary transition-colors hover:bg-white/[0.05] hover:text-fg" title="View">
                         <Eye size={17} />
                       </button>
-                      <button className="rounded-sm p-2 text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900" title="Download">
+                      <button className="rounded-sm p-2 text-fg-tertiary transition-colors hover:bg-white/[0.05] hover:text-fg" title="Download">
                         <Download size={17} />
                       </button>
                     </div>
@@ -198,18 +198,18 @@ export function ParticipantResourcesView({
           {updates.map((update) => (
             <Card key={update.id} hover className="p-6">
               <div className="flex gap-4">
-                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 text-neutral-500">
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white/[0.05] text-fg-tertiary">
                   {updateIcons[update.type]}
                 </div>
                 <div className="flex-1">
                   <div className="mb-2 flex items-center gap-2">
-                    <h3 className="font-semibold text-neutral-900">{update.title}</h3>
+                    <h3 className="font-semibold text-fg">{update.title}</h3>
                     <Badge variant={update.type === 'achievement' ? 'success' : update.type === 'announcement' ? 'info' : 'neutral'}>
                       {update.type}
                     </Badge>
                   </div>
-                  <p className="mb-2 text-sm text-neutral-700">{update.content}</p>
-                  <p className="text-xs text-neutral-500">{formatDate(update.date)}</p>
+                  <p className="mb-2 text-sm text-fg-secondary">{update.content}</p>
+                  <p className="text-xs text-fg-tertiary">{formatDate(update.date)}</p>
                 </div>
               </div>
             </Card>
@@ -229,17 +229,17 @@ export function ParticipantResourcesView({
           {insights.map((insight) => (
             <Card key={insight.id} className="border-l-2 border-l-primary p-6">
               <div className="mb-4 flex items-start gap-4">
-                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary-50 text-primary">
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                   {insightIcons[insight.icon]}
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-neutral-900">{insight.title}</h3>
-                  <p className="text-sm text-neutral-600">{insight.summary}</p>
+                  <h3 className="text-lg font-semibold text-fg">{insight.title}</h3>
+                  <p className="text-sm text-fg-secondary">{insight.summary}</p>
                 </div>
               </div>
               <ul className="space-y-2">
                 {insight.points.map((point, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-sm text-neutral-700">
+                  <li key={idx} className="flex items-start gap-2 text-sm text-fg-secondary">
                     <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-primary" />
                     <span>{point}</span>
                   </li>

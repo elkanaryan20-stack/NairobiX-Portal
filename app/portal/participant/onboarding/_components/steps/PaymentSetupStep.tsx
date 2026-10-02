@@ -20,11 +20,11 @@ export function PaymentSetupStep({ application, updateApplication }: PaymentSetu
     return (
       <Card className="p-6">
         <div className="flex flex-col items-center py-10 text-center">
-          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-neutral-100 text-neutral-400">
+          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white/[0.05] text-fg-tertiary">
             <Lock size={20} />
           </div>
-          <h3 className="mb-1.5 text-lg font-semibold text-neutral-900">Payment &amp; Commission Setup</h3>
-          <p className="max-w-sm text-sm text-neutral-500">
+          <h3 className="mb-1.5 text-lg font-semibold text-fg">Payment &amp; Commission Setup</h3>
+          <p className="max-w-sm text-sm text-fg-tertiary">
             This step unlocks once your application is approved by NairobiX. Complete Review &amp;
             Approval to check your current status.
           </p>
@@ -37,11 +37,11 @@ export function PaymentSetupStep({ application, updateApplication }: PaymentSetu
     return (
       <Card className="p-6">
         <div className="flex flex-col items-center py-10 text-center">
-          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/[0.06] text-emerald-400">
             <CheckCircle2 size={20} />
           </div>
-          <h3 className="mb-1.5 text-lg font-semibold text-neutral-900">You&rsquo;re all set!</h3>
-          <p className="max-w-sm text-sm text-neutral-500">
+          <h3 className="mb-1.5 text-lg font-semibold text-fg">You&rsquo;re all set!</h3>
+          <p className="max-w-sm text-sm text-fg-tertiary">
             Your payment details are on file. Welcome to the NairobiX Partner Program.
           </p>
         </div>
@@ -52,27 +52,27 @@ export function PaymentSetupStep({ application, updateApplication }: PaymentSetu
   return (
     <Card className="p-6">
       <div className="mb-6 flex items-start gap-3">
-        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-emerald-500/[0.06] text-emerald-400">
           <Wallet size={18} />
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-neutral-900">Payment &amp; Commission Setup</h3>
-          <p className="text-sm text-neutral-500">Congratulations — add your payout details to finish onboarding.</p>
+          <h3 className="text-lg font-semibold text-fg">Payment &amp; Commission Setup</h3>
+          <p className="text-sm text-fg-tertiary">Congratulations — add your payout details to finish onboarding.</p>
         </div>
       </div>
 
       <div className="space-y-4">
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-neutral-900">Bank name</label>
+          <label className="mb-1.5 block text-sm font-medium text-fg">Bank name</label>
           <Input value={bankName} onChange={(e) => setBankName(e.target.value)} placeholder="e.g. Equity Bank" />
         </div>
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-neutral-900">Account number</label>
+          <label className="mb-1.5 block text-sm font-medium text-fg">Account number</label>
           <Input value={accountNumber} onChange={(e) => setAccountNumber(e.target.value)} placeholder="Account number" />
         </div>
       </div>
 
-      <div className="mt-6 flex justify-end border-t border-neutral-100 pt-5">
+      <div className="mt-6 flex justify-end border-t border-line pt-5">
         <Button
           variant="primary"
           disabled={!bankName || !accountNumber}

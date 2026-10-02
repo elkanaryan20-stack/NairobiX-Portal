@@ -160,47 +160,47 @@ export function DemoPipelineView({ demo }: { demo: DemoPipelineData }) {
                   className="flex w-full items-center justify-between gap-4 p-5 text-left"
                 >
                   <div className="flex min-w-0 items-center gap-3">
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 text-sm font-semibold text-neutral-600">
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white/[0.05] text-sm font-semibold text-fg-secondary">
                       {app.businessName.slice(0, 2).toUpperCase()}
                     </div>
                     <div className="min-w-0">
-                      <h3 className="truncate font-semibold text-neutral-900">{app.businessName}</h3>
-                      <p className="text-sm text-neutral-500">
+                      <h3 className="truncate font-semibold text-fg">{app.businessName}</h3>
+                      <p className="text-sm text-fg-tertiary">
                         {app.partnerType} &middot; {app.contactPerson}
                       </p>
                     </div>
                   </div>
                   <div className="flex flex-shrink-0 items-center gap-3">
                     <StatusBadge status={app.status} />
-                    {isExpanded ? <ChevronDown size={18} className="text-neutral-400" /> : <ChevronRight size={18} className="text-neutral-400" />}
+                    {isExpanded ? <ChevronDown size={18} className="text-fg-tertiary" /> : <ChevronRight size={18} className="text-fg-tertiary" />}
                   </div>
                 </button>
 
                 {isExpanded && (
-                  <div className="border-t border-neutral-100 p-5 pt-4">
+                  <div className="border-t border-line p-5 pt-4">
                     <div className="mb-5 grid grid-cols-1 gap-4 text-sm sm:grid-cols-3">
                       <div>
-                        <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">Applied</p>
-                        <p className="mt-1 text-neutral-900">{formatDate(app.applicationDate)}</p>
+                        <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Applied</p>
+                        <p className="mt-1 text-fg">{formatDate(app.applicationDate)}</p>
                       </div>
                       <div>
-                        <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">Contact</p>
-                        <p className="mt-1 text-neutral-900">{app.email}</p>
-                        <p className="text-neutral-500">{app.phone}</p>
+                        <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Contact</p>
+                        <p className="mt-1 text-fg">{app.email}</p>
+                        <p className="text-fg-tertiary">{app.phone}</p>
                       </div>
                       <div>
-                        <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">Reviewed by</p>
-                        <p className="mt-1 text-neutral-900">{app.reviewedBy || '—'}</p>
+                        <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Reviewed by</p>
+                        <p className="mt-1 text-fg">{app.reviewedBy || '—'}</p>
                       </div>
                     </div>
 
                     {app.notes && (
-                      <div className="mb-5 rounded-sm bg-neutral-50 p-3 text-sm text-neutral-600">{app.notes}</div>
+                      <div className="mb-5 rounded-sm bg-surface-2 p-3 text-sm text-fg-secondary">{app.notes}</div>
                     )}
 
                     {onboarding && (
                       <div className="mb-5">
-                        <p className="mb-2 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-neutral-500">
+                        <p className="mb-2 flex items-center gap-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">
                           <ClipboardCheck size={14} /> Onboarding progress
                         </p>
                         <div className="flex flex-wrap gap-1.5">
@@ -209,18 +209,18 @@ export function DemoPipelineView({ demo }: { demo: DemoPipelineData }) {
                               key={step.id}
                               className={cn(
                                 'rounded-full px-2.5 py-1 text-xs font-medium',
-                                step.status === 'completed' && 'bg-emerald-50 text-emerald-700',
-                                step.status === 'in-progress' && 'bg-blue-50 text-blue-700',
-                                step.status === 'pending' && 'bg-neutral-100 text-neutral-500',
-                                step.status === 'locked' && 'bg-neutral-100 text-neutral-400'
+                                step.status === 'completed' && 'bg-emerald-500/[0.06] text-emerald-400',
+                                step.status === 'in-progress' && 'bg-blue-500/[0.06] text-blue-400',
+                                step.status === 'pending' && 'bg-white/[0.05] text-fg-tertiary',
+                                step.status === 'locked' && 'bg-white/[0.05] text-fg-tertiary'
                               )}
                             >
                               {step.name}
                             </span>
                           ))}
                         </div>
-                        <p className="mt-2 flex items-center gap-1.5 text-sm text-neutral-600">
-                          <ShieldCheck size={14} className="text-neutral-400" />
+                        <p className="mt-2 flex items-center gap-1.5 text-sm text-fg-secondary">
+                          <ShieldCheck size={14} className="text-fg-tertiary" />
                           Document verification: <StatusBadge status={onboarding.verificationStatus} />
                         </p>
                       </div>
@@ -228,17 +228,17 @@ export function DemoPipelineView({ demo }: { demo: DemoPipelineData }) {
 
                     {assessment && (
                       <div className="mb-5">
-                        <p className="mb-2 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-neutral-500">
+                        <p className="mb-2 flex items-center gap-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">
                           <FileText size={14} /> Partner assessment
                         </p>
                         <div className="flex items-center gap-2">
                           <StatusBadge status={assessment.status} />
-                          <span className="text-sm text-neutral-500">
+                          <span className="text-sm text-fg-tertiary">
                             {assessment.responses.length} response{assessment.responses.length === 1 ? '' : 's'} recorded
                           </span>
                         </div>
                         {assessment.status !== 'submitted' && assessment.status !== 'reviewed' && (
-                          <p className="mt-1 text-xs text-neutral-400">Awaiting the partner to complete and submit their assessment.</p>
+                          <p className="mt-1 text-xs text-fg-tertiary">Awaiting the partner to complete and submit their assessment.</p>
                         )}
                       </div>
                     )}
@@ -301,41 +301,41 @@ export function DemoPipelineView({ demo }: { demo: DemoPipelineData }) {
                   className="flex w-full items-center justify-between gap-4 p-5 text-left"
                 >
                   <div className="flex min-w-0 items-center gap-3">
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 text-neutral-500">
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white/[0.05] text-fg-tertiary">
                       <Share2 size={16} />
                     </div>
                     <div className="min-w-0">
-                      <h3 className="truncate font-semibold text-neutral-900">{ref.businessName}</h3>
-                      <p className="text-sm text-neutral-500">
+                      <h3 className="truncate font-semibold text-fg">{ref.businessName}</h3>
+                      <p className="text-sm text-fg-tertiary">
                         Referred by {ref.referredBy} &middot; {ref.industry}
                       </p>
                     </div>
                   </div>
                   <div className="flex flex-shrink-0 items-center gap-3">
                     {ref.potentialValue && (
-                      <span className="hidden text-sm font-medium text-neutral-700 sm:inline">
+                      <span className="hidden text-sm font-medium text-fg-secondary sm:inline">
                         {formatCurrency(ref.potentialValue)}
                       </span>
                     )}
                     <StatusBadge status={ref.status} />
-                    {isExpanded ? <ChevronDown size={18} className="text-neutral-400" /> : <ChevronRight size={18} className="text-neutral-400" />}
+                    {isExpanded ? <ChevronDown size={18} className="text-fg-tertiary" /> : <ChevronRight size={18} className="text-fg-tertiary" />}
                   </div>
                 </button>
 
                 {isExpanded && (
-                  <div className="border-t border-neutral-100 p-5 pt-4">
+                  <div className="border-t border-line p-5 pt-4">
                     <div className="mb-4 grid grid-cols-1 gap-4 text-sm sm:grid-cols-2">
                       <div>
-                        <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">Contact</p>
-                        <p className="mt-1 text-neutral-900">{ref.contactPerson}</p>
-                        <p className="text-neutral-500">{ref.email} &middot; {ref.phone}</p>
+                        <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Contact</p>
+                        <p className="mt-1 text-fg">{ref.contactPerson}</p>
+                        <p className="text-fg-tertiary">{ref.email} &middot; {ref.phone}</p>
                       </div>
                       <div>
-                        <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">Referred</p>
-                        <p className="mt-1 text-neutral-900">{formatDate(ref.referralDate)}</p>
+                        <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Referred</p>
+                        <p className="mt-1 text-fg">{formatDate(ref.referralDate)}</p>
                       </div>
                     </div>
-                    <p className="mb-4 rounded-sm bg-neutral-50 p-3 text-sm text-neutral-600">{ref.businessNeed}</p>
+                    <p className="mb-4 rounded-sm bg-surface-2 p-3 text-sm text-fg-secondary">{ref.businessNeed}</p>
 
                     {!isTerminal && (
                       <div className="flex flex-wrap gap-2">

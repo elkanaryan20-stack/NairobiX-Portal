@@ -48,13 +48,13 @@ export function ProgressBar({ value, max = 100, showLabel = true, size = 'md' }:
 
   return (
     <div className="w-full">
-      <div className={cn('w-full bg-neutral-200 rounded-full overflow-hidden', sizeClasses[size])}>
+      <div className={cn('w-full bg-white/[0.08] rounded-full overflow-hidden', sizeClasses[size])}>
         <div
           className="bg-primary transition-all duration-500 ease-out rounded-full h-full"
           style={{ width: `${percentage}%` }}
         />
       </div>
-      {showLabel && <p className="text-sm text-neutral-600 mt-1">{percentage.toFixed(0)}%</p>}
+      {showLabel && <p className="text-sm text-fg-secondary mt-1">{percentage.toFixed(0)}%</p>}
     </div>
   );
 }
@@ -75,26 +75,26 @@ export function MetricCard({ label, value, subtitle, trend, icon }: MetricCardPr
     <div className="card p-5">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
-          <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">{label}</p>
-          <div className="mt-2.5 flex items-baseline gap-2">
-            <h3 className="text-[1.75rem] font-semibold leading-none tracking-tight text-neutral-900">
+          <p className="font-mono text-[10px] font-medium uppercase tracking-[0.12em] text-fg-tertiary">{label}</p>
+          <div className="mt-3 flex items-baseline gap-2">
+            <h3 className="text-[1.75rem] font-medium leading-none tracking-tight text-fg tabular-nums">
               {value}
             </h3>
             {trend && (
               <span
                 className={cn(
                   'text-xs font-semibold',
-                  trend.direction === 'up' ? 'text-emerald-600' : 'text-red-600'
+                  trend.direction === 'up' ? 'text-emerald-400' : 'text-red-400'
                 )}
               >
                 {trend.direction === 'up' ? '↑' : '↓'} {Math.abs(trend.value)}%
               </span>
             )}
           </div>
-          {subtitle && <p className="mt-2 text-xs text-neutral-500">{subtitle}</p>}
+          {subtitle && <p className="mt-2 text-xs text-fg-tertiary">{subtitle}</p>}
         </div>
         {icon && (
-          <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 text-neutral-500 [&>svg]:h-4 [&>svg]:w-4">
+          <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-line bg-white/[0.03] text-fg-tertiary [&>svg]:h-4 [&>svg]:w-4">
             {icon}
           </div>
         )}
@@ -115,12 +115,12 @@ interface EmptyStateProps {
 
 export function EmptyState({ title, description, icon, action }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center rounded-md border border-dashed border-neutral-200 px-4 py-16 text-center">
-      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-neutral-100 text-neutral-400 [&>svg]:h-5 [&>svg]:w-5">
+    <div className="flex flex-col items-center justify-center rounded-card border border-dashed border-line px-4 py-16 text-center">
+      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white/[0.05] text-fg-tertiary [&>svg]:h-5 [&>svg]:w-5">
         {icon || <Inbox />}
       </div>
-      <h3 className="mb-1.5 text-base font-semibold text-neutral-900">{title}</h3>
-      <p className="max-w-sm text-sm text-neutral-500">{description}</p>
+      <h3 className="mb-1.5 text-base font-semibold text-fg">{title}</h3>
+      <p className="max-w-sm text-sm text-fg-tertiary">{description}</p>
       {action && (
         <button onClick={action.onClick} className="btn btn-primary mt-6">
           {action.label}
@@ -144,7 +144,7 @@ export function Skeleton({ className, count = 1, height = 'h-4', circle = false 
         <div
           key={i}
           className={cn(
-            'bg-neutral-200 animate-pulse rounded-md mb-2',
+            'bg-white/10 animate-pulse rounded-card mb-2',
             height,
             circle && 'rounded-full',
             className
@@ -169,13 +169,13 @@ export function LoadingSpinner({ size = 'md', fullPage = false }: LoadingSpinner
 
   if (fullPage) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm">
-        <div className={cn('border-4 border-neutral-200 border-t-primary rounded-full animate-spin', sizes[size])} />
+      <div className="fixed inset-0 flex items-center justify-center bg-canvas/80">
+        <div className={cn('border-4 border-line border-t-primary rounded-full animate-spin', sizes[size])} />
       </div>
     );
   }
 
-  return <div className={cn('border-4 border-neutral-200 border-t-primary rounded-full animate-spin', sizes[size])} />;
+  return <div className={cn('border-4 border-line border-t-primary rounded-full animate-spin', sizes[size])} />;
 }
 
 interface TabsProps {
@@ -186,16 +186,18 @@ interface TabsProps {
 
 export function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
   return (
-    <div className="flex border-b border-neutral-200 mb-6">
+    <div className="mb-6 flex overflow-x-auto border-b border-line" role="tablist">
       {tabs.map((tab) => (
         <button
           key={tab.value}
+          role="tab"
+          aria-selected={activeTab === tab.value}
           onClick={() => onTabChange(tab.value)}
           className={cn(
-            'px-4 py-3 font-medium text-sm transition-colors border-b-2 -mb-px',
+            '-mb-px whitespace-nowrap border-b px-4 py-3 text-sm font-medium transition-colors',
             activeTab === tab.value
-              ? 'text-primary border-primary'
-              : 'text-neutral-600 border-transparent hover:text-neutral-900'
+              ? 'border-primary text-fg'
+              : 'border-transparent text-fg-tertiary hover:text-fg'
           )}
         >
           {tab.label}
@@ -214,7 +216,7 @@ export function Divider({ className, variant = 'horizontal' }: DividerProps) {
   return (
     <div
       className={cn(
-        'bg-neutral-200',
+        'bg-white/10',
         variant === 'horizontal' ? 'h-px w-full' : 'w-px h-full',
         className
       )}
@@ -231,17 +233,17 @@ interface AlertProps {
 
 export function Alert({ title, description, type = 'info', onClose }: AlertProps) {
   const typeStyles = {
-    info: { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-800', Icon: Info },
-    success: { bg: 'bg-emerald-50', border: 'border-emerald-200', text: 'text-emerald-800', Icon: CheckCircle2 },
-    warning: { bg: 'bg-amber-50', border: 'border-amber-200', text: 'text-amber-800', Icon: AlertTriangle },
-    error: { bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-800', Icon: XCircle },
+    info: { bg: 'bg-sky-500/[0.06]', border: 'border-sky-500/20', text: 'text-sky-300', Icon: Info },
+    success: { bg: 'bg-emerald-500/[0.06]', border: 'border-emerald-500/20', text: 'text-emerald-300', Icon: CheckCircle2 },
+    warning: { bg: 'bg-amber-500/[0.06]', border: 'border-amber-500/20', text: 'text-amber-300', Icon: AlertTriangle },
+    error: { bg: 'bg-red-500/[0.06]', border: 'border-red-500/20', text: 'text-red-300', Icon: XCircle },
   };
 
   const style = typeStyles[type];
   const Icon = style.Icon;
 
   return (
-    <div className={cn('rounded-sm border p-4', style.bg, style.border, style.text)}>
+    <div className={cn('rounded-xl border p-4', style.bg, style.border, style.text)}>
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-3">
           <Icon className="mt-0.5 flex-shrink-0" size={18} />

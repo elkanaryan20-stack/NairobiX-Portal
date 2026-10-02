@@ -1,11 +1,17 @@
 import type { Metadata } from 'next';
-import { Inter, Fraunces } from 'next/font/google';
+import { Fraunces, Geist, Geist_Mono } from 'next/font/google';
 import { PORTAL_ORIGIN } from '@/lib/site';
 import './globals.css';
 
-const inter = Inter({
+// Same type system as www.nairobix.com: Geist for UI, Geist Mono for labels, Fraunces for display.
+const geist = Geist({
   subsets: ['latin'],
   variable: '--font-sans',
+});
+
+const geistMono = Geist_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
 });
 
 const fraunces = Fraunces({
@@ -27,7 +33,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${fraunces.variable} font-sans bg-white text-neutral-900 antialiased`}>
+      <body className={`${geist.variable} ${geistMono.variable} ${fraunces.variable} font-sans bg-canvas text-fg antialiased`}>
         {children}
       </body>
     </html>

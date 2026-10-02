@@ -43,41 +43,41 @@ export function CrmPipelineView({ applications }: { applications: StaffApplicati
                   className="flex w-full items-center justify-between gap-4 p-5 text-left"
                 >
                   <div className="flex min-w-0 items-center gap-3">
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 text-sm font-semibold text-neutral-600">
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white/[0.05] text-sm font-semibold text-fg-secondary">
                       {app.name.slice(0, 2).toUpperCase()}
                     </div>
                     <div className="min-w-0">
-                      <h3 className="truncate font-semibold text-neutral-900">{app.name}</h3>
-                      <p className="text-sm text-neutral-500">
+                      <h3 className="truncate font-semibold text-fg">{app.name}</h3>
+                      <p className="text-sm text-fg-tertiary">
                         {[app.applicantType, app.applied ? `Applied ${formatDate(app.applied)}` : undefined].filter(Boolean).join(' · ')}
                       </p>
                     </div>
                   </div>
                   <div className="flex flex-shrink-0 items-center gap-3">
                     {app.status && <StatusBadge status={statusKey(app.status)} />}
-                    {isExpanded ? <ChevronDown size={18} className="text-neutral-400" /> : <ChevronRight size={18} className="text-neutral-400" />}
+                    {isExpanded ? <ChevronDown size={18} className="text-fg-tertiary" /> : <ChevronRight size={18} className="text-fg-tertiary" />}
                   </div>
                 </button>
 
                 {isExpanded && (
-                  <div className="grid grid-cols-1 gap-4 border-t border-neutral-100 p-5 pt-4 text-sm sm:grid-cols-3">
+                  <div className="grid grid-cols-1 gap-4 border-t border-line p-5 pt-4 text-sm sm:grid-cols-3">
                     <div>
-                      <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">Contact</p>
-                      <p className="mt-1 text-neutral-900">{app.email ?? '—'}</p>
-                      {app.applicationNumber && <p className="font-mono text-xs text-neutral-400">{app.applicationNumber}</p>}
+                      <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Contact</p>
+                      <p className="mt-1 text-fg">{app.email ?? '—'}</p>
+                      {app.applicationNumber && <p className="font-mono text-xs text-fg-tertiary">{app.applicationNumber}</p>}
                     </div>
                     <div className="sm:col-span-2">
-                      <p className="mb-1.5 text-xs font-medium uppercase tracking-wide text-neutral-500">Contribution areas</p>
+                      <p className="mb-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Contribution areas</p>
                       <div className="flex flex-wrap gap-1.5">
-                        {app.contributionAreas.length === 0 && <span className="text-neutral-400">—</span>}
+                        {app.contributionAreas.length === 0 && <span className="text-fg-tertiary">—</span>}
                         {app.contributionAreas.map((area) => (
-                          <span key={area} className="rounded-full bg-primary-50 px-2 py-0.5 text-[11px] font-medium text-primary-700">
+                          <span key={area} className="rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-medium text-primary-400">
                             {area}
                           </span>
                         ))}
                       </div>
                     </div>
-                    <p className="text-xs text-neutral-400 sm:col-span-3">Review and update this application in Zoho CRM.</p>
+                    <p className="text-xs text-fg-tertiary sm:col-span-3">Review and update this application in Zoho CRM.</p>
                   </div>
                 )}
               </Card>

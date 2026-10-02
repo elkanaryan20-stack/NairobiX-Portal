@@ -36,12 +36,12 @@ export function DocumentsStep({ application, updateApplication, onContinue }: Do
   return (
     <Card className="p-6">
       <div className="mb-6 flex items-start gap-3">
-        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 text-neutral-500">
+        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white/[0.05] text-fg-tertiary">
           <FileUp size={18} />
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-neutral-900">Supporting Documents</h3>
-          <p className="text-sm text-neutral-500">
+          <h3 className="text-lg font-semibold text-fg">Supporting Documents</h3>
+          <p className="text-sm text-fg-tertiary">
             Upload the documents NairobiX needs to verify your business.
           </p>
         </div>
@@ -51,15 +51,15 @@ export function DocumentsStep({ application, updateApplication, onContinue }: Do
         {application.documents.map((doc) => (
           <div
             key={doc.id}
-            className="flex flex-wrap items-center justify-between gap-3 rounded-sm border border-neutral-200 p-4"
+            className="flex flex-wrap items-center justify-between gap-3 rounded-sm border border-line p-4"
           >
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 text-neutral-500">
+              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white/[0.05] text-fg-tertiary">
                 <FileCheck2 size={16} />
               </div>
               <div>
-                <p className="font-medium text-neutral-900">{doc.name}</p>
-                <p className="text-xs text-neutral-500">
+                <p className="font-medium text-fg">{doc.name}</p>
+                <p className="text-xs text-fg-tertiary">
                   {requirementLabel[doc.requirement]}
                   {doc.uploadedDate ? ` · Uploaded ${formatDate(doc.uploadedDate)}` : ''}
                 </p>
@@ -93,7 +93,7 @@ export function DocumentsStep({ application, updateApplication, onContinue }: Do
         ))}
       </div>
 
-      <div className="mt-6 flex justify-end border-t border-neutral-100 pt-5">
+      <div className="mt-6 flex justify-end border-t border-line pt-5">
         <Button variant="primary" onClick={onContinue} disabled={!allUploaded}>
           Save &amp; Continue
         </Button>

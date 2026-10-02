@@ -66,12 +66,12 @@ export function StaffReportsView({
               <Card key={doc.id} className="p-4">
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex min-w-0 flex-1 items-center gap-3">
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-sm bg-neutral-100 text-neutral-500">
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-sm bg-white/[0.05] text-fg-tertiary">
                       <FileText size={18} />
                     </div>
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-medium text-neutral-900">{doc.name}</p>
-                      <p className="text-xs text-neutral-500">
+                      <p className="truncate text-sm font-medium text-fg">{doc.name}</p>
+                      <p className="text-xs text-fg-tertiary">
                         {[doc.relatedTo, doc.sent ? formatDate(doc.sent) : undefined].filter(Boolean).join(' · ') || '—'}
                       </p>
                     </div>
@@ -92,8 +92,8 @@ export function StaffReportsView({
           {campaigns.map((campaign) => (
             <Card key={campaign.id} className="flex items-center justify-between gap-4 p-4">
               <div className="min-w-0">
-                <h4 className="truncate font-medium text-neutral-900">{campaign.name}</h4>
-                <p className="text-sm text-neutral-500">
+                <h4 className="truncate font-medium text-fg">{campaign.name}</h4>
+                <p className="text-sm text-fg-tertiary">
                   {[campaign.type, campaign.startDate ? `Starts ${formatDate(campaign.startDate)}` : undefined].filter(Boolean).join(' · ') || '—'}
                 </p>
               </div>

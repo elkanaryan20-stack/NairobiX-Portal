@@ -67,12 +67,12 @@ export function AssessmentStep({ questions, assessment, updateAssessment, onCont
     return (
       <Card className="p-6">
         <div className="mb-2 flex items-start gap-3">
-          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-emerald-500/[0.06] text-emerald-400">
             <CheckCircle2 size={18} />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-neutral-900">Partner Assessment</h3>
-            <p className="text-sm text-neutral-500">Your responses have been submitted.</p>
+            <h3 className="text-lg font-semibold text-fg">Partner Assessment</h3>
+            <p className="text-sm text-fg-tertiary">Your responses have been submitted.</p>
           </div>
         </div>
         <Alert
@@ -80,7 +80,7 @@ export function AssessmentStep({ questions, assessment, updateAssessment, onCont
           title="Assessment submitted for review"
           description={`Submitted ${assessment.submittedDate ? formatDate(assessment.submittedDate) : 'recently'}. A NairobiX team member will review your responses alongside your application — you don't need to do anything further here.`}
         />
-        <div className="mt-6 flex justify-end border-t border-neutral-100 pt-5">
+        <div className="mt-6 flex justify-end border-t border-line pt-5">
           <Button variant="primary" onClick={onContinue}>
             Continue to Review
           </Button>
@@ -93,12 +93,12 @@ export function AssessmentStep({ questions, assessment, updateAssessment, onCont
     <Card className="p-6">
       <div className="mb-6 flex items-start justify-between gap-3">
         <div className="flex items-start gap-3">
-          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 text-neutral-500">
+          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white/[0.05] text-fg-tertiary">
             <ClipboardCheck size={18} />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-neutral-900">Partner Assessment</h3>
-            <p className="text-sm text-neutral-500">
+            <h3 className="text-lg font-semibold text-fg">Partner Assessment</h3>
+            <p className="text-sm text-fg-tertiary">
               A short qualification review — not a test. Answer honestly; NairobiX staff use this to
               match you with the right opportunities.
             </p>
@@ -115,19 +115,19 @@ export function AssessmentStep({ questions, assessment, updateAssessment, onCont
             key={c}
             className={cn(
               'h-1 flex-1 rounded-full',
-              i <= categoryIndex ? 'bg-primary' : 'bg-neutral-200'
+              i <= categoryIndex ? 'bg-primary' : 'bg-white/10'
             )}
           />
         ))}
       </div>
 
-      <h4 className="mb-4 text-sm font-semibold uppercase tracking-wide text-neutral-500">{category}</h4>
+      <h4 className="mb-4 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">{category}</h4>
 
       <div className="space-y-6">
         {questionsInCategory.map((q) => (
           <div key={q.id}>
-            <p className="mb-1 font-medium text-neutral-900">{q.question}</p>
-            {q.helperText && <p className="mb-2.5 text-xs text-neutral-500">{q.helperText}</p>}
+            <p className="mb-1 font-medium text-fg">{q.question}</p>
+            {q.helperText && <p className="mb-2.5 text-xs text-fg-tertiary">{q.helperText}</p>}
 
             {q.type === 'scale' && (
               <div className="flex gap-2">
@@ -138,8 +138,8 @@ export function AssessmentStep({ questions, assessment, updateAssessment, onCont
                     className={cn(
                       'flex h-10 w-10 items-center justify-center rounded-full border text-sm font-semibold transition-colors',
                       responses[q.id] === n
-                        ? 'border-primary bg-primary text-white'
-                        : 'border-neutral-200 text-neutral-600 hover:border-neutral-300'
+                        ? 'border-primary bg-primary text-canvas'
+                        : 'border-line text-fg-secondary hover:border-line-strong'
                     )}
                   >
                     {n}
@@ -157,8 +157,8 @@ export function AssessmentStep({ questions, assessment, updateAssessment, onCont
                     className={cn(
                       'rounded-full border px-4 py-2 text-sm font-medium transition-colors',
                       responses[q.id] === opt
-                        ? 'border-primary bg-primary-50 text-primary-700'
-                        : 'border-neutral-200 text-neutral-600 hover:border-neutral-300'
+                        ? 'border-primary bg-primary/10 text-primary-400'
+                        : 'border-line text-fg-secondary hover:border-line-strong'
                     )}
                   >
                     {opt}
@@ -178,7 +178,7 @@ export function AssessmentStep({ questions, assessment, updateAssessment, onCont
         ))}
       </div>
 
-      <div className="mt-6 flex items-center justify-between border-t border-neutral-100 pt-5">
+      <div className="mt-6 flex items-center justify-between border-t border-line pt-5">
         <Button
           variant="ghost"
           icon={<ChevronLeft size={15} />}

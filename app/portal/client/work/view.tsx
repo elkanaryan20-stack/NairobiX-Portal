@@ -74,14 +74,14 @@ export function ClientWorkView({
               <div className="grid gap-6 md:grid-cols-3">
                 <div className="md:col-span-2">
                   <div className="mb-3 flex items-start justify-between gap-3">
-                    <h3 className="text-lg font-semibold text-neutral-900">{project.name}</h3>
+                    <h3 className="text-lg font-semibold text-fg">{project.name}</h3>
                     <StatusBadge status={project.status} />
                   </div>
-                  <p className="mb-4 text-sm text-neutral-600">{project.description}</p>
+                  <p className="mb-4 text-sm text-fg-secondary">{project.description}</p>
 
                   {project.milestones.length > 0 && (
                   <div className="mb-4">
-                    <h5 className="mb-2 text-xs font-semibold uppercase tracking-wide text-neutral-500">
+                    <h5 className="mb-2 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">
                       Milestones
                     </h5>
                     <div className="flex flex-wrap gap-2">
@@ -106,9 +106,9 @@ export function ClientWorkView({
                   )}
 
                   {project.nextAction && (
-                    <div className="rounded-sm border border-blue-200 bg-blue-50/60 p-3">
-                      <p className="mb-1 text-xs font-semibold text-neutral-600">Next Action</p>
-                      <p className="text-sm text-neutral-900">{project.nextAction}</p>
+                    <div className="rounded-sm border border-blue-500/20 bg-blue-500/[0.06] p-3">
+                      <p className="mb-1 text-xs font-semibold text-fg-secondary">Next Action</p>
+                      <p className="text-sm text-fg">{project.nextAction}</p>
                     </div>
                   )}
                 </div>
@@ -117,7 +117,7 @@ export function ClientWorkView({
                   {project.progress !== undefined && (
                     <div>
                       <div className="mb-2 flex items-center justify-between">
-                        <p className="text-sm font-semibold text-neutral-900">Progress</p>
+                        <p className="text-sm font-semibold text-fg">Progress</p>
                         <p className="text-sm font-semibold text-primary">{project.progress}%</p>
                       </div>
                       <ProgressBar value={project.progress} showLabel={false} />
@@ -125,8 +125,8 @@ export function ClientWorkView({
                   )}
 
                   <div>
-                    <p className="mb-1 text-xs font-medium uppercase tracking-wide text-neutral-500">Timeline</p>
-                    <p className="text-sm text-neutral-900">
+                    <p className="mb-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Timeline</p>
+                    <p className="text-sm text-fg">
                       {project.startDate ? formatDate(project.startDate) : 'TBC'} &rarr;{' '}
                       {project.endDate ? formatDate(project.endDate) : 'TBC'}
                     </p>
@@ -134,11 +134,11 @@ export function ClientWorkView({
 
                   {project.team.length > 0 && (
                   <div>
-                    <p className="mb-2 text-xs font-medium uppercase tracking-wide text-neutral-500">Team</p>
+                    <p className="mb-2 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Team</p>
                     <div className="space-y-1">
                       {project.team.map((member, i) => (
-                        <p key={i} className="flex items-center gap-1.5 text-xs text-neutral-700">
-                          <User size={12} className="text-neutral-400" /> {member}
+                        <p key={i} className="flex items-center gap-1.5 text-xs text-fg-secondary">
+                          <User size={12} className="text-fg-tertiary" /> {member}
                         </p>
                       ))}
                     </div>
@@ -165,33 +165,33 @@ export function ClientWorkView({
             <Card key={campaign.id} className="p-6">
               <div className="mb-3 flex items-start justify-between gap-3">
                 <div className="flex items-start gap-3">
-                  <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 text-neutral-500">
+                  <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white/[0.05] text-fg-tertiary">
                     <Megaphone size={16} />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-neutral-900">{campaign.name}</h4>
-                    <p className="text-xs uppercase tracking-wide text-neutral-500">{campaign.channel}</p>
+                    <h4 className="font-semibold text-fg">{campaign.name}</h4>
+                    <p className="text-xs uppercase tracking-wide text-fg-tertiary">{campaign.channel}</p>
                   </div>
                 </div>
                 <StatusBadge status={campaign.status} />
               </div>
-              <div className="grid grid-cols-2 gap-4 border-t border-neutral-100 pt-4">
+              <div className="grid grid-cols-2 gap-4 border-t border-line pt-4">
                 <div>
-                  <p className="flex items-center gap-1 text-xs font-medium uppercase tracking-wide text-neutral-500">
+                  <p className="flex items-center gap-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">
                     <TrendingUp size={12} /> Leads
                   </p>
-                  <p className="mt-1 text-lg font-semibold text-neutral-900">{campaign.leadsGenerated}</p>
+                  <p className="mt-1 text-lg font-semibold text-fg">{campaign.leadsGenerated}</p>
                 </div>
                 <div>
-                  <p className="flex items-center gap-1 text-xs font-medium uppercase tracking-wide text-neutral-500">
+                  <p className="flex items-center gap-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">
                     <Percent size={12} /> Conversion
                   </p>
-                  <p className="mt-1 text-lg font-semibold text-neutral-900">
+                  <p className="mt-1 text-lg font-semibold text-fg">
                     {campaign.conversionRate ? `${campaign.conversionRate}%` : '—'}
                   </p>
                 </div>
               </div>
-              <p className="mt-3 text-xs text-neutral-400">Started {formatDate(campaign.startDate)}</p>
+              <p className="mt-3 text-xs text-fg-tertiary">Started {formatDate(campaign.startDate)}</p>
             </Card>
           ))}
         </div>
@@ -215,8 +215,8 @@ export function ClientWorkView({
                 className={cn(
                   'rounded-full border px-3 py-1 text-xs font-medium capitalize transition-colors',
                   leadFilter === f
-                    ? 'border-primary bg-primary-50 text-primary-700'
-                    : 'border-neutral-200 text-neutral-600 hover:border-neutral-300'
+                    ? 'border-primary bg-primary/10 text-primary-400'
+                    : 'border-line text-fg-secondary hover:border-line-strong'
                 )}
               >
                 {f}
@@ -229,12 +229,12 @@ export function ClientWorkView({
               <Card key={lead.id} className="p-4">
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex min-w-0 items-center gap-3">
-                    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 text-neutral-500">
+                    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white/[0.05] text-fg-tertiary">
                       <Users size={15} />
                     </div>
                     <div className="min-w-0">
-                      <h4 className="truncate font-medium text-neutral-900">{lead.name}</h4>
-                      <p className="text-xs text-neutral-500">
+                      <h4 className="truncate font-medium text-fg">{lead.name}</h4>
+                      <p className="text-xs text-fg-tertiary">
                         {lead.company ? `${lead.company} · ` : ''}
                         {lead.source}
                       </p>
@@ -242,7 +242,7 @@ export function ClientWorkView({
                   </div>
                   <div className="flex flex-shrink-0 items-center gap-4">
                     {lead.value && (
-                      <p className="hidden text-sm font-medium text-neutral-900 sm:block">
+                      <p className="hidden text-sm font-medium text-fg sm:block">
                         {formatCurrency(lead.value)}
                       </p>
                     )}
@@ -277,20 +277,20 @@ export function ClientWorkView({
                     onClick={() => advanceTask(task.id)}
                     disabled={task.status === 'completed'}
                     aria-label="Advance task status"
-                    className="flex-shrink-0 text-neutral-400 transition-colors hover:text-primary disabled:cursor-default disabled:text-emerald-500"
+                    className="flex-shrink-0 text-fg-tertiary transition-colors hover:text-primary disabled:cursor-default disabled:text-emerald-500"
                   >
                     {task.status === 'completed' ? <CheckCircle2 size={20} /> : <Circle size={20} />}
                   </button>
                   <div className="min-w-0">
                     <h4
                       className={cn(
-                        'truncate font-medium text-neutral-900',
-                        task.status === 'completed' && 'text-neutral-400 line-through'
+                        'truncate font-medium text-fg',
+                        task.status === 'completed' && 'text-fg-tertiary line-through'
                       )}
                     >
                       {task.title}
                     </h4>
-                    <p className="text-xs text-neutral-500">
+                    <p className="text-xs text-fg-tertiary">
                       {task.relatedTo ? `${task.relatedTo} · ` : ''}Due {formatDate(task.dueDate)}
                     </p>
                   </div>

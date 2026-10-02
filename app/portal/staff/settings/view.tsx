@@ -33,19 +33,19 @@ export function StaffSettingsView({ source }: { source: DataSource }) {
       {activeTab === 'account' && (
         <div className="space-y-6 mt-6">
           <Card className="p-6">
-            <h3 className="text-lg font-semibold text-neutral-900 mb-4">
+            <h3 className="text-lg font-semibold text-fg mb-4">
               Profile Information
             </h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-neutral-900 mb-2">
+                <label className="block text-sm font-medium text-fg mb-2">
                   Full Name
                 </label>
                 <Input defaultValue={name} readOnly={!demo} />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-neutral-900 mb-2">
+                <label className="block text-sm font-medium text-fg mb-2">
                   Email
                 </label>
                 <Input type="email" defaultValue={email} readOnly={!demo} />
@@ -54,7 +54,7 @@ export function StaffSettingsView({ source }: { source: DataSource }) {
               {demo ? (
                 <>
                   <div>
-                    <label className="block text-sm font-medium text-neutral-900 mb-2">
+                    <label className="block text-sm font-medium text-fg mb-2">
                       Department
                     </label>
                     <select className="input">
@@ -71,7 +71,7 @@ export function StaffSettingsView({ source }: { source: DataSource }) {
                   </div>
                 </>
               ) : (
-                <p className="pt-2 text-sm text-neutral-500">Your staff profile is managed in Zoho CRM (Users).</p>
+                <p className="pt-2 text-sm text-fg-tertiary">Your staff profile is managed in Zoho CRM (Users).</p>
               )}
             </div>
           </Card>
@@ -82,7 +82,7 @@ export function StaffSettingsView({ source }: { source: DataSource }) {
       {activeTab === 'notifications' && (
         <div className="space-y-6 mt-6">
           <Card className="p-6">
-            <h3 className="text-lg font-semibold text-neutral-900 mb-4">
+            <h3 className="text-lg font-semibold text-fg mb-4">
               Notification Preferences
             </h3>
             <div className="space-y-3">
@@ -94,9 +94,9 @@ export function StaffSettingsView({ source }: { source: DataSource }) {
                 'Client communications',
                 'System alerts',
               ].map((notif) => (
-                <label key={notif} className="flex items-center gap-3 rounded-sm px-3 py-2.5 hover:bg-neutral-50">
+                <label key={notif} className="flex items-center gap-3 rounded-sm px-3 py-2.5 hover:bg-surface-2">
                   <input type="checkbox" defaultChecked className="h-4 w-4 accent-primary" />
-                  <span className="text-sm text-neutral-800">{notif}</span>
+                  <span className="text-sm text-fg">{notif}</span>
                 </label>
               ))}
             </div>
@@ -108,7 +108,7 @@ export function StaffSettingsView({ source }: { source: DataSource }) {
       {activeTab === 'privacy' && (
         <div className="space-y-6 mt-6">
           <Card className="p-6">
-            <h3 className="text-lg font-semibold text-neutral-900 mb-4">
+            <h3 className="text-lg font-semibold text-fg mb-4">
               Privacy Settings
             </h3>
             <div className="space-y-3">
@@ -117,9 +117,9 @@ export function StaffSettingsView({ source }: { source: DataSource }) {
                 'Allow client direct messaging',
                 'Share activity status',
               ].map((privacy) => (
-                <label key={privacy} className="flex items-center gap-3 rounded-sm px-3 py-2.5 hover:bg-neutral-50">
+                <label key={privacy} className="flex items-center gap-3 rounded-sm px-3 py-2.5 hover:bg-surface-2">
                   <input type="checkbox" className="h-4 w-4 accent-primary" />
-                  <span className="text-sm text-neutral-800">{privacy}</span>
+                  <span className="text-sm text-fg">{privacy}</span>
                 </label>
               ))}
             </div>
@@ -131,26 +131,26 @@ export function StaffSettingsView({ source }: { source: DataSource }) {
       {activeTab === 'security' && (
         <div className="space-y-6 mt-6">
           <Card className="p-6">
-            <h3 className="text-lg font-semibold text-neutral-900 mb-4">
+            <h3 className="text-lg font-semibold text-fg mb-4">
               Password & Security
             </h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-neutral-900 mb-2">
+                <label className="block text-sm font-medium text-fg mb-2">
                   Current Password
                 </label>
                 <Input type="password" placeholder="••••••••" />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-neutral-900 mb-2">
+                <label className="block text-sm font-medium text-fg mb-2">
                   New Password
                 </label>
                 <Input type="password" placeholder="••••••••" />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-neutral-900 mb-2">
+                <label className="block text-sm font-medium text-fg mb-2">
                   Confirm New Password
                 </label>
                 <Input type="password" placeholder="••••••••" />
@@ -163,10 +163,10 @@ export function StaffSettingsView({ source }: { source: DataSource }) {
           </Card>
 
           <Card className="p-6">
-            <h3 className="mb-2 font-semibold text-neutral-900">
+            <h3 className="mb-2 font-semibold text-fg">
               Two-Factor Authentication
             </h3>
-            <p className="mb-4 text-sm text-neutral-600">
+            <p className="mb-4 text-sm text-fg-secondary">
               Add an extra layer of security to your account
             </p>
             <Button variant="secondary">Enable 2FA</Button>

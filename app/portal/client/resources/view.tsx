@@ -80,8 +80,8 @@ export function ClientResourcesView({
                 onClick={() => setDocCategory(cat)}
                 className={
                   docCategory === cat
-                    ? 'rounded-full border border-primary bg-primary-50 px-3 py-1 text-xs font-medium text-primary-700'
-                    : 'rounded-full border border-neutral-200 px-3 py-1 text-xs font-medium text-neutral-600 hover:border-neutral-300'
+                    ? 'rounded-full border border-primary bg-primary/10 px-3 py-1 text-xs font-medium text-primary-400'
+                    : 'rounded-full border border-line px-3 py-1 text-xs font-medium text-fg-secondary hover:border-line-strong'
                 }
               >
                 {docCategoryLabels[cat] || cat}
@@ -94,15 +94,15 @@ export function ClientResourcesView({
               <Card key={doc.id} className="p-4">
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex min-w-0 flex-1 items-center gap-3">
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-sm bg-neutral-100 text-neutral-500 [&>svg]:h-[18px] [&>svg]:w-[18px]">
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-sm bg-white/[0.05] text-fg-tertiary [&>svg]:h-[18px] [&>svg]:w-[18px]">
                       {typeIcon[doc.type] || <FileIcon />}
                     </div>
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
-                        <h4 className="truncate font-medium text-neutral-900">{doc.name}</h4>
+                        <h4 className="truncate font-medium text-fg">{doc.name}</h4>
                         {doc.status === 'active' && <Badge variant="success">Active</Badge>}
                       </div>
-                      <p className="text-xs text-neutral-500">
+                      <p className="text-xs text-fg-tertiary">
                         {doc.type.toUpperCase()} &middot; {formatDate(doc.uploadDate)}
                       </p>
                     </div>
@@ -110,10 +110,10 @@ export function ClientResourcesView({
 
                   {demo && (
                     <div className="flex flex-shrink-0 gap-1">
-                      <button className="rounded-sm p-2 text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900" title="View">
+                      <button className="rounded-sm p-2 text-fg-tertiary transition-colors hover:bg-white/[0.05] hover:text-fg" title="View">
                         <Eye size={17} />
                       </button>
-                      <button className="rounded-sm p-2 text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900" title="Download">
+                      <button className="rounded-sm p-2 text-fg-tertiary transition-colors hover:bg-white/[0.05] hover:text-fg" title="Download">
                         <Download size={17} />
                       </button>
                     </div>
@@ -140,14 +140,14 @@ export function ClientResourcesView({
         <div>
           {playbooks.length > 0 && (
             <div className="mb-12">
-              <h3 className="mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-neutral-500">
+              <h3 className="mb-5 flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">
                 <BookOpen size={15} /> Exclusive Playbooks
               </h3>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {playbooks.map((benefit) => (
                   <Card key={benefit.id} hover className="p-6">
-                    <h4 className="mb-2 text-lg font-semibold text-neutral-900">{benefit.name}</h4>
-                    <p className="mb-4 text-neutral-600">{benefit.description}</p>
+                    <h4 className="mb-2 text-lg font-semibold text-fg">{benefit.name}</h4>
+                    <p className="mb-4 text-fg-secondary">{benefit.description}</p>
                     <Button variant="primary" size="sm">
                       Access Playbook
                     </Button>
@@ -159,7 +159,7 @@ export function ClientResourcesView({
 
           {strategy.length > 0 && (
             <div className="mb-12">
-              <h3 className="mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-neutral-500">
+              <h3 className="mb-5 flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">
                 <Target size={15} /> Strategy Benefits
               </h3>
               <div className="space-y-4">
@@ -167,8 +167,8 @@ export function ClientResourcesView({
                   <Card key={benefit.id} hover className="p-6">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1">
-                        <h4 className="mb-2 text-lg font-semibold text-neutral-900">{benefit.name}</h4>
-                        <p className="mb-4 text-neutral-600">{benefit.description}</p>
+                        <h4 className="mb-2 text-lg font-semibold text-fg">{benefit.name}</h4>
+                        <p className="mb-4 text-fg-secondary">{benefit.description}</p>
                       </div>
                       <Button variant="primary" size="sm" className="flex-shrink-0" onClick={() => (window.location.href = '/portal/client/support')}>
                         Schedule
@@ -182,14 +182,14 @@ export function ClientResourcesView({
 
           {discounts.length > 0 && (
             <div className="mb-12">
-              <h3 className="mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-neutral-500">
+              <h3 className="mb-5 flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">
                 <Ticket size={15} /> Exclusive Discounts
               </h3>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {discounts.map((benefit) => (
-                  <Card key={benefit.id} className="border-emerald-200 bg-emerald-50/60 p-6">
-                    <h4 className="mb-1 text-lg font-semibold text-neutral-900">{benefit.name}</h4>
-                    <p className="mb-3 text-sm text-neutral-600">{benefit.description}</p>
+                  <Card key={benefit.id} className="border-emerald-500/20 bg-emerald-500/[0.06] p-6">
+                    <h4 className="mb-1 text-lg font-semibold text-fg">{benefit.name}</h4>
+                    <p className="mb-3 text-sm text-fg-secondary">{benefit.description}</p>
                     {benefit.value && <Badge variant="success">{benefit.value}</Badge>}
                   </Card>
                 ))}
@@ -199,14 +199,14 @@ export function ClientResourcesView({
 
           {earlyAccess.length > 0 && (
             <div>
-              <h3 className="mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-neutral-500">
+              <h3 className="mb-5 flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">
                 <Zap size={15} /> Early Access
               </h3>
-              <Card className="border-indigo-200 bg-indigo-50/60 p-6">
+              <Card className="border-indigo-500/20 bg-indigo-500/[0.06] p-6">
                 {earlyAccess.map((benefit) => (
                   <div key={benefit.id}>
-                    <h4 className="mb-2 text-lg font-semibold text-neutral-900">{benefit.name}</h4>
-                    <p className="mb-4 text-neutral-600">{benefit.description}</p>
+                    <h4 className="mb-2 text-lg font-semibold text-fg">{benefit.name}</h4>
+                    <p className="mb-4 text-fg-secondary">{benefit.description}</p>
                     <Button variant="primary">Get Early Access</Button>
                   </div>
                 ))}

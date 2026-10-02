@@ -29,23 +29,23 @@ export function ReviewStep({ application, updateApplication, onContinue }: Revie
   return (
     <Card className="p-6">
       <div className="mb-6 flex items-start gap-3">
-        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 text-neutral-500">
+        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white/[0.05] text-fg-tertiary">
           <BadgeCheck size={18} />
         </div>
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <h3 className="text-lg font-semibold text-neutral-900">Review &amp; Approval</h3>
+            <h3 className="text-lg font-semibold text-fg">Review &amp; Approval</h3>
             <StatusBadge status={reviewStatus} />
           </div>
-          <p className="text-sm text-neutral-500">A final summary before NairobiX reviews your application.</p>
+          <p className="text-sm text-fg-tertiary">A final summary before NairobiX reviews your application.</p>
         </div>
       </div>
 
-      <div className="mb-6 grid grid-cols-1 gap-4 rounded-sm border border-neutral-200 p-5 sm:grid-cols-2">
+      <div className="mb-6 grid grid-cols-1 gap-4 rounded-sm border border-line p-5 sm:grid-cols-2">
         {summary.map((row) => (
           <div key={row.label}>
-            <p className="text-xs font-medium uppercase tracking-wide text-neutral-400">{row.label}</p>
-            <p className="mt-0.5 text-sm font-medium text-neutral-900">{row.value}</p>
+            <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">{row.label}</p>
+            <p className="mt-0.5 text-sm font-medium text-fg">{row.value}</p>
           </div>
         ))}
       </div>
@@ -79,7 +79,7 @@ export function ReviewStep({ application, updateApplication, onContinue }: Revie
         />
       )}
 
-      <div className="mt-6 flex justify-end border-t border-neutral-100 pt-5">
+      <div className="mt-6 flex justify-end border-t border-line pt-5">
         {reviewStatus === 'not-submitted' ? (
           <Button variant="primary" rightIcon={<Send size={15} />} onClick={handleSubmitForReview}>
             Submit for Review

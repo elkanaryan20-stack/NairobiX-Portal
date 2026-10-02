@@ -161,21 +161,21 @@ export function ClientSupportView({
 
       {showForm && (
         <Card className="mb-8 p-6">
-          <h3 className="mb-4 text-lg font-semibold text-neutral-900">New Support Request</h3>
+          <h3 className="mb-4 text-lg font-semibold text-fg">New Support Request</h3>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="mb-2 block text-sm font-medium text-neutral-900">Title</label>
+              <label className="mb-2 block text-sm font-medium text-fg">Title</label>
               <Input
                 value={form.title}
                 onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
                 placeholder="e.g. Update homepage hero section"
               />
-              {errors.title && <p className="mt-1 text-xs text-red-600">{errors.title}</p>}
+              {errors.title && <p className="mt-1 text-xs text-red-400">{errors.title}</p>}
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label className="mb-2 block text-sm font-medium text-neutral-900">Type</label>
+                <label className="mb-2 block text-sm font-medium text-fg">Type</label>
                 <Select
                   value={form.type}
                   onChange={(e) => setForm((f) => ({ ...f, type: e.target.value as NonNullable<ServiceRequest['type']> }))}
@@ -183,7 +183,7 @@ export function ClientSupportView({
                 />
               </div>
               <div>
-                <label className="mb-2 block text-sm font-medium text-neutral-900">Priority</label>
+                <label className="mb-2 block text-sm font-medium text-fg">Priority</label>
                 <Select
                   value={form.priority}
                   onChange={(e) => setForm((f) => ({ ...f, priority: e.target.value as NonNullable<ServiceRequest['priority']> }))}
@@ -198,14 +198,14 @@ export function ClientSupportView({
             </div>
 
             <div>
-              <label className="mb-2 block text-sm font-medium text-neutral-900">Description</label>
+              <label className="mb-2 block text-sm font-medium text-fg">Description</label>
               <Textarea
                 rows={4}
                 value={form.description}
                 onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
                 placeholder="Tell us what you need help with..."
               />
-              {errors.description && <p className="mt-1 text-xs text-red-600">{errors.description}</p>}
+              {errors.description && <p className="mt-1 text-xs text-red-400">{errors.description}</p>}
             </div>
 
             <div className="flex gap-3 pt-2">
@@ -222,18 +222,18 @@ export function ClientSupportView({
 
       {!showForm && (
         <div className="mb-12">
-          <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-neutral-500">
+          <h3 className="mb-4 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">
             What would you like to request?
           </h3>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5">
             {requestTypes.map((type) => (
               <button key={type.id} onClick={() => openTypeForm(type.id)} className="text-left">
                 <Card hover className="h-full p-4">
-                  <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-full bg-neutral-100 text-neutral-500">
+                  <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.05] text-fg-tertiary">
                     {type.icon}
                   </div>
-                  <h4 className="mb-1 font-semibold text-neutral-900">{type.title}</h4>
-                  <p className="text-xs text-neutral-500">{type.description}</p>
+                  <h4 className="mb-1 font-semibold text-fg">{type.title}</h4>
+                  <p className="text-xs text-fg-tertiary">{type.description}</p>
                 </Card>
               </button>
             ))}
@@ -242,8 +242,8 @@ export function ClientSupportView({
       )}
 
       <div>
-        <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-neutral-500">
-          Your Requests {unresolved.length > 0 && <span className="text-neutral-400">&middot; {unresolved.length} open</span>}
+        <h3 className="mb-4 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">
+          Your Requests {unresolved.length > 0 && <span className="text-fg-tertiary">&middot; {unresolved.length} open</span>}
         </h3>
 
         <div className="space-y-4">
@@ -256,9 +256,9 @@ export function ClientSupportView({
                   className="flex w-full items-start justify-between gap-4 text-left"
                 >
                   <div className="flex-1">
-                    <h4 className="mb-1 text-lg font-semibold text-neutral-900">{request.title}</h4>
-                    <p className="mb-3 text-sm text-neutral-600">{request.description}</p>
-                    <div className="flex flex-wrap items-center gap-4 text-xs text-neutral-500">
+                    <h4 className="mb-1 text-lg font-semibold text-fg">{request.title}</h4>
+                    <p className="mb-3 text-sm text-fg-secondary">{request.description}</p>
+                    <div className="flex flex-wrap items-center gap-4 text-xs text-fg-tertiary">
                       <span className="flex items-center gap-1.5">
                         <Calendar size={13} /> {formatDate(request.createdDate)}
                       </span>
@@ -273,20 +273,20 @@ export function ClientSupportView({
                   <div className="flex flex-shrink-0 flex-col items-end gap-2">
                     <StatusBadge status={request.status} />
                     {request.priority && <PriorityBadge priority={request.priority} />}
-                    {isOpen ? <ChevronUp size={16} className="text-neutral-400" /> : <ChevronDown size={16} className="text-neutral-400" />}
+                    {isOpen ? <ChevronUp size={16} className="text-fg-tertiary" /> : <ChevronDown size={16} className="text-fg-tertiary" />}
                   </div>
                 </button>
 
                 {isOpen && request.timeline.length > 0 && (
-                  <div className="mt-5 border-t border-neutral-100 pt-5">
-                    <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-neutral-500">Activity</p>
-                    <ol className="space-y-4 border-l border-neutral-200 pl-4">
+                  <div className="mt-5 border-t border-line pt-5">
+                    <p className="mb-3 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Activity</p>
+                    <ol className="space-y-4 border-l border-line pl-4">
                       {request.timeline.map((event) => (
                         <li key={event.id} className="relative">
                           <span className="absolute -left-[21px] top-1 h-2 w-2 rounded-full bg-primary" />
-                          <p className="text-sm font-medium text-neutral-900">{event.title}</p>
-                          <p className="text-sm text-neutral-600">{event.description}</p>
-                          <p className="mt-0.5 text-xs text-neutral-400">
+                          <p className="text-sm font-medium text-fg">{event.title}</p>
+                          <p className="text-sm text-fg-secondary">{event.description}</p>
+                          <p className="mt-0.5 text-xs text-fg-tertiary">
                             {formatRelativeTime(event.timestamp)}
                             {event.performedBy ? ` · ${event.performedBy}` : ''}
                           </p>

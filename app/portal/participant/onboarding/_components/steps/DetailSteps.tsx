@@ -30,16 +30,16 @@ function StepShell({
   return (
     <Card className="p-6">
       <div className="mb-6 flex items-start gap-3">
-        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 text-neutral-500">
+        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white/[0.05] text-fg-tertiary">
           {icon}
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-neutral-900">{title}</h3>
-          <p className="text-sm text-neutral-500">{description}</p>
+          <h3 className="text-lg font-semibold text-fg">{title}</h3>
+          <p className="text-sm text-fg-tertiary">{description}</p>
         </div>
       </div>
       <div className="space-y-4">{children}</div>
-      <div className="mt-6 flex justify-end border-t border-neutral-100 pt-5">
+      <div className="mt-6 flex justify-end border-t border-line pt-5">
         <Button variant="primary" onClick={onContinue} disabled={!canContinue}>
           Save &amp; Continue
         </Button>
@@ -64,7 +64,7 @@ export function PartnerDetailsStep({ application, updateApplication, onContinue 
       canContinue={canContinue}
     >
       <div>
-        <label className="mb-1.5 block text-sm font-medium text-neutral-900">Full name</label>
+        <label className="mb-1.5 block text-sm font-medium text-fg">Full name</label>
         <Input
           value={details.fullName}
           onChange={(e) => setDetails({ ...details, fullName: e.target.value })}
@@ -73,7 +73,7 @@ export function PartnerDetailsStep({ application, updateApplication, onContinue 
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-neutral-900">Email</label>
+          <label className="mb-1.5 block text-sm font-medium text-fg">Email</label>
           <Input
             type="email"
             value={details.email}
@@ -82,7 +82,7 @@ export function PartnerDetailsStep({ application, updateApplication, onContinue 
           />
         </div>
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-neutral-900">Phone</label>
+          <label className="mb-1.5 block text-sm font-medium text-fg">Phone</label>
           <Input
             value={details.phone}
             onChange={(e) => setDetails({ ...details, phone: e.target.value })}
@@ -110,14 +110,14 @@ export function BusinessInfoStep({ application, updateApplication, onContinue }:
       canContinue={canContinue}
     >
       <div>
-        <label className="mb-1.5 block text-sm font-medium text-neutral-900">Business name</label>
+        <label className="mb-1.5 block text-sm font-medium text-fg">Business name</label>
         <Input
           value={info.businessName}
           onChange={(e) => setInfo({ ...info, businessName: e.target.value })}
         />
       </div>
       <div>
-        <label className="mb-1.5 block text-sm font-medium text-neutral-900">Business description</label>
+        <label className="mb-1.5 block text-sm font-medium text-fg">Business description</label>
         <Textarea
           rows={4}
           value={info.businessDescription}
@@ -126,8 +126,8 @@ export function BusinessInfoStep({ application, updateApplication, onContinue }:
         />
       </div>
       <div>
-        <label className="mb-1.5 block text-sm font-medium text-neutral-900">
-          Website <span className="font-normal text-neutral-400">(optional)</span>
+        <label className="mb-1.5 block text-sm font-medium text-fg">
+          Website <span className="font-normal text-fg-tertiary">(optional)</span>
         </label>
         <Input
           value={info.website ?? ''}
@@ -156,14 +156,14 @@ export function LocationStep({ application, updateApplication, onContinue }: Ste
     >
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-neutral-900">City / Town</label>
+          <label className="mb-1.5 block text-sm font-medium text-fg">City / Town</label>
           <Input
             value={location.city}
             onChange={(e) => setLocation({ ...location, city: e.target.value })}
           />
         </div>
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-neutral-900">Address</label>
+          <label className="mb-1.5 block text-sm font-medium text-fg">Address</label>
           <Input
             value={location.address}
             onChange={(e) => setLocation({ ...location, address: e.target.value })}
@@ -190,7 +190,7 @@ export function ExperienceStep({ application, updateApplication, onContinue }: S
       canContinue={canContinue}
     >
       <div>
-        <label className="mb-1.5 block text-sm font-medium text-neutral-900">Years of experience</label>
+        <label className="mb-1.5 block text-sm font-medium text-fg">Years of experience</label>
         <Input
           type="number"
           min={0}
@@ -200,7 +200,7 @@ export function ExperienceStep({ application, updateApplication, onContinue }: S
         />
       </div>
       <div>
-        <label className="mb-1.5 block text-sm font-medium text-neutral-900">Background</label>
+        <label className="mb-1.5 block text-sm font-medium text-fg">Background</label>
         <Textarea
           rows={3}
           value={experience.background}
@@ -208,7 +208,7 @@ export function ExperienceStep({ application, updateApplication, onContinue }: S
         />
       </div>
       <div>
-        <label className="mb-1.5 block text-sm font-medium text-neutral-900">Client network</label>
+        <label className="mb-1.5 block text-sm font-medium text-fg">Client network</label>
         <Textarea
           rows={3}
           value={experience.clientNetwork}

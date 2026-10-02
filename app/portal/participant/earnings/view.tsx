@@ -42,7 +42,7 @@ export function ParticipantEarningsView({ demo }: { demo: ParticipantDemoModules
             <MetricCard label="Pending" value={formatCurrency(pendingTotal)} subtitle="Under review" icon={<HourglassIcon />} />
           </div>
 
-          <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-neutral-500">Commission History</h3>
+          <h3 className="mb-4 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">Commission History</h3>
           <div className="space-y-3">
             {demo.commissions.map((commission) => {
               const referral = demo.referrals.find((r) => r.id === commission.referralId);
@@ -51,18 +51,18 @@ export function ParticipantEarningsView({ demo }: { demo: ParticipantDemoModules
                   <div className="grid items-center gap-4 md:grid-cols-3">
                     <div className="md:col-span-2">
                       <div className="mb-2 flex items-center gap-2">
-                        <h4 className="font-semibold text-neutral-900">{referral?.businessName || 'Referral'}</h4>
+                        <h4 className="font-semibold text-fg">{referral?.businessName || 'Referral'}</h4>
                         <StatusBadge status={commission.status} />
                       </div>
-                      <p className="mb-2 text-sm text-neutral-600">{commission.notes}</p>
-                      <p className="text-xs text-neutral-500">Referral ID: {commission.referralId}</p>
+                      <p className="mb-2 text-sm text-fg-secondary">{commission.notes}</p>
+                      <p className="text-xs text-fg-tertiary">Referral ID: {commission.referralId}</p>
                     </div>
                     <div className="text-right">
-                      <p className="mb-2 text-2xl font-semibold text-neutral-900">{formatCurrency(commission.amount)}</p>
-                      <div className="space-y-1 text-xs text-neutral-500">
+                      <p className="mb-2 text-2xl font-semibold text-fg">{formatCurrency(commission.amount)}</p>
+                      <div className="space-y-1 text-xs text-fg-tertiary">
                         {commission.approvedDate && <p>Approved: {formatDate(commission.approvedDate)}</p>}
                         {commission.paidDate && (
-                          <p className="font-medium text-emerald-600">Paid: {formatDate(commission.paidDate)}</p>
+                          <p className="font-medium text-emerald-400">Paid: {formatDate(commission.paidDate)}</p>
                         )}
                       </div>
                     </div>
@@ -73,8 +73,8 @@ export function ParticipantEarningsView({ demo }: { demo: ParticipantDemoModules
           </div>
 
           <Card className="mt-8 p-6">
-            <h3 className="mb-2 font-semibold text-neutral-900">Payment Information</h3>
-            <p className="mb-4 text-sm text-neutral-600">
+            <h3 className="mb-2 font-semibold text-fg">Payment Information</h3>
+            <p className="mb-4 text-sm text-fg-secondary">
               Commissions are typically paid within 30 days of approval. Ensure your payment details are up to date in
               your settings.
             </p>
@@ -89,18 +89,18 @@ export function ParticipantEarningsView({ demo }: { demo: ParticipantDemoModules
         <>
           {inProgress.length > 0 && (
             <div className="mb-10">
-              <h3 className="mb-5 text-sm font-semibold uppercase tracking-wide text-neutral-500">In Progress</h3>
+              <h3 className="mb-5 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">In Progress</h3>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {inProgress.map((reward) => (
                   <Card key={reward.id} className="p-6">
                     <div className="mb-3 flex items-start justify-between gap-3">
-                      <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 text-neutral-500">
+                      <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white/[0.05] text-fg-tertiary">
                         <Trophy size={17} />
                       </div>
                       <Badge variant="neutral">{reward.category}</Badge>
                     </div>
-                    <h4 className="mb-1.5 font-semibold text-neutral-900">{reward.name}</h4>
-                    <p className="mb-4 text-sm text-neutral-600">{reward.description}</p>
+                    <h4 className="mb-1.5 font-semibold text-fg">{reward.name}</h4>
+                    <p className="mb-4 text-sm text-fg-secondary">{reward.description}</p>
                     {reward.progress && (
                       <ProgressBar value={Math.min(reward.progress.current, reward.progress.target)} max={reward.progress.target} />
                     )}
@@ -112,19 +112,19 @@ export function ParticipantEarningsView({ demo }: { demo: ParticipantDemoModules
 
           {earned.length > 0 && (
             <div>
-              <h3 className="mb-5 text-sm font-semibold uppercase tracking-wide text-neutral-500">Earned</h3>
+              <h3 className="mb-5 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">Earned</h3>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {earned.map((reward) => (
-                  <Card key={reward.id} className="border-emerald-200 bg-emerald-50/40 p-6">
+                  <Card key={reward.id} className="border-emerald-500/20 bg-emerald-500/[0.06] p-6">
                     <div className="mb-3 flex items-start justify-between gap-3">
-                      <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white text-emerald-600 shadow-xs">
+                      <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-surface text-emerald-400">
                         <CheckCircle2 size={17} />
                       </div>
                       <Badge variant="success">Earned</Badge>
                     </div>
-                    <h4 className="mb-1.5 font-semibold text-neutral-900">{reward.name}</h4>
-                    <p className="mb-2 text-sm text-neutral-600">{reward.description}</p>
-                    {reward.earnedDate && <p className="text-xs text-neutral-400">Earned {formatDate(reward.earnedDate)}</p>}
+                    <h4 className="mb-1.5 font-semibold text-fg">{reward.name}</h4>
+                    <p className="mb-2 text-sm text-fg-secondary">{reward.description}</p>
+                    {reward.earnedDate && <p className="text-xs text-fg-tertiary">Earned {formatDate(reward.earnedDate)}</p>}
                   </Card>
                 ))}
               </div>

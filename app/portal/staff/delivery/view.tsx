@@ -50,29 +50,29 @@ export function StaffDeliveryView({
               <Card key={project.id} className="p-6">
                 <div className="grid items-center gap-6 md:grid-cols-[2fr_1fr_auto_auto]">
                   <div className="min-w-0">
-                    <h3 className="truncate font-semibold text-neutral-900">{project.name}</h3>
-                    <p className="text-sm text-neutral-500">{project.accountName ?? '—'}</p>
+                    <h3 className="truncate font-semibold text-fg">{project.name}</h3>
+                    <p className="text-sm text-fg-tertiary">{project.accountName ?? '—'}</p>
                   </div>
                   <div>
                     {project.progress !== undefined ? (
                       <>
-                        <p className="mb-1.5 text-xs font-medium uppercase tracking-wide text-neutral-400">Progress</p>
+                        <p className="mb-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Progress</p>
                         <ProgressBar value={project.progress} size="sm" />
                       </>
                     ) : (
                       <>
-                        <p className="mb-1 text-xs font-medium uppercase tracking-wide text-neutral-400">Owner</p>
-                        <p className="text-sm text-neutral-900">{project.team[0] ?? '—'}</p>
+                        <p className="mb-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Owner</p>
+                        <p className="text-sm text-fg">{project.team[0] ?? '—'}</p>
                       </>
                     )}
                   </div>
                   <div>
-                    <p className="mb-1 text-xs font-medium uppercase tracking-wide text-neutral-400">Status</p>
+                    <p className="mb-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Status</p>
                     <StatusBadge status={project.status} />
                   </div>
                   <div className="text-right">
-                    <p className="mb-1 text-xs font-medium uppercase tracking-wide text-neutral-400">Target End</p>
-                    <p className="text-sm font-medium text-neutral-900">{project.endDate ? formatDate(project.endDate) : '—'}</p>
+                    <p className="mb-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Target End</p>
+                    <p className="text-sm font-medium text-fg">{project.endDate ? formatDate(project.endDate) : '—'}</p>
                   </div>
                 </div>
               </Card>
@@ -92,8 +92,8 @@ export function StaffDeliveryView({
             .map((task) => (
               <Card key={task.id} className="flex items-center justify-between gap-4 p-4">
                 <div className="min-w-0">
-                  <h4 className="truncate font-medium text-neutral-900">{task.title}</h4>
-                  <p className="text-sm text-neutral-500">
+                  <h4 className="truncate font-medium text-fg">{task.title}</h4>
+                  <p className="text-sm text-fg-tertiary">
                     {[task.relatedTo, task.dueDate ? `Due ${formatDate(task.dueDate)}` : undefined].filter(Boolean).join(' · ') || '—'}
                   </p>
                 </div>

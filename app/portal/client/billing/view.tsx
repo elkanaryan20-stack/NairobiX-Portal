@@ -32,27 +32,27 @@ export function ClientBillingView({
       <div className="grid md:grid-cols-2 gap-6 mb-8">
         {/* Partnership Info */}
         <Card className="p-6">
-          <h3 className="text-lg font-semibold text-neutral-900 mb-4">
+          <h3 className="text-lg font-semibold text-fg mb-4">
             Current Partnership
           </h3>
           <div className="space-y-3">
             <div>
-              <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
+              <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">
                 Account
               </p>
-              <p className="text-lg font-semibold text-neutral-900">
+              <p className="text-lg font-semibold text-fg">
                 {profile.businessName}
               </p>
             </div>
             <div>
-              <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">Status</p>
+              <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Status</p>
               <Badge variant="success">Active</Badge>
             </div>
             <div>
-              <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
+              <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">
                 Client Since
               </p>
-              <p className="text-neutral-900 font-medium">
+              <p className="text-fg font-medium">
                 {profile.clientSince ? formatDate(profile.clientSince) : '—'}
               </p>
             </div>
@@ -62,27 +62,27 @@ export function ClientBillingView({
         {/* Current Invoice */}
         {currentInvoice && (
           <Card className="p-6">
-            <h3 className="text-lg font-semibold text-neutral-900 mb-4">
+            <h3 className="text-lg font-semibold text-fg mb-4">
               Current Invoice
             </h3>
             <div className="space-y-3">
               <div>
-                <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">Amount</p>
-                <p className="text-3xl font-semibold text-neutral-900">
+                <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Amount</p>
+                <p className="text-3xl font-semibold text-fg">
                   {formatCurrency(currentInvoice.amount, currentInvoice.currency)}
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
+                  <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">
                     Due Date
                   </p>
-                  <p className="font-medium text-neutral-900">
+                  <p className="font-medium text-fg">
                     {currentInvoice.dueDate ? formatDate(currentInvoice.dueDate) : '—'}
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">Status</p>
+                  <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Status</p>
                   <StatusBadge status={currentInvoice.status} />
                 </div>
               </div>
@@ -98,7 +98,7 @@ export function ClientBillingView({
 
       {/* Invoice History */}
       <div className="mb-8">
-        <h3 className="text-lg font-semibold text-neutral-900 mb-4">
+        <h3 className="text-lg font-semibold text-fg mb-4">
           Invoice History
         </h3>
 
@@ -109,12 +109,12 @@ export function ClientBillingView({
                 {/* Invoice Info */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 mb-2">
-                    <h4 className="font-semibold text-neutral-900">
+                    <h4 className="font-semibold text-fg">
                       {invoice.invoiceNumber}
                     </h4>
                     <StatusBadge status={invoice.status} />
                   </div>
-                  <p className="text-xs text-neutral-600">
+                  <p className="text-xs text-fg-secondary">
                     {invoice.issueDate ? formatDate(invoice.issueDate) : '—'}
                     {invoice.dueDate && <> • Due {formatDate(invoice.dueDate)}</>}
                   </p>
@@ -122,7 +122,7 @@ export function ClientBillingView({
 
                 {/* Amount */}
                 <div className="text-right flex-shrink-0">
-                  <p className="text-lg font-semibold text-neutral-900">
+                  <p className="text-lg font-semibold text-fg">
                     {formatCurrency(invoice.amount, invoice.currency)}
                   </p>
                 </div>
@@ -130,10 +130,10 @@ export function ClientBillingView({
                 {/* Actions */}
                 {demo && (
                 <div className="flex gap-1 flex-shrink-0">
-                  <button className="p-2 text-neutral-500 hover:bg-neutral-100 hover:text-neutral-900 rounded-sm transition-colors" title="View">
+                  <button className="p-2 text-fg-tertiary hover:bg-white/[0.05] hover:text-fg rounded-sm transition-colors" title="View">
                     <Eye size={17} />
                   </button>
-                  <button className="p-2 text-neutral-500 hover:bg-neutral-100 hover:text-neutral-900 rounded-sm transition-colors" title="Download">
+                  <button className="p-2 text-fg-tertiary hover:bg-white/[0.05] hover:text-fg rounded-sm transition-colors" title="Download">
                     <Download size={17} />
                   </button>
                 </div>
@@ -150,10 +150,10 @@ export function ClientBillingView({
       {/* Payment Methods */}
       {demo && (
       <Card className="p-6">
-        <h3 className="text-lg font-semibold text-neutral-900 mb-4">
+        <h3 className="text-lg font-semibold text-fg mb-4">
           Payment Methods
         </h3>
-        <p className="text-neutral-600 mb-4">
+        <p className="text-fg-secondary mb-4">
           Update your payment method or add a new one
         </p>
         <Button variant="secondary">Manage Payment Methods</Button>

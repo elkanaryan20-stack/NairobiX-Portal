@@ -8,9 +8,27 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // NairobiX design system — shared with www.nairobix.com.
+        // Near-black canvas with layered surfaces, hairline white borders.
+        canvas: '#030304',
+        surface: {
+          DEFAULT: '#0A0A0C',
+          2: '#0F0F12',
+          3: '#16171A',
+        },
+        line: {
+          DEFAULT: 'rgba(255, 255, 255, 0.10)',
+          strong: 'rgba(255, 255, 255, 0.18)',
+        },
+        fg: {
+          DEFAULT: '#F5F5F5',
+          secondary: 'rgba(226, 232, 240, 0.82)',
+          tertiary: 'rgba(148, 163, 184, 0.85)',
+        },
         // NairobiX Orange — used selectively as the accent
         primary: {
           DEFAULT: '#F97316',
+          strong: '#EA6A16',
           50: '#FFF7ED',
           100: '#FFEDD5',
           200: '#FED7AA',
@@ -47,6 +65,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
         serif: ['var(--font-serif)', 'ui-serif', 'Georgia', 'serif'],
       },
       fontSize: {
@@ -80,12 +99,15 @@ const config: Config = {
         glow: '0 0 0 1px rgba(249, 115, 22, 0.15), 0 8px 24px -8px rgba(249, 115, 22, 0.35)',
       },
       borderRadius: {
+        // Matches www.nairobix.com: small radii for controls, 16px for panels.
+        card: '16px',
         xs: '0.25rem',
         sm: '0.375rem',
-        base: '0.625rem',
-        md: '0.875rem',
-        lg: '1.25rem',
-        xl: '1.75rem',
+        base: '0.5rem',
+        md: '0.5rem',
+        lg: '0.625rem',
+        xl: '0.75rem',
+        '2xl': '1rem',
       },
       backgroundImage: {
         'grain': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E\")",

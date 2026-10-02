@@ -9,11 +9,11 @@ import { getInitials, formatDate } from '@/lib/utils';
 import type { StaffAccountRow, StaffParticipantRow } from '@/lib/portal-data/staff';
 
 function Chips({ values }: { values: string[] }) {
-  if (values.length === 0) return <p className="text-sm text-neutral-400">—</p>;
+  if (values.length === 0) return <p className="text-sm text-fg-tertiary">—</p>;
   return (
     <div className="flex flex-wrap gap-1.5">
       {values.map((value) => (
-        <span key={value} className="rounded-full bg-primary-50 px-2 py-0.5 text-[11px] font-medium text-primary-700">
+        <span key={value} className="rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-medium text-primary-400">
           {value}
         </span>
       ))}
@@ -80,39 +80,39 @@ export function StaffAccountsView({
                   className="flex w-full items-center justify-between gap-4 p-5 text-left"
                 >
                   <div className="flex min-w-0 items-center gap-3">
-                    <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 text-sm font-semibold text-neutral-600">
+                    <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-white/[0.05] text-sm font-semibold text-fg-secondary">
                       {getInitials(client.name)}
                     </div>
                     <div className="min-w-0">
-                      <h3 className="truncate font-semibold text-neutral-900">{client.name}</h3>
-                      <p className="text-sm text-neutral-500">
+                      <h3 className="truncate font-semibold text-fg">{client.name}</h3>
+                      <p className="text-sm text-fg-tertiary">
                         {[client.industry, client.location].filter(Boolean).join(' · ') || '—'}
                       </p>
                     </div>
                   </div>
                   <div className="flex flex-shrink-0 items-center gap-4">
                     <div className="hidden text-right sm:block">
-                      <p className="text-xs font-medium uppercase tracking-wide text-neutral-400">Active Engagements</p>
-                      <p className="text-lg font-semibold text-neutral-900">{client.activeEngagements}</p>
+                      <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Active Engagements</p>
+                      <p className="text-lg font-semibold text-fg">{client.activeEngagements}</p>
                     </div>
                     {client.status && <StatusBadge status={statusKey(client.status)} />}
-                    {isExpanded ? <ChevronDown size={18} className="text-neutral-400" /> : <ChevronRight size={18} className="text-neutral-400" />}
+                    {isExpanded ? <ChevronDown size={18} className="text-fg-tertiary" /> : <ChevronRight size={18} className="text-fg-tertiary" />}
                   </div>
                 </button>
 
                 {isExpanded && (
-                  <div className="grid grid-cols-1 gap-4 border-t border-neutral-100 p-5 pt-4 text-sm sm:grid-cols-3">
+                  <div className="grid grid-cols-1 gap-4 border-t border-line p-5 pt-4 text-sm sm:grid-cols-3">
                     <div>
-                      <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">Phone</p>
-                      <p className="mt-1 text-neutral-900">{client.phone ?? '—'}</p>
+                      <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Phone</p>
+                      <p className="mt-1 text-fg">{client.phone ?? '—'}</p>
                     </div>
                     <div>
-                      <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">Client since</p>
-                      <p className="mt-1 text-neutral-900">{client.clientSince ? formatDate(client.clientSince) : '—'}</p>
+                      <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Client since</p>
+                      <p className="mt-1 text-fg">{client.clientSince ? formatDate(client.clientSince) : '—'}</p>
                     </div>
                     <div>
-                      <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">CRM Account</p>
-                      <p className="mt-1 font-mono text-xs text-neutral-500">{client.id}</p>
+                      <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">CRM Account</p>
+                      <p className="mt-1 font-mono text-xs text-fg-tertiary">{client.id}</p>
                     </div>
                   </div>
                 )}
@@ -136,39 +136,39 @@ export function StaffAccountsView({
                   className="flex w-full items-center justify-between gap-4 p-5 text-left"
                 >
                   <div className="flex min-w-0 items-center gap-3">
-                    <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 text-sm font-semibold text-neutral-600">
+                    <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-white/[0.05] text-sm font-semibold text-fg-secondary">
                       {getInitials(participant.name)}
                     </div>
                     <div className="min-w-0">
-                      <h3 className="truncate font-semibold text-neutral-900">{participant.name}</h3>
-                      <p className="text-sm text-neutral-500">{participant.participationTypes.join(' · ') || 'Opportunity Network Participant'}</p>
+                      <h3 className="truncate font-semibold text-fg">{participant.name}</h3>
+                      <p className="text-sm text-fg-tertiary">{participant.participationTypes.join(' · ') || 'Opportunity Network Participant'}</p>
                     </div>
                   </div>
                   <div className="flex flex-shrink-0 items-center gap-4">
                     {participant.participantStatus && <StatusBadge status={statusKey(participant.participantStatus)} />}
-                    {isExpanded ? <ChevronDown size={18} className="text-neutral-400" /> : <ChevronRight size={18} className="text-neutral-400" />}
+                    {isExpanded ? <ChevronDown size={18} className="text-fg-tertiary" /> : <ChevronRight size={18} className="text-fg-tertiary" />}
                   </div>
                 </button>
 
                 {isExpanded && (
-                  <div className="space-y-4 border-t border-neutral-100 p-5 pt-4">
+                  <div className="space-y-4 border-t border-line p-5 pt-4">
                     <div className="grid grid-cols-1 gap-4 text-sm sm:grid-cols-3">
                       <div>
-                        <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">Contact</p>
-                        <p className="mt-1 text-neutral-900">{participant.email ?? '—'}</p>
-                        {participant.participantNumber && <p className="font-mono text-xs text-neutral-400">{participant.participantNumber}</p>}
+                        <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Contact</p>
+                        <p className="mt-1 text-fg">{participant.email ?? '—'}</p>
+                        {participant.participantNumber && <p className="font-mono text-xs text-fg-tertiary">{participant.participantNumber}</p>}
                       </div>
                       <div>
-                        <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">Joined</p>
-                        <p className="mt-1 text-neutral-900">{participant.joined ? formatDate(participant.joined) : '—'}</p>
+                        <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Joined</p>
+                        <p className="mt-1 text-fg">{participant.joined ? formatDate(participant.joined) : '—'}</p>
                       </div>
                       <div>
-                        <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">Portal access</p>
-                        <p className="mt-1 text-neutral-900">{participant.portalAccessStatus ?? '—'}</p>
+                        <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Portal access</p>
+                        <p className="mt-1 text-fg">{participant.portalAccessStatus ?? '—'}</p>
                       </div>
                     </div>
                     <div>
-                      <p className="mb-2 text-xs font-medium uppercase tracking-wide text-neutral-500">Participation types</p>
+                      <p className="mb-2 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Participation types</p>
                       <Chips values={participant.participationTypes} />
                     </div>
                   </div>

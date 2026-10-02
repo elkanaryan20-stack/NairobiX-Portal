@@ -44,17 +44,17 @@ export function AccessState({ access }: { access: DeniedState }) {
     <GatewayFrame>
       <div className="w-full">
         <GatewayCard>
-          <span className="mb-6 flex h-11 w-11 items-center justify-center rounded-full border border-primary/30 bg-primary/10 text-primary-400">
+          <span className="mb-6 flex h-11 w-11 items-center justify-center rounded-full border border-primary/30 bg-primary/10 text-primary">
             {copy.icon}
           </span>
-          <h1 className="mb-3 font-serif text-3xl font-medium tracking-tight text-white">{copy.title}</h1>
-          <p className="mb-3 text-sm leading-relaxed text-neutral-300">{copy.body}</p>
-          <p className="mb-8 text-sm leading-relaxed text-neutral-500">{copy.hint}</p>
+          <h1 className="mb-3 font-serif text-3xl font-medium tracking-tight text-fg">{copy.title}</h1>
+          <p className="mb-3 text-sm leading-relaxed text-fg-secondary">{copy.body}</p>
+          <p className="mb-8 text-sm leading-relaxed text-fg-tertiary">{copy.hint}</p>
 
-          <div className="flex flex-col gap-3 sm:flex-row">
+          <div className="flex flex-col gap-3">
             <a
               href={`mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent('NairobiX Portal access')}`}
-              className="inline-flex flex-1 items-center justify-center gap-2 rounded-sm bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900"
+              className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-semibold text-canvas transition-colors hover:bg-primary-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
             >
               <Mail className="h-4 w-4" />
               Contact NairobiX
@@ -62,7 +62,7 @@ export function AccessState({ access }: { access: DeniedState }) {
             <form action={signOut} className="flex-1">
               <button
                 type="submit"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-sm border border-white/15 px-4 py-2.5 text-sm font-medium text-neutral-200 transition-colors hover:border-white/30 hover:bg-white/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-medium text-fg transition-colors hover:border-white/30 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
               >
                 <LogOut className="h-4 w-4" />
                 Use another account
@@ -70,8 +70,8 @@ export function AccessState({ access }: { access: DeniedState }) {
             </form>
           </div>
 
-          <p className="mt-7 border-t border-white/10 pt-5 text-xs text-neutral-500">
-            Signed in as <span className="text-neutral-300">{access.email}</span>
+          <p className="mt-7 border-t border-line pt-5 text-xs text-fg-tertiary">
+            Signed in as <span className="text-fg-secondary">{access.email}</span>
           </p>
         </GatewayCard>
       </div>

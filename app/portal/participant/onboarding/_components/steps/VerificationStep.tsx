@@ -16,15 +16,15 @@ export function VerificationStep({ application, onContinue }: VerificationStepPr
   return (
     <Card className="p-6">
       <div className="mb-6 flex items-start gap-3">
-        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 text-neutral-500">
+        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white/[0.05] text-fg-tertiary">
           <ShieldCheck size={18} />
         </div>
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <h3 className="text-lg font-semibold text-neutral-900">Verification</h3>
+            <h3 className="text-lg font-semibold text-fg">Verification</h3>
             <StatusBadge status={verificationStatus} />
           </div>
-          <p className="text-sm text-neutral-500">
+          <p className="text-sm text-fg-tertiary">
             NairobiX staff verify your documents before your assessment is reviewed.
           </p>
         </div>
@@ -59,8 +59,8 @@ export function VerificationStep({ application, onContinue }: VerificationStepPr
         />
       )}
 
-      <div className="mt-6 flex items-center justify-between border-t border-neutral-100 pt-5">
-        <p className="flex items-center gap-1.5 text-xs text-neutral-400">
+      <div className="mt-6 flex items-center justify-between border-t border-line pt-5">
+        <p className="flex items-center gap-1.5 text-xs text-fg-tertiary">
           <Clock size={13} /> Verification is handled by NairobiX staff and updates automatically
         </p>
         <Button variant="primary" onClick={onContinue}>

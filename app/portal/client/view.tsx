@@ -62,7 +62,7 @@ export function ClientOverviewView({ profile, projects, invoices, serviceRequest
       <div className="mb-8">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h3 className="mb-2 text-3xl font-semibold text-neutral-900">Good morning, {firstName}.</h3>
+            <h3 className="mb-2 text-3xl font-semibold text-fg">Good morning, {firstName}.</h3>
             <div className="flex flex-col gap-2 md:flex-row md:items-center">
               <h4 className="text-xl font-semibold text-primary">{profile.businessName}</h4>
               <Badge variant="success">Client &middot; Active</Badge>
@@ -78,17 +78,17 @@ export function ClientOverviewView({ profile, projects, invoices, serviceRequest
 
       {/* Growth Pulse — how are we doing */}
       {unsourced.growthPulse && (
-      <Card className="mb-8 border-emerald-200 bg-emerald-50/60 p-6">
+      <Card className="mb-8 border-emerald-500/20 bg-emerald-500/[0.06] p-6">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h3 className="mb-2 text-lg font-semibold text-neutral-900">Growth Pulse</h3>
+            <h3 className="mb-2 text-lg font-semibold text-fg">Growth Pulse</h3>
             <div className="mb-2 flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-emerald-500" />
-              <p className="text-xl font-semibold text-emerald-700">On Track</p>
+              <p className="text-xl font-semibold text-emerald-400">On Track</p>
             </div>
-            <p className="text-neutral-700">{unsourced.growthPulse}</p>
+            <p className="text-fg-secondary">{unsourced.growthPulse}</p>
           </div>
-          <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+          <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-400">
             <CheckCircle2 size={22} />
           </div>
         </div>
@@ -97,7 +97,7 @@ export function ClientOverviewView({ profile, projects, invoices, serviceRequest
 
       {/* KPIs */}
       <div className="mb-8">
-        <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-neutral-500">Growth Snapshot</h3>
+        <h3 className="mb-4 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">Growth Snapshot</h3>
         {unsourced.metrics.length === 0 ? (
           <NotYetAvailable compact title="Growth metrics not yet available" description="Performance metrics will appear here once NairobiX publishes them to your Portal." />
         ) : (
@@ -118,24 +118,24 @@ export function ClientOverviewView({ profile, projects, invoices, serviceRequest
       <div className="mb-8 grid grid-cols-1 gap-8 lg:grid-cols-3">
         {/* What's active */}
         <div className="lg:col-span-2">
-          <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-neutral-500">What&apos;s Active</h3>
+          <h3 className="mb-4 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">What&apos;s Active</h3>
           <div className="space-y-3">
             {activeProjects.length === 0 && (
-              <Card className="p-5 text-center text-sm text-neutral-500">No active engagements right now.</Card>
+              <Card className="p-5 text-center text-sm text-fg-tertiary">No active engagements right now.</Card>
             )}
             {activeProjects.slice(0, 2).map((project) => (
               <Card key={project.id} className="p-4">
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0 flex-1">
                     <div className="mb-2 flex items-center gap-2">
-                      <h4 className="truncate font-semibold text-neutral-900">{project.name}</h4>
+                      <h4 className="truncate font-semibold text-fg">{project.name}</h4>
                       <StatusBadge status={project.status} />
                     </div>
-                    <p className="mb-3 text-sm text-neutral-600">{truncateText(project.description, 80)}</p>
+                    <p className="mb-3 text-sm text-fg-secondary">{truncateText(project.description, 80)}</p>
                     {project.progress !== undefined && (
                       <div className="space-y-2">
                         <ProgressBar value={project.progress} showLabel={false} size="sm" />
-                        <p className="text-xs text-neutral-500">{project.progress}% complete</p>
+                        <p className="text-xs text-fg-tertiary">{project.progress}% complete</p>
                       </div>
                     )}
                   </div>
@@ -152,28 +152,28 @@ export function ClientOverviewView({ profile, projects, invoices, serviceRequest
 
         {/* Current Growth Phase */}
         <div>
-          <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-neutral-500">Current Phase</h3>
+          <h3 className="mb-4 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">Current Phase</h3>
           {unsourced.growthPhases.length === 0 ? (
             <NotYetAvailable compact title="Growth journey not yet available" description="Your growth phases will appear here once NairobiX publishes them." />
           ) : (
           <Card className="p-4">
             <h4 className="mb-2 text-lg font-semibold text-primary">{currentPhase?.name}</h4>
-            <p className="mb-4 text-sm text-neutral-600">{currentPhase?.objective}</p>
+            <p className="mb-4 text-sm text-fg-secondary">{currentPhase?.objective}</p>
             <div className="mb-4 space-y-2">
               {unsourced.growthPhases.map((phase) => (
                 <div key={phase.id} className="flex items-center gap-2">
                   <div
                     className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold ${
                       phase.status === 'completed'
-                        ? 'bg-emerald-100 text-emerald-700'
+                        ? 'bg-emerald-500/15 text-emerald-400'
                         : phase.status === 'current'
-                        ? 'bg-primary-100 text-primary-700'
-                        : 'bg-neutral-100 text-neutral-400'
+                        ? 'bg-primary/15 text-primary-400'
+                        : 'bg-white/[0.05] text-fg-tertiary'
                     }`}
                   >
                     {phase.status === 'completed' ? <CheckCircle2 size={11} /> : phase.status === 'current' ? '●' : '○'}
                   </div>
-                  <span className={phase.status === 'current' ? 'text-sm font-semibold text-primary' : 'text-sm text-neutral-500'}>
+                  <span className={phase.status === 'current' ? 'text-sm font-semibold text-primary' : 'text-sm text-fg-tertiary'}>
                     {phase.name}
                   </span>
                 </div>
@@ -192,7 +192,7 @@ export function ClientOverviewView({ profile, projects, invoices, serviceRequest
       <div className="mb-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
         {/* What needs attention */}
         <div>
-          <h3 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-neutral-500">
+          <h3 className="mb-4 flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">
             <AlertTriangle size={14} className="text-amber-500" /> Needs Attention
           </h3>
           {attentionItems.length > 0 ? (
@@ -201,35 +201,35 @@ export function ClientOverviewView({ profile, projects, invoices, serviceRequest
                 <Link key={i} href={item.href}>
                   <Card hover className="flex items-center justify-between gap-3 p-3.5">
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-medium text-neutral-900">{item.label}</p>
-                      <p className="text-xs text-neutral-500">{item.meta}</p>
+                      <p className="truncate text-sm font-medium text-fg">{item.label}</p>
+                      <p className="text-xs text-fg-tertiary">{item.meta}</p>
                     </div>
-                    <ChevronRight size={16} className="flex-shrink-0 text-neutral-300" />
+                    <ChevronRight size={16} className="flex-shrink-0 text-white/25" />
                   </Card>
                 </Link>
               ))}
             </div>
           ) : (
-            <Card className="p-5 text-center text-sm text-neutral-500">Nothing needs your attention right now.</Card>
+            <Card className="p-5 text-center text-sm text-fg-tertiary">Nothing needs your attention right now.</Card>
           )}
         </div>
 
         {/* What's next */}
         <div>
-          <h3 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-neutral-500">
-            <Clock3 size={14} className="text-neutral-400" /> What&apos;s Next
+          <h3 className="mb-4 flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">
+            <Clock3 size={14} className="text-fg-tertiary" /> What&apos;s Next
           </h3>
           <div className="space-y-2.5">
             {upcoming.length === 0 && (
-              <Card className="p-5 text-center text-sm text-neutral-500">Nothing scheduled right now.</Card>
+              <Card className="p-5 text-center text-sm text-fg-tertiary">Nothing scheduled right now.</Card>
             )}
             {upcoming.map((item, i) => {
               const days = daysUntil(item.date);
               return (
                 <Link key={i} href={item.href}>
                   <Card hover className="flex items-center justify-between gap-3 p-3.5">
-                    <p className="truncate text-sm font-medium text-neutral-900">{item.label}</p>
-                    <p className="flex-shrink-0 text-xs text-neutral-500">
+                    <p className="truncate text-sm font-medium text-fg">{item.label}</p>
+                    <p className="flex-shrink-0 text-xs text-fg-tertiary">
                       {days < 0 ? 'Overdue' : days === 0 ? 'Today' : `${days}d · ${formatDate(item.date)}`}
                     </p>
                   </Card>
@@ -243,27 +243,27 @@ export function ClientOverviewView({ profile, projects, invoices, serviceRequest
       {/* Latest Growth Insight — what happened */}
       {growthInsights.length > 0 && (
         <div className="mb-8">
-          <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-neutral-500">Latest Growth Insight</h3>
-          <Card className="border-blue-200 bg-blue-50/60 p-6">
+          <h3 className="mb-4 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">Latest Growth Insight</h3>
+          <Card className="border-blue-500/20 bg-blue-500/[0.06] p-6">
             <div className="flex items-start gap-4">
-              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-blue-500/15 text-blue-400">
                 <Lightbulb size={19} />
               </div>
               <div className="flex-1">
-                <h4 className="mb-2 text-lg font-semibold text-neutral-900">{growthInsights[0].title}</h4>
-                <p className="mb-4 text-neutral-700">{growthInsights[0].summary}</p>
+                <h4 className="mb-2 text-lg font-semibold text-fg">{growthInsights[0].title}</h4>
+                <p className="mb-4 text-fg-secondary">{growthInsights[0].summary}</p>
                 <div className="mb-4 grid gap-4 md:grid-cols-2">
-                  <div className="rounded-sm bg-white/60 p-3">
-                    <p className="mb-1 text-xs font-medium text-neutral-500">Why it matters</p>
-                    <p className="text-sm text-neutral-900">{truncateText(growthInsights[0].whyItMatters, 100)}</p>
+                  <div className="rounded-sm bg-white/[0.04] p-3">
+                    <p className="mb-1 text-xs font-medium text-fg-tertiary">Why it matters</p>
+                    <p className="text-sm text-fg">{truncateText(growthInsights[0].whyItMatters, 100)}</p>
                   </div>
-                  <div className="rounded-sm bg-white/60 p-3">
-                    <p className="mb-1 text-xs font-medium text-neutral-500">Recommendation</p>
-                    <p className="text-sm text-neutral-900">{truncateText(growthInsights[0].recommendation, 100)}</p>
+                  <div className="rounded-sm bg-white/[0.04] p-3">
+                    <p className="mb-1 text-xs font-medium text-fg-tertiary">Recommendation</p>
+                    <p className="text-sm text-fg">{truncateText(growthInsights[0].recommendation, 100)}</p>
                   </div>
                 </div>
                 <Link href="/portal/client/insights">
-                  <button className="flex items-center gap-1 text-sm font-medium text-blue-700 hover:underline">
+                  <button className="flex items-center gap-1 text-sm font-medium text-blue-400 hover:underline">
                     Explore all insights <ArrowRight size={16} />
                   </button>
                 </Link>
@@ -283,11 +283,11 @@ export function ClientOverviewView({ profile, projects, invoices, serviceRequest
         ].map((action) => (
           <Link key={action.href} href={action.href}>
             <Card hover className="relative flex h-full flex-col items-center gap-2.5 p-5 text-center">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100 text-neutral-500 [&>svg]:h-[18px] [&>svg]:w-[18px]">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/[0.05] text-fg-tertiary [&>svg]:h-[18px] [&>svg]:w-[18px]">
                 {action.icon}
               </div>
-              <h4 className="font-semibold text-neutral-900">{action.label}</h4>
-              <p className="text-xs text-neutral-500">{action.stat}</p>
+              <h4 className="font-semibold text-fg">{action.label}</h4>
+              <p className="text-xs text-fg-tertiary">{action.stat}</p>
             </Card>
           </Link>
         ))}

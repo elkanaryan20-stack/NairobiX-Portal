@@ -33,32 +33,34 @@ function groupNavigation(navigation: NavigationItem[]) {
 
 function NavLink({ item, onClick }: { item: NavigationItem; onClick?: () => void }) {
   const pathname = usePathname();
-  const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+  // A context's Overview (e.g. /portal/client) is a prefix of every page in it, so it only matches exactly.
+  const isContextRoot = item.href.split('/').length <= 3;
+  const isActive = pathname === item.href || (!isContextRoot && pathname.startsWith(item.href + '/'));
 
   return (
     <Link href={item.href} onClick={onClick}>
       <span
         className={cn(
-          'group relative flex w-full items-center gap-3 rounded-sm px-3 py-2.5 text-sm font-medium transition-colors',
+          'group relative flex w-full items-center gap-3 rounded-sm px-3 py-2 text-sm font-medium transition-colors',
           isActive
-            ? 'bg-primary-50 text-primary-700'
-            : 'text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900'
+            ? 'bg-white/[0.05] text-fg'
+            : 'text-fg-secondary hover:bg-white/[0.03] hover:text-fg'
         )}
       >
         {isActive && (
-          <span className="absolute left-0 top-1/2 h-4 w-0.5 -translate-y-1/2 rounded-full bg-primary" />
+          <span className="absolute -left-3 top-1/2 h-5 w-px -translate-y-1/2 bg-primary" />
         )}
         <span
           className={cn(
             'flex h-5 w-5 flex-shrink-0 items-center justify-center [&>svg]:h-[18px] [&>svg]:w-[18px]',
-            isActive ? 'text-primary' : 'text-neutral-400 group-hover:text-neutral-600'
+            isActive ? 'text-primary' : 'text-fg-tertiary group-hover:text-fg-secondary'
           )}
         >
           {item.icon}
         </span>
         <span className="flex-1 text-left truncate">{item.label}</span>
         {!!item.badge && (
-          <span className="rounded-full bg-primary-100 px-1.5 py-0.5 text-[11px] font-semibold leading-none text-primary-700">
+          <span className="rounded-full border border-primary/25 bg-primary/10 px-1.5 py-0.5 font-mono text-[10px] font-medium leading-none text-primary-300">
             {item.badge}
           </span>
         )}
@@ -80,22 +82,25 @@ function SidebarContent({
   const groups = groupNavigation(navigation);
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full w-full flex-col">
       {/* Logo */}
-      <div className="mb-2 px-5 pt-6">
+      <div className="border-b border-line px-6 pb-5 pt-6">
         <div className="flex items-center gap-2">
           <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-          <span className="text-sm font-semibold tracking-wide text-neutral-900">NairobiX</span>
+          <span className="text-[15px] font-semibold tracking-tight text-fg">NairobiX</span>
+          <span className="ml-auto rounded-full border border-line px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-fg-tertiary">
+            Portal
+          </span>
         </div>
-        <p className="mt-1 truncate text-xs text-neutral-500">{contextLabel}</p>
+        <p className="mt-3 truncate font-mono text-[10px] uppercase tracking-[0.18em] text-fg-tertiary">{contextLabel}</p>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 space-y-5 overflow-y-auto px-3 py-4">
+      <nav className="flex-1 space-y-6 overflow-y-auto px-3 py-5">
         {groups.map((group, i) => (
           <div key={i}>
             {group.section && (
-              <p className="mb-1.5 px-3 text-[11px] font-semibold uppercase tracking-wider text-neutral-400">
+              <p className="mb-2 px-3 font-mono text-[10px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">
                 {group.section}
               </p>
             )}
@@ -109,30 +114,30 @@ function SidebarContent({
       </nav>
 
       {/* Divider */}
-      <div className="mx-3 h-px bg-neutral-200" />
+      <div className="h-px bg-line" />
 
       {/* User Profile */}
       <div className="p-3">
         <div className="relative">
           <button
             onClick={() => setShowUserMenu(!showUserMenu)}
-            className="flex w-full items-center gap-3 rounded-sm px-3 py-2.5 text-left transition-colors hover:bg-neutral-100"
+            className="flex w-full items-center gap-3 rounded-sm px-3 py-2.5 text-left transition-colors hover:bg-white/[0.03]"
           >
-            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-ink-900 text-xs font-semibold text-white">
+            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-line bg-surface-3 text-xs font-semibold text-fg">
               {userInitials}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-medium text-neutral-900">{userName}</p>
-              <p className="truncate text-xs text-neutral-500">{userEmail}</p>
+              <p className="truncate text-sm font-medium text-fg">{userName}</p>
+              <p className="truncate text-xs text-fg-tertiary">{userEmail}</p>
             </div>
-            <ChevronDown size={14} className="flex-shrink-0 text-neutral-400" />
+            <ChevronDown size={14} className="flex-shrink-0 text-fg-tertiary" />
           </button>
 
           {showUserMenu && (
-            <div className="absolute bottom-full left-0 right-0 mb-2 overflow-hidden rounded-sm border border-neutral-200 bg-white shadow-lg">
+            <div className="absolute bottom-full left-0 right-0 mb-2 overflow-hidden rounded-lg border border-line-strong bg-surface-2">
               {settingsHref && (
                 <Link href={settingsHref} onClick={onNavigate}>
-                  <span className="flex w-full items-center gap-2 border-b border-neutral-100 px-4 py-2.5 text-left text-sm text-neutral-700 transition-colors hover:bg-neutral-50">
+                  <span className="flex w-full items-center gap-2 border-b border-line px-4 py-2.5 text-left text-sm text-fg-secondary transition-colors hover:bg-white/[0.04] hover:text-fg">
                     <Settings size={15} />
                     Settings
                   </span>
@@ -141,7 +146,7 @@ function SidebarContent({
               <form action={signOut}>
                 <button
                   type="submit"
-                  className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm text-neutral-700 transition-colors hover:bg-neutral-50"
+                  className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm text-fg-secondary transition-colors hover:bg-white/[0.04] hover:text-fg"
                 >
                   <LogOut size={15} />
                   Sign out
@@ -167,22 +172,22 @@ export function Sidebar(props: Omit<SidebarProps, 'notifications' | 'onNotificat
   return (
     <>
       {/* Mobile top bar */}
-      <div className="fixed left-0 right-0 top-0 z-40 flex items-center justify-between border-b border-neutral-200 bg-white/90 px-4 py-3.5 backdrop-blur-sm md:hidden">
+      <div className="fixed left-0 right-0 top-0 z-40 flex items-center justify-between border-b border-line bg-canvas/80 px-4 py-3.5 backdrop-blur-xl md:hidden">
         <div className="flex items-center gap-2">
           <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-          <span className="text-sm font-semibold text-neutral-900">NairobiX</span>
+          <span className="text-sm font-semibold text-fg">NairobiX</span>
         </div>
         <button
           onClick={() => setIsOpen(true)}
           aria-label="Open navigation menu"
-          className="rounded-sm p-1.5 text-neutral-600 hover:bg-neutral-100"
+          className="rounded-full border border-line p-1.5 text-fg-secondary hover:border-line-strong hover:text-fg"
         >
           <Menu size={22} />
         </button>
       </div>
 
       {/* Desktop / tablet persistent sidebar */}
-      <aside className="hidden w-64 flex-shrink-0 border-r border-neutral-200 bg-white md:flex">
+      <aside className="hidden w-64 flex-shrink-0 border-r border-line bg-canvas md:flex">
         <SidebarContent {...props} />
       </aside>
 
@@ -196,21 +201,21 @@ export function Sidebar(props: Omit<SidebarProps, 'notifications' | 'onNotificat
       >
         <div
           className={cn(
-            'absolute inset-0 bg-ink-950/50 backdrop-blur-[2px] transition-opacity duration-300',
+            'absolute inset-0 bg-black/70 transition-opacity duration-300',
             isOpen ? 'opacity-100' : 'opacity-0'
           )}
           onClick={() => setIsOpen(false)}
         />
         <div
           className={cn(
-            'absolute left-0 top-0 h-full w-[82%] max-w-xs bg-white shadow-xl transition-transform duration-300 ease-smooth',
+            'absolute left-0 top-0 h-full w-[82%] max-w-xs border-r border-line bg-canvas transition-transform duration-300 ease-smooth',
             isOpen ? 'translate-x-0' : '-translate-x-full'
           )}
         >
           <button
             onClick={() => setIsOpen(false)}
             aria-label="Close navigation menu"
-            className="absolute right-3 top-4 rounded-sm p-1.5 text-neutral-500 hover:bg-neutral-100"
+            className="absolute right-3 top-4 rounded-sm p-1.5 text-fg-tertiary hover:bg-white/[0.05]"
           >
             <X size={20} />
           </button>
@@ -239,13 +244,13 @@ export function Header({
   const unreadNotifications = notifications.filter((n) => !n.read).length;
 
   return (
-    <header className="sticky top-0 z-20 border-b border-neutral-200 bg-white/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-20 border-b border-line bg-canvas/80 backdrop-blur-xl">
       <div className="flex items-center justify-between gap-4 px-5 pb-5 pt-[4.5rem] md:px-8 md:py-5">
         <div className="min-w-0">
-          <h2 className="truncate font-serif text-2xl font-medium text-neutral-900 md:text-[28px]">
+          <h2 className="truncate font-serif text-2xl font-medium tracking-tight text-fg md:text-[28px]">
             {title}
           </h2>
-          {subtitle && <p className="mt-1 truncate text-sm text-neutral-500">{subtitle}</p>}
+          {subtitle && <p className="mt-1 truncate text-sm text-fg-tertiary">{subtitle}</p>}
         </div>
 
         <div className="flex flex-shrink-0 items-center gap-3 md:gap-5">
@@ -255,11 +260,11 @@ export function Header({
             <Link
               href={notificationsHref}
               aria-label="Notifications"
-              className="relative rounded-sm p-2 text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900"
+              className="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-line bg-white/5 text-fg-secondary transition-colors hover:border-primary/50 hover:text-fg"
             >
-              <Bell size={19} />
+              <Bell size={17} />
               {unreadNotifications > 0 && (
-                <span className="absolute right-1.5 top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-primary text-[9px] font-bold text-white ring-2 ring-white">
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[9px] font-bold text-canvas ring-2 ring-canvas">
                   {unreadNotifications > 9 ? '9+' : unreadNotifications}
                 </span>
               )}
@@ -301,7 +306,7 @@ export function PageLayout({
   userInitials,
 }: PageLayoutProps) {
   return (
-    <div className="flex h-screen bg-neutral-50">
+    <div className="flex h-screen bg-canvas">
       <Sidebar
         contextLabel={contextLabel}
         navigation={navigation}

@@ -36,10 +36,10 @@ function DeliveryJourney() {
 
   return (
     <Card className="mb-8 p-6">
-      <h3 className="mb-1 text-sm font-semibold uppercase tracking-wide text-neutral-500">
+      <h3 className="mb-1 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">
         Delivery Journey
       </h3>
-      <p className="mb-5 text-sm text-neutral-500">
+      <p className="mb-5 text-sm text-fg-tertiary">
         How a referral becomes delivered client work.
       </p>
       <div className="flex items-center overflow-x-auto pb-1">
@@ -49,23 +49,23 @@ function DeliveryJourney() {
               {i < activeIndex ? (
                 <CheckCircle2 size={18} className="text-emerald-500" />
               ) : i === activeIndex ? (
-                <span className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-primary-100 ring-2 ring-primary">
+                <span className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-primary/15 ring-2 ring-primary">
                   <span className="h-1.5 w-1.5 rounded-full bg-primary" />
                 </span>
               ) : (
-                <Circle size={18} className="text-neutral-300" />
+                <Circle size={18} className="text-white/25" />
               )}
               <span
                 className={cn(
                   'whitespace-nowrap text-[11px] font-medium',
-                  i <= activeIndex ? 'text-neutral-700' : 'text-neutral-400'
+                  i <= activeIndex ? 'text-fg-secondary' : 'text-fg-tertiary'
                 )}
               >
                 {stage.label}
               </span>
             </div>
             {i < DELIVERY_STAGES.length - 1 && (
-              <div className={cn('mx-1.5 h-px w-8', i < activeIndex ? 'bg-emerald-300' : 'bg-neutral-200')} />
+              <div className={cn('mx-1.5 h-px w-8', i < activeIndex ? 'bg-emerald-300' : 'bg-white/10')} />
             )}
           </div>
         ))}
@@ -135,11 +135,11 @@ export function ParticipantWorkView({ demo }: { demo: ParticipantDemoModules }) 
             <Card key={p.id} className="p-5">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <h4 className="font-semibold text-neutral-900">{p.projectName}</h4>
-                  <p className="mt-1 flex items-center gap-1.5 text-sm text-neutral-500">
+                  <h4 className="font-semibold text-fg">{p.projectName}</h4>
+                  <p className="mt-1 flex items-center gap-1.5 text-sm text-fg-tertiary">
                     <Building2 size={13} /> {p.clientName}
                   </p>
-                  <p className="mt-1 text-xs text-neutral-500">
+                  <p className="mt-1 text-xs text-fg-tertiary">
                     {p.role} &middot; since {formatDate(p.startDate)}
                   </p>
                 </div>
@@ -156,8 +156,8 @@ export function ParticipantWorkView({ demo }: { demo: ParticipantDemoModules }) 
             <Card key={t.id} className="p-4">
               <div className="flex items-center justify-between gap-4">
                 <div className="min-w-0 flex-1">
-                  <h4 className="font-medium text-neutral-900">{t.title}</h4>
-                  <p className="mt-1 text-xs text-neutral-500">
+                  <h4 className="font-medium text-fg">{t.title}</h4>
+                  <p className="mt-1 text-xs text-fg-tertiary">
                     {t.projectName ? `${t.projectName} · ` : ''}Due {formatDate(t.dueDate)}
                   </p>
                 </div>
@@ -183,16 +183,16 @@ export function ParticipantWorkView({ demo }: { demo: ParticipantDemoModules }) 
             <Card key={c.id} className="p-5">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <h4 className="font-semibold text-neutral-900">{c.topic}</h4>
+                  <h4 className="font-semibold text-fg">{c.topic}</h4>
                   {c.clientName && (
-                    <p className="mt-1 flex items-center gap-1.5 text-sm text-neutral-500">
+                    <p className="mt-1 flex items-center gap-1.5 text-sm text-fg-tertiary">
                       <Building2 size={13} /> {c.clientName}
                     </p>
                   )}
-                  <p className="mt-1 flex items-center gap-1.5 text-xs text-neutral-500">
+                  <p className="mt-1 flex items-center gap-1.5 text-xs text-fg-tertiary">
                     <CalendarDays size={13} /> {formatDate(c.scheduledDate)}
                   </p>
-                  {c.notes && <p className="mt-2 text-sm text-neutral-600">{c.notes}</p>}
+                  {c.notes && <p className="mt-2 text-sm text-fg-secondary">{c.notes}</p>}
                 </div>
                 <StatusBadge status={c.status} />
               </div>
@@ -207,11 +207,11 @@ export function ParticipantWorkView({ demo }: { demo: ParticipantDemoModules }) 
             <Card key={d.id} className="p-5">
               <div className="flex items-start justify-between gap-4">
                 <div className="min-w-0 flex-1">
-                  <h4 className="flex items-center gap-2 font-semibold text-neutral-900">
-                    <FileText size={15} className="flex-shrink-0 text-neutral-400" />
+                  <h4 className="flex items-center gap-2 font-semibold text-fg">
+                    <FileText size={15} className="flex-shrink-0 text-fg-tertiary" />
                     {d.title}
                   </h4>
-                  <p className="mt-1 text-xs text-neutral-500">
+                  <p className="mt-1 text-xs text-fg-tertiary">
                     {d.projectName ? `${d.projectName} · ` : ''}Due {formatDate(d.dueDate)}
                     {d.submittedDate ? ` · Submitted ${formatDate(d.submittedDate)}` : ''}
                   </p>

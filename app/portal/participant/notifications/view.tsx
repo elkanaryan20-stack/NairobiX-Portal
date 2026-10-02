@@ -68,23 +68,23 @@ export function ParticipantNotificationsView({ initialNotifications }: { initial
         {displayed.map((notification) => (
           <Card
             key={notification.id}
-            className={cn('p-4', !notification.read && 'border-primary-200 bg-primary-50/40')}
+            className={cn('p-4', !notification.read && 'border-primary/25 bg-primary/10')}
           >
             <div className="flex items-start gap-3.5">
-              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white text-neutral-500 shadow-xs [&>svg]:h-4 [&>svg]:w-4">
+              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-surface text-fg-tertiary [&>svg]:h-4 [&>svg]:w-4">
                 {typeIcon[notification.type] || <Inbox />}
               </div>
 
               <div className="min-w-0 flex-1">
                 <div className="mb-1 flex items-start justify-between gap-2">
-                  <h4 className="font-medium text-neutral-900">{notification.title}</h4>
+                  <h4 className="font-medium text-fg">{notification.title}</h4>
                   {!notification.read && <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary" />}
                 </div>
-                <p className="mb-2 text-sm text-neutral-600">{notification.message}</p>
+                <p className="mb-2 text-sm text-fg-secondary">{notification.message}</p>
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <Badge variant="neutral">{notification.type}</Badge>
-                    <p className="text-xs text-neutral-400">{formatRelativeTime(notification.date)}</p>
+                    <p className="text-xs text-fg-tertiary">{formatRelativeTime(notification.date)}</p>
                   </div>
                   {!notification.read && (
                     <button

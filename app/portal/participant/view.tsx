@@ -37,24 +37,24 @@ export function ParticipantOverviewView({
       pageSubtitle="Your Opportunity Network participation at a glance."
     >
       {/* Partner Profile Card */}
-      <Card className="mb-8 border-emerald-200 bg-emerald-50/60 p-6">
+      <Card className="mb-8 border-emerald-500/20 bg-emerald-500/[0.06] p-6">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="mb-1 text-xs font-medium uppercase tracking-wide text-neutral-500">
+            <p className="mb-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">
               Opportunity Network Participant
             </p>
-            <h3 className="text-2xl font-semibold text-neutral-900 mb-2">
+            <h3 className="text-2xl font-semibold text-fg mb-2">
               {profile.businessName ?? profile.name}
             </h3>
             {profile.participationTypes.length > 0 && (
-              <p className="text-neutral-600 mb-3">
+              <p className="text-fg-secondary mb-3">
                 {profile.participationTypes.join(' · ')}
                 {profile.industry ? <> &middot; {profile.industry}</> : null}
               </p>
             )}
             <Badge variant="success">Participant Status: {profile.participantStatus}</Badge>
           </div>
-          <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-white text-emerald-600 shadow-xs">
+          <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-surface text-emerald-400">
             <HeartHandshake size={20} />
           </div>
         </div>
@@ -73,7 +73,7 @@ export function ParticipantOverviewView({
       <>
       {/* Key Metrics */}
       <div className="mb-8">
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-neutral-500 mb-4">
+        <h3 className="font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary mb-4">
           Partnership Performance
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -104,29 +104,29 @@ export function ParticipantOverviewView({
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         {/* Recent Referrals */}
         <div>
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-neutral-500 mb-4">
+          <h3 className="font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary mb-4">
             Recent Referrals
           </h3>
           <div className="space-y-3">
             {referrals.slice(0, 3).map((referral) => (
               <Card key={referral.id} hover className="p-4">
                 <div className="flex items-start justify-between gap-2 mb-2">
-                  <h4 className="font-semibold text-neutral-900">
+                  <h4 className="font-semibold text-fg">
                     {referral.businessName}
                   </h4>
                   <StatusBadge status={referral.status} />
                 </div>
-                <p className="text-sm text-neutral-600 mb-2">
+                <p className="text-sm text-fg-secondary mb-2">
                   {referral.contactPerson} &middot; {referral.industry}
                 </p>
-                <div className="flex items-center justify-between text-xs text-neutral-500">
+                <div className="flex items-center justify-between text-xs text-fg-tertiary">
                   <span>
                     {referral.potentialValue
                       ? formatCurrency(referral.potentialValue)
                       : '—'}
                   </span>
                   {referral.commission && referral.commission.status === 'paid' && (
-                    <span className="text-emerald-600 font-medium">
+                    <span className="text-emerald-400 font-medium">
                       Commission: {formatCurrency(referral.commission.amount)}
                     </span>
                   )}
@@ -143,54 +143,54 @@ export function ParticipantOverviewView({
 
         {/* Commission Status */}
         <div>
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-neutral-500 mb-4">
+          <h3 className="font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary mb-4">
             Commission Status
           </h3>
           <div className="space-y-3">
-            <Card className="p-4 border-emerald-200 bg-emerald-50/60">
-              <p className="text-sm text-neutral-600 font-medium mb-1">
+            <Card className="p-4 border-emerald-500/20 bg-emerald-500/[0.06]">
+              <p className="text-sm text-fg-secondary font-medium mb-1">
                 Paid Commissions
               </p>
-              <p className="text-2xl font-semibold text-emerald-700">
+              <p className="text-2xl font-semibold text-emerald-400">
                 {formatCurrency(paidCommissions)}
               </p>
-              <p className="text-xs text-neutral-500 mt-2">
+              <p className="text-xs text-fg-tertiary mt-2">
                 {commissions.filter((c) => c.status === 'paid').length}{' '}
                 payments completed
               </p>
             </Card>
 
-            <Card className="p-4 border-amber-200 bg-amber-50/60">
-              <p className="text-sm text-neutral-600 font-medium mb-1">
+            <Card className="p-4 border-amber-500/20 bg-amber-500/[0.06]">
+              <p className="text-sm text-fg-secondary font-medium mb-1">
                 Approved Commissions
               </p>
-              <p className="text-2xl font-semibold text-amber-700">
+              <p className="text-2xl font-semibold text-amber-400">
                 {formatCurrency(
                   commissions
                     .filter((c) => c.status === 'approved')
                     .reduce((sum, c) => sum + c.amount, 0)
                 )}
               </p>
-              <p className="text-xs text-neutral-500 mt-2">
+              <p className="text-xs text-fg-tertiary mt-2">
                 Pending payment
               </p>
             </Card>
 
-            <Card className="p-4 border-blue-200 bg-blue-50/60">
-              <p className="text-sm text-neutral-600 font-medium mb-1">
+            <Card className="p-4 border-blue-500/20 bg-blue-500/[0.06]">
+              <p className="text-sm text-fg-secondary font-medium mb-1">
                 Pending Commission
               </p>
-              <p className="text-2xl font-semibold text-blue-700">
+              <p className="text-2xl font-semibold text-blue-400">
                 {formatCurrency(pendingCommissions)}
               </p>
-              <p className="text-xs text-neutral-500 mt-2">
+              <p className="text-xs text-fg-tertiary mt-2">
                 Under review
               </p>
             </Card>
           </div>
 
           <Link href="/portal/participant/earnings">
-            <button className="w-full mt-4 px-4 py-2.5 bg-primary text-white rounded-sm hover:bg-primary-600 transition-colors font-medium flex items-center justify-center gap-2">
+            <button className="btn btn-primary mt-4 w-full">
               View Commission Details <ArrowRight size={16} />
             </button>
           </Link>
@@ -213,11 +213,11 @@ export function ParticipantOverviewView({
           .map((action) => (
           <Link key={action.href} href={action.href}>
             <Card hover className="group flex h-full flex-col items-center gap-2 p-5 text-center">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100 text-neutral-500 transition-colors group-hover:bg-primary-50 group-hover:text-primary">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/[0.05] text-fg-tertiary transition-colors group-hover:bg-primary/10 group-hover:text-primary">
                 {action.icon}
               </div>
-              <h4 className="font-semibold text-neutral-900">{action.label}</h4>
-              <p className="text-xs text-neutral-500">{action.desc}</p>
+              <h4 className="font-semibold text-fg">{action.label}</h4>
+              <p className="text-xs text-fg-tertiary">{action.desc}</p>
             </Card>
           </Link>
         ))}
