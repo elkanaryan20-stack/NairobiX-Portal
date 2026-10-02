@@ -16,6 +16,7 @@ import { unstable_cache } from 'next/cache';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { SESSION_COOKIE, verifySessionToken } from '@/lib/auth/session';
+import { cacheTtlSeconds } from '@/lib/cache-ttl';
 import { isDemoMode } from '@/lib/crm/mode';
 import { resolveAccess } from './resolve';
 import { PORTAL_MODULES, PORTAL_RESTRICTED_PATH } from './modules';
@@ -23,11 +24,6 @@ import type { Permission } from './permissions';
 import type { AccessResult, PortalPrincipal, RelationshipType, VerifiedIdentity } from './types';
 
 export const AUTHZ_CACHE_TAG = 'authz';
-
-export function cacheTtlSeconds(): number {
-  const ttl = Number(process.env.NAIROBIX_AUTHZ_CACHE_TTL_SECONDS);
-  return Number.isFinite(ttl) && ttl >= 30 && ttl <= 3600 ? ttl : 300;
-}
 
 class UnavailableResult extends Error {}
 

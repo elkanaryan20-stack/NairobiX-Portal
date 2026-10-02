@@ -33,7 +33,7 @@ export function ClientBillingView({
         {/* Partnership Info */}
         <Card className="p-6">
           <h3 className="text-lg font-semibold text-fg mb-4">
-            Current Partnership
+            Your account
           </h3>
           <div className="space-y-3">
             <div>

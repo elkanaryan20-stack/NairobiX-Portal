@@ -44,6 +44,12 @@ describe('live Zoho CRM (read-only)', () => {
       ['invoices', `(Account_Name:equals:${id})`],
       ['signDocuments', `(zohosign__Account:equals:${id})`],
       ['signDocuments', `(zohosign__Contact:equals:${id})`],
+      ['clientOnboardings', `(Account:equals:${id})`],
+      ['salesOrders', `(Account_Name:equals:${id})`],
+      ['quotes', `(Account_Name:equals:${id})`],
+      ['signRecipients', `(Email:equals:${criteriaValue('portal-smoke-test@example.invalid')})`],
+      ['meetings', `(What_Id:equals:${id})`],
+      ['meetings', `(Who_Id:equals:${id})`],
     ];
     for (const [module, criteria] of searches) {
       await expect(searchRecords(module, criteria), `${module} ${criteria}`).resolves.toEqual([]);

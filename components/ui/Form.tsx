@@ -115,11 +115,11 @@ interface EmptyStateProps {
 
 export function EmptyState({ title, description, icon, action }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center rounded-card border border-dashed border-line px-4 py-16 text-center">
-      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white/[0.05] text-fg-tertiary [&>svg]:h-5 [&>svg]:w-5">
+    <div className="flex flex-col items-center justify-center rounded-card border border-line bg-surface px-6 py-12 text-center">
+      <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white/[0.03] text-fg-tertiary [&>svg]:h-4 [&>svg]:w-4">
         {icon || <Inbox />}
       </div>
-      <h3 className="mb-1.5 text-base font-semibold text-fg">{title}</h3>
+      <h3 className="mb-1 text-sm font-semibold text-fg">{title}</h3>
       <p className="max-w-sm text-sm text-fg-tertiary">{description}</p>
       {action && (
         <button onClick={action.onClick} className="btn btn-primary mt-6">

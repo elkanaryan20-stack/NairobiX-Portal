@@ -49,17 +49,20 @@ export function ClientSupportView({
   source,
   initialRequests,
   supportEmail,
+  startWithForm = false,
 }: {
   source: DataSource;
   /** The Account's CRM Cases. */
   initialRequests: ServiceRequest[];
   supportEmail: string;
+  /** Opened from a "New request" link. */
+  startWithForm?: boolean;
 }) {
   // The Portal reads Cases from the CRM but cannot create them yet: in production
   // a new request is sent to NairobiX support by email instead.
   const demo = source === 'demo';
   const [tickets, setTickets] = useState<ServiceRequest[]>(initialRequests);
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(startWithForm);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [justSubmitted, setJustSubmitted] = useState(false);
 
@@ -161,7 +164,10 @@ export function ClientSupportView({
 
       {showForm && (
         <Card className="mb-8 p-6">
-          <h3 className="mb-4 text-lg font-semibold text-fg">New Support Request</h3>
+          <h3 className="text-lg font-semibold text-fg">New Support Request</h3>
+          <p className="mb-4 mt-1 text-sm text-fg-tertiary">
+            {demo ? 'Your request is tracked below once submitted.' : `Opens your email app with this request addressed to ${supportEmail}.`}
+          </p>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="mb-2 block text-sm font-medium text-fg">Title</label>
@@ -210,7 +216,7 @@ export function ClientSupportView({
 
             <div className="flex gap-3 pt-2">
               <Button type="submit" variant="primary">
-                Submit Request
+                {demo ? 'Submit Request' : 'Continue in email'}
               </Button>
               <Button type="button" variant="ghost" onClick={() => setShowForm(false)}>
                 Cancel
@@ -221,22 +227,33 @@ export function ClientSupportView({
       )}
 
       {!showForm && (
-        <div className="mb-12">
-          <h3 className="mb-4 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">
+        <div className="mb-10">
+          <h3 className="mb-3 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">
             What would you like to request?
           </h3>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5">
+          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-5">
             {requestTypes.map((type) => (
               <button key={type.id} onClick={() => openTypeForm(type.id)} className="text-left">
-                <Card hover className="h-full p-4">
-                  <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.05] text-fg-tertiary">
+                <Card hover className="h-full p-3.5 sm:p-4">
+                  <div className="mb-2.5 flex h-8 w-8 items-center justify-center rounded-full border border-line bg-white/[0.03] text-fg-tertiary [&>svg]:h-4 [&>svg]:w-4">
                     {type.icon}
                   </div>
-                  <h4 className="mb-1 font-semibold text-fg">{type.title}</h4>
-                  <p className="text-xs text-fg-tertiary">{type.description}</p>
+                  <h4 className="text-sm font-semibold text-fg">{type.title}</h4>
+                  <p className="mt-0.5 text-xs text-fg-tertiary">{type.description}</p>
                 </Card>
               </button>
             ))}
+          </div>
+          <div className="mt-4 flex flex-col gap-1 rounded-card border border-line bg-surface p-4 text-sm sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-fg-secondary">
+              {demo
+                ? 'Requests are tracked here from submission to resolution.'
+                : 'New requests are sent to the NairobiX support team by email and tracked below once logged.'}
+            </p>
+            <a href={`mailto:${supportEmail}`} className="inline-flex items-center gap-1.5 font-medium text-primary hover:text-primary-300">
+              <Mail size={14} />
+              {supportEmail}
+            </a>
           </div>
         </div>
       )}
@@ -303,9 +320,9 @@ export function ClientSupportView({
         {tickets.length === 0 && (
           <EmptyState
             icon={<Mail />}
-            title="No requests yet"
-            description="Submit your first service request to get started."
-            action={{ label: 'Submit a Request', onClick: () => setShowForm(true) }}
+            title="No support requests"
+            description="Requests you raise with NairobiX will appear here with their status and owner."
+            action={{ label: 'New request', onClick: () => setShowForm(true) }}
           />
         )}
       </div>

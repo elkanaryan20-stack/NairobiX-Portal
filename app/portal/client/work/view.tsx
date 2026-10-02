@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import {
+  Briefcase,
   Check,
   User,
   Megaphone,
+  Package,
   Users,
   Circle,
   CheckCircle2,
@@ -15,20 +17,29 @@ import { PortalLayout } from '@/components/layout/PortalLayout';
 import { Card, Badge, StatusBadge, PriorityBadge } from '@/components/ui/Card';
 import { ProgressBar, Tabs, EmptyState } from '@/components/ui/Form';
 import { NotYetAvailable } from '@/components/portal/NotYetAvailable';
+import { SectionError } from '@/components/portal/States';
 import { formatDate, formatCurrency, cn } from '@/lib/utils';
+import type { ClientServiceView, Loaded } from '@/lib/portal-data/client';
 import type { ClientCampaign, ClientLead, ClientTask, Project } from '@/lib/types';
+
+type ProjectRow = Project & { stageLabel?: string; typeLabel?: string };
+
+const statusKey = (value: string) => value.toLowerCase().replace(/\s+/g, '-');
 
 const leadFilters = ['all', 'new', 'contacted', 'qualified', 'converted', 'lost'] as const;
 const taskOrder: ClientTask['status'][] = ['pending', 'in-progress', 'completed'];
 
 export function ClientWorkView({
   projects,
+  services,
   campaigns,
   leads,
   initialTasks,
 }: {
   /** The Account's CRM Engagements. */
-  projects: Project[];
+  projects: ProjectRow[];
+  /** The Account's Sales Orders (confirmed NairobiX services). */
+  services: Loaded<ClientServiceView[]>;
   campaigns: ClientCampaign[];
   leads: ClientLead[];
   initialTasks: ClientTask[];
@@ -51,33 +62,78 @@ export function ClientWorkView({
   }
 
   return (
-    <PortalLayout pageTitle="Work" pageSubtitle="Engagements, campaigns, leads and tasks in one place">
+    <PortalLayout pageTitle="Work" pageSubtitle="Your engagements and the services NairobiX delivers for you">
       <Tabs
         tabs={[
           { label: `Engagements (${projects.length})`, value: 'engagements' },
-          { label: `Campaigns (${campaigns.length})`, value: 'campaigns' },
-          { label: `Leads (${leads.length})`, value: 'leads' },
-          { label: `Tasks (${tasks.filter((t) => t.status !== 'completed').length})`, value: 'tasks' },
+          { label: services.ok ? `Services (${services.data.length})` : 'Services', value: 'services' },
+          // Campaigns, leads and tasks have no CRM source yet: their tabs appear only when data exists.
+          ...(campaigns.length > 0 ? [{ label: `Campaigns (${campaigns.length})`, value: 'campaigns' }] : []),
+          ...(leads.length > 0 ? [{ label: `Leads (${leads.length})`, value: 'leads' }] : []),
+          ...(tasks.length > 0 ? [{ label: `Tasks (${tasks.filter((t) => t.status !== 'completed').length})`, value: 'tasks' }] : []),
         ]}
         activeTab={tab}
         onTabChange={setTab}
       />
 
+      {/* Services */}
+      {tab === 'services' && !services.ok && <SectionError what="your services" compact={false} />}
+      {tab === 'services' && services.ok && services.data.length === 0 && (
+        <EmptyState
+          icon={<Package />}
+          title="No confirmed services yet"
+          description="Once your NairobiX services are confirmed, they'll appear here with their scope and delivery details."
+        />
+      )}
+      {tab === 'services' && services.ok && services.data.length > 0 && (
+        <div className="space-y-4">
+          {services.data.map((service) => (
+            <Card key={service.id} className="p-5 sm:p-6">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <h3 className="text-base font-semibold text-fg sm:text-lg">{service.name}</h3>
+                  <p className="mt-0.5 text-xs text-fg-tertiary">
+                    {[service.solutionFamily, service.deliveryType, service.number].filter(Boolean).join(' · ')}
+                  </p>
+                </div>
+                {service.status && <StatusBadge status={statusKey(service.status)} />}
+              </div>
+              {service.summary && <p className="mt-3 text-sm text-fg-secondary">{service.summary}</p>}
+              {service.scope && (
+                <div className="mt-4 rounded-xl border border-line bg-surface-2 p-3.5">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-fg-tertiary">Included scope</p>
+                  <p className="mt-1.5 whitespace-pre-line text-sm text-fg-secondary">{service.scope}</p>
+                </div>
+              )}
+              {(service.pricingModel || service.paymentTerms) && (
+                <p className="mt-3 text-xs text-fg-tertiary">
+                  {[service.pricingModel, service.paymentTerms && `Payment: ${service.paymentTerms}`].filter(Boolean).join(' · ')}
+                </p>
+              )}
+            </Card>
+          ))}
+        </div>
+      )}
+
       {/* Engagements */}
       {tab === 'engagements' && (
         <div className="space-y-4">
           {projects.length === 0 && (
-            <EmptyState title="No engagements yet" description="Your NairobiX engagements will appear here once they begin." />
+            <EmptyState
+              icon={<Briefcase />}
+              title="No engagements yet"
+              description="When NairobiX begins an engagement for you, it will appear here with its status, dates and team."
+            />
           )}
           {projects.map((project) => (
-            <Card key={project.id} className="p-6">
+            <Card key={project.id} className="p-5 sm:p-6">
               <div className="grid gap-6 md:grid-cols-3">
                 <div className="md:col-span-2">
                   <div className="mb-3 flex items-start justify-between gap-3">
-                    <h3 className="text-lg font-semibold text-fg">{project.name}</h3>
-                    <StatusBadge status={project.status} />
+                    <h3 className="text-base font-semibold text-fg sm:text-lg">{project.name}</h3>
+                    <StatusBadge status={project.stageLabel ? statusKey(project.stageLabel) : project.status} />
                   </div>
-                  <p className="mb-4 text-sm text-fg-secondary">{project.description}</p>
+                  {project.description && <p className="mb-4 text-sm text-fg-secondary">{project.description}</p>}
 
                   {project.milestones.length > 0 && (
                   <div className="mb-4">
@@ -127,8 +183,14 @@ export function ClientWorkView({
                   <div>
                     <p className="mb-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-fg-tertiary">Timeline</p>
                     <p className="text-sm text-fg">
-                      {project.startDate ? formatDate(project.startDate) : 'TBC'} &rarr;{' '}
-                      {project.endDate ? formatDate(project.endDate) : 'TBC'}
+                      {!project.startDate && !project.endDate ? (
+                        <span className="text-fg-tertiary">Not yet scheduled</span>
+                      ) : (
+                        <>
+                          {project.startDate ? formatDate(project.startDate) : 'Start to be confirmed'} &rarr;{' '}
+                          {project.endDate ? formatDate(project.endDate) : 'end to be confirmed'}
+                        </>
+                      )}
                     </p>
                   </div>
 

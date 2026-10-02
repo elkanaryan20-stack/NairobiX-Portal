@@ -1,152 +1,91 @@
 'use client';
 
+import Link from 'next/link';
+import { Bell, Briefcase, ChevronRight, CreditCard, FileSignature, FileText, FolderOpen, LifeBuoy, Rocket, CalendarClock } from 'lucide-react';
 import { PortalLayout } from '@/components/layout/PortalLayout';
-import { Card, Badge } from '@/components/ui/Card';
-import { NotYetAvailable } from '@/components/portal/NotYetAvailable';
-import { formatRelativeTime, cn } from '@/lib/utils';
-import type { Notification } from '@/lib/types';
-import { useState } from 'react';
-import { Tabs, EmptyState } from '@/components/ui/Form';
-import { Lightbulb, FileText, FolderOpen, FolderKanban, Mail, CreditCard, Megaphone, CheckCheck } from 'lucide-react';
+import { EmptyState, SectionError } from '@/components/portal/States';
+import type { AgendaItem, AgendaKind } from '@/lib/portal-data/client-agenda';
 
-const typeIcon: Record<string, React.ReactNode> = {
-  insight: <Lightbulb />,
-  report: <FileText />,
-  document: <FolderOpen />,
-  project: <FolderKanban />,
-  request: <Mail />,
-  billing: <CreditCard />,
-  announcement: <Megaphone />,
+const KIND_ICON: Record<AgendaKind, React.ReactNode> = {
+  invoice: <CreditCard size={15} />,
+  signature: <FileSignature size={15} />,
+  proposal: <FileText size={15} />,
+  engagement: <Briefcase size={15} />,
+  onboarding: <Rocket size={15} />,
+  meeting: <CalendarClock size={15} />,
+  request: <LifeBuoy size={15} />,
+  document: <FolderOpen size={15} />,
 };
 
-export function ClientNotificationsView({ initialNotifications }: { initialNotifications: Notification[] }) {
-  const [notifications, setNotifications] = useState(initialNotifications);
-  const [activeTab, setActiveTab] = useState('all');
+function monthLabel(date: string) {
+  return new Date(`${date.slice(0, 10)}T00:00:00Z`).toLocaleDateString('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+}
 
-  const unread = notifications.filter((n) => !n.read);
-  const read = notifications.filter((n) => n.read);
-  const displayed = activeTab === 'unread' ? unread : activeTab === 'read' ? read : notifications;
+function dayLabel(date: string) {
+  return new Date(`${date.slice(0, 10)}T00:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+}
 
-  const handleMarkAsRead = (id: string) => {
-    setNotifications(
-      notifications.map((n) => (n.id === id ? { ...n, read: true } : n))
-    );
-  };
-
-  const handleClearAll = () => {
-    setNotifications(notifications.map((n) => ({ ...n, read: true })));
-  };
-
-  if (initialNotifications.length === 0) {
-    return (
-      <PortalLayout pageTitle="Notifications" pageSubtitle="Stay updated on your relationship with NairobiX">
-        <NotYetAvailable
-          title="Notifications aren't available yet"
-          description="Updates about your account will appear here once NairobiX notifications are connected to your Portal."
-        />
-      </PortalLayout>
-    );
+/**
+ * Updates on the client's account, derived from dated CRM records. There is
+ * no read/unread state because nothing stores it — the feed never implies
+ * activity that didn't happen.
+ */
+export function ClientNotificationsView({ updates, complete }: { updates: AgendaItem[]; complete: boolean }) {
+  const groups: { month: string; items: AgendaItem[] }[] = [];
+  for (const item of updates) {
+    const month = item.date ? monthLabel(item.date) : 'Earlier';
+    const last = groups[groups.length - 1];
+    if (last?.month === month) last.items.push(item);
+    else groups.push({ month, items: [item] });
   }
 
   return (
-    <PortalLayout
-      pageTitle="Notifications"
-      pageSubtitle="Stay updated on your growth partnership"
-      headerActions={
-        unread.length > 0 ? (
-          <button
-            onClick={handleClearAll}
-            className="flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
-          >
-            <CheckCheck size={15} /> Mark all as read
-          </button>
-        ) : undefined
-      }
-    >
-      {/* Tabs */}
-      <Tabs
-        tabs={[
-          { label: `All (${notifications.length})`, value: 'all' },
-          { label: `Unread (${unread.length})`, value: 'unread' },
-          { label: `Read (${read.length})`, value: 'read' },
-        ]}
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-      />
+    <PortalLayout pageTitle="Updates" pageSubtitle="Recent activity on your NairobiX account">
+      {!complete && (
+        <div className="mb-6">
+          <SectionError what="every update on your account" />
+        </div>
+      )}
 
-      {/* Notifications List */}
-      <div className="space-y-3">
-        {displayed.map((notification) => (
-          <Card
-            key={notification.id}
-            className={cn('p-4', !notification.read && 'border-primary/25 bg-primary/10')}
-          >
-            <div className="flex items-start gap-3.5">
-              {/* Icon */}
-              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-surface text-fg-tertiary [&>svg]:h-4 [&>svg]:w-4">
-                {typeIcon[notification.type] || <Mail />}
-              </div>
-
-              {/* Content */}
-              <div className="flex-1 min-w-0">
-                <div className="flex items-start justify-between gap-2 mb-1">
-                  <h4 className="font-medium text-fg">{notification.title}</h4>
-                  {!notification.read && (
-                    <div className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary" />
-                  )}
-                </div>
-
-                <p className="text-fg-secondary text-sm mb-2">
-                  {notification.message}
-                </p>
-
-                <div className="flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <Badge variant="neutral">{notification.type}</Badge>
-                    <p className="text-xs text-fg-tertiary">
-                      {formatRelativeTime(notification.date)}
-                    </p>
-                  </div>
-
-                  {!notification.read && (
-                    <button
-                      onClick={() => handleMarkAsRead(notification.id)}
-                      className="text-primary text-xs font-medium hover:underline"
-                    >
-                      Mark as read
-                    </button>
-                  )}
-
-                  {notification.actionUrl && (
-                    <button className="text-primary text-xs font-medium hover:underline">
-                      View
-                    </button>
-                  )}
-                </div>
-              </div>
-            </div>
-          </Card>
-        ))}
-      </div>
-
-      {/* Empty State */}
-      {displayed.length === 0 && (
+      {updates.length === 0 && complete && (
         <EmptyState
-          icon={<CheckCheck />}
-          title={
-            activeTab === 'unread'
-              ? 'All caught up'
-              : activeTab === 'read'
-              ? 'No read notifications'
-              : 'No notifications yet'
-          }
-          description={
-            activeTab === 'unread'
-              ? 'You have no unread notifications.'
-              : 'Check back soon for updates.'
-          }
+          icon={<Bell />}
+          title="Nothing new"
+          description="Invoices, documents, support requests and engagement updates on your account will appear here as they happen."
         />
       )}
+
+      <div className="space-y-8">
+        {groups.map((group) => (
+          <section key={group.month}>
+            <h3 className="mb-3 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-tertiary">{group.month}</h3>
+            <div className="divide-y divide-line overflow-hidden rounded-card border border-line bg-surface">
+              {group.items.map((item) => {
+                const row = (
+                  <div className="flex items-center gap-3 px-4 py-3.5">
+                    <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-line bg-white/[0.03] text-fg-tertiary">
+                      {KIND_ICON[item.kind]}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-medium text-fg">{item.title}</p>
+                      <p className="truncate text-[13px] text-fg-tertiary">{item.detail}</p>
+                    </div>
+                    {item.date && <span className="flex-shrink-0 text-xs text-fg-tertiary">{dayLabel(item.date)}</span>}
+                    {item.href && <ChevronRight size={15} className="flex-shrink-0 text-fg-tertiary" />}
+                  </div>
+                );
+                return item.href ? (
+                  <Link key={item.id} href={item.href} className="block transition-colors hover:bg-white/[0.02]">
+                    {row}
+                  </Link>
+                ) : (
+                  <div key={item.id}>{row}</div>
+                );
+              })}
+            </div>
+          </section>
+        ))}
+      </div>
     </PortalLayout>
   );
 }

@@ -245,12 +245,12 @@ export function Header({
 
   return (
     <header className="sticky top-0 z-20 border-b border-line bg-canvas/80 backdrop-blur-xl">
-      <div className="flex items-center justify-between gap-4 px-5 pb-5 pt-[4.5rem] md:px-8 md:py-5">
+      <div className="flex items-center justify-between gap-4 px-4 pb-3 pt-[4.25rem] md:px-8 md:py-5">
         <div className="min-w-0">
-          <h2 className="truncate font-serif text-2xl font-medium tracking-tight text-fg md:text-[28px]">
+          <h2 className="truncate font-serif text-xl font-medium tracking-tight text-fg md:text-[28px]">
             {title}
           </h2>
-          {subtitle && <p className="mt-1 truncate text-sm text-fg-tertiary">{subtitle}</p>}
+          {subtitle && <p className="mt-1 hidden truncate text-sm text-fg-tertiary md:block">{subtitle}</p>}
         </div>
 
         <div className="flex flex-shrink-0 items-center gap-3 md:gap-5">

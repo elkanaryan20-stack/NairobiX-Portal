@@ -13,8 +13,24 @@ export function ClientGrowthView({ growthPhases }: { growthPhases: GrowthPhase[]
       <PortalLayout pageTitle="Growth Journey" pageSubtitle="Your strategic business growth progression with NairobiX">
         <NotYetAvailable
           title="Your growth journey isn't available yet"
-          description="Your growth phases, initiatives and milestones will appear here once NairobiX publishes them to your Portal."
+          description="Your growth phases, initiatives and milestones will appear here once NairobiX publishes your growth plan to the Portal."
         />
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <Link href="/portal/client/work" className="card card-hover flex items-center justify-between gap-3 p-4">
+            <span>
+              <span className="block text-sm font-semibold text-fg">Follow your current work</span>
+              <span className="block text-[13px] text-fg-tertiary">Engagements and services NairobiX is delivering now.</span>
+            </span>
+            <ArrowRight size={16} className="flex-shrink-0 text-fg-tertiary" />
+          </Link>
+          <Link href="/portal/client/support?new=1" className="card card-hover flex items-center justify-between gap-3 p-4">
+            <span>
+              <span className="block text-sm font-semibold text-fg">Discuss your growth plan</span>
+              <span className="block text-[13px] text-fg-tertiary">Request a strategy session with the NairobiX team.</span>
+            </span>
+            <ArrowRight size={16} className="flex-shrink-0 text-fg-tertiary" />
+          </Link>
+        </div>
       </PortalLayout>
     );
   }

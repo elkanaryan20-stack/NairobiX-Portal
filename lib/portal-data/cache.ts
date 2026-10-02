@@ -1,5 +1,5 @@
 import { unstable_cache } from 'next/cache';
-import { cacheTtlSeconds } from '@/lib/access/server';
+import { cacheTtlSeconds } from '@/lib/cache-ttl';
 
 /** Tag on every cached CRM read; the Zoho webhook clears it. */
 export const CRM_DATA_TAG = 'crm';

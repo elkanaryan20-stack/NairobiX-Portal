@@ -53,7 +53,9 @@ const ENGAGEMENT_STATUS: Record<string, Project['status']> = {
   Completed: 'completed',
 };
 
-export function engagementToProject(record: ZohoRecord): Project & { accountName?: string; accountId?: string } {
+export function engagementToProject(
+  record: ZohoRecord
+): Project & { accountName?: string; accountId?: string; stageLabel?: string; typeLabel?: string } {
   const owner = lookupName(record.Owner);
   return {
     id: record.id,
@@ -67,7 +69,22 @@ export function engagementToProject(record: ZohoRecord): Project & { accountName
     recentActivity: [],
     accountName: lookupName(record.Account),
     accountId: lookupId(record.Account),
+    /** The CRM's own status wording, e.g. "Awaiting Client". */
+    stageLabel: picklist(record.Engagement_Status),
+    typeLabel: [picklist(record.Engagement_Type), picklist(record.Delivery_Type)].filter(Boolean).join(' · ') || undefined,
   };
+}
+
+/** Only https links from the CRM are rendered (no javascript:, data: or plain-http links). */
+export function safeUrl(value: unknown): string | undefined {
+  const url = text(value);
+  if (!url) return undefined;
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === 'https:' ? parsed.toString() : undefined;
+  } catch {
+    return undefined;
+  }
 }
 
 export function isCancelledEngagement(record: ZohoRecord): boolean {
@@ -135,7 +152,9 @@ export function invoiceToView(record: ZohoRecord): Invoice & { accountName?: str
   };
 }
 
-export function signDocumentToView(record: ZohoRecord): Document & { signingStatus?: string } {
+export function signDocumentToView(
+  record: ZohoRecord
+): Document & { signingStatus?: string; completedDate?: string; deadline?: string } {
   return {
     id: record.id,
     name: text(record.Name) ?? 'Document',
@@ -144,5 +163,7 @@ export function signDocumentToView(record: ZohoRecord): Document & { signingStat
     uploadDate: day(record.zohosign__Date_Sent) || day(record.Created_Time),
     status: 'active',
     signingStatus: text(record.zohosign__Document_Status),
+    completedDate: day(record.zohosign__Date_Completed) || undefined,
+    deadline: day(record.zohosign__Document_Deadline) || undefined,
   };
 }

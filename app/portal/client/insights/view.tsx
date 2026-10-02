@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { Lightbulb, Target, BarChart3, Sparkles, Eye, Download, X } from 'lucide-react';
 import { PortalLayout } from '@/components/layout/PortalLayout';
 import { Card, Button, PriorityBadge, Badge } from '@/components/ui/Card';
@@ -33,10 +34,33 @@ export function ClientInsightsView({
   if (insights.length === 0 && metrics.length === 0 && reports.length === 0) {
     return (
       <PortalLayout pageTitle="Insights" pageSubtitle="Growth intelligence, performance and published reports">
-        <NotYetAvailable
-          title="Insights aren't available yet"
-          description="Growth insights, performance metrics and reports will appear here once NairobiX publishes them to your Portal."
-        />
+        <p className="mb-6 max-w-2xl text-sm leading-relaxed text-fg-secondary">
+          This is where NairobiX publishes what it learns from your business: insights, performance and periodic reports.
+          Nothing has been published to your Portal yet.
+        </p>
+        <div className="grid gap-3 md:grid-cols-3">
+          <NotYetAvailable
+            compact
+            title="Growth insights"
+            description="Findings and recommendations from NairobiX, prioritised for your business."
+          />
+          <NotYetAvailable
+            compact
+            title="Performance tracking"
+            description="Your performance data will appear here as NairobiX publishes reporting to your Portal."
+          />
+          <NotYetAvailable
+            compact
+            title="Reports"
+            description="Your reports will appear here as NairobiX publishes them."
+          />
+        </div>
+        <div className="mt-6 flex flex-col gap-3 rounded-card border border-line bg-surface p-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-fg-secondary">Have a question about your performance or need a specific analysis?</p>
+          <Link href="/portal/client/support?new=1" className="btn btn-secondary px-4 py-2 text-[13px]">
+            Ask NairobiX
+          </Link>
+        </div>
       </PortalLayout>
     );
   }
