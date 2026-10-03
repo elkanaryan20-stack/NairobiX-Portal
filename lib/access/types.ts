@@ -42,7 +42,7 @@ export type RelationshipType = 'client' | 'participant' | 'staff';
  */
 export type RelationshipRole = 'client-contact' | 'participant' | 'staff-member';
 
-/** Lifecycle of the Relationship itself. CRM-resolved Relationships are always `active`. */
+/** Lifecycle of the Relationship itself. CRM Participants may be `onboarding` until approved. */
 export type RelationshipStatus = 'active' | 'onboarding' | 'inactive';
 
 export interface Relationship {

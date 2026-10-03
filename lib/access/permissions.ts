@@ -55,9 +55,9 @@ const ROLE_PERMISSIONS: Record<RelationshipRole, readonly Permission[]> = {
  * Referrals, Opportunities, Work and Earnings open only for an approved
  * (`active`) Participant holding the matching capability. No CRM field grants
  * capabilities yet — Participation Type is a relationship attribute, not an
- * entitlement — so CRM-resolved Participants receive Overview, Resources,
- * Notifications and Settings only. Onboarding applies to the demo directory's
- * onboarding Participants; CRM Participants are always `active`.
+ * entitlement — so CRM-resolved Active Participants receive Overview,
+ * Resources, Notifications and Settings only. CRM-resolved Pending Participants
+ * with Portal access also receive Onboarding, but no active-only modules.
  */
 function isParticipantPermissionGranted(permission: Permission, relationship: Relationship): boolean {
   const caps = relationship.capabilities;

@@ -201,9 +201,16 @@ describe('Opportunity Network Participant', () => {
     expect(principal.relationships).toEqual([
       expect.objectContaining({
         type: 'participant',
+        status: 'active',
         participantIds: ['onp-1'],
         participationTypes: ['Referral Partner', 'Expert'],
       }),
+    ]);
+    expect(principal.permissions).toEqual([
+      'participant.overview',
+      'participant.resources',
+      'participant.notifications',
+      'participant.settings',
     ]);
   });
 
@@ -217,7 +224,27 @@ describe('Opportunity Network Participant', () => {
     ]);
   });
 
-  it.each(['Pending', 'Onboarding', 'Under Verification', 'Approved', 'Inactive', null])(
+  it('Pending Participant with Portal Access Active receives onboarding-only access', async () => {
+    const principal = authorized(await resolveIn(participantWorld({
+      participant: { Participant_Status: 'Pending', Portal_Access_Status: 'Active' },
+    })));
+    expect(principal.relationships).toEqual([
+      expect.objectContaining({ type: 'participant', status: 'onboarding', participantIds: ['onp-1'] }),
+    ]);
+    expect(principal.permissions).toEqual([
+      'participant.overview',
+      'participant.onboarding',
+      'participant.resources',
+      'participant.notifications',
+      'participant.settings',
+    ]);
+    expect(principal.permissions).not.toContain('participant.referrals');
+    expect(principal.permissions).not.toContain('participant.opportunities');
+    expect(principal.permissions).not.toContain('participant.work');
+    expect(principal.permissions).not.toContain('participant.earnings');
+  });
+
+  it.each(['Onboarding', 'Under Verification', 'Approved', 'Inactive', null])(
     'non-Active Participant (status %s) → no access',
     async (status) => {
       expect((await resolveIn(participantWorld({ participant: { Participant_Status: status } }))).state).toBe('no-access');
@@ -231,12 +258,24 @@ describe('Opportunity Network Participant', () => {
     }
   );
 
+  it('Pending Participant without Portal Access Active receives no access', async () => {
+    expect((await resolveIn(participantWorld({
+      participant: { Participant_Status: 'Pending', Portal_Access_Status: 'Not Enabled' },
+    }))).state).toBe('no-access');
+  });
+
   it('suspended Participant — Participant Status Suspended → suspended', async () => {
     expect((await resolveIn(participantWorld({ participant: { Participant_Status: 'Suspended' } }))).state).toBe('suspended');
   });
 
   it.each(['Suspended', 'Revoked'])('suspended Participant — Portal Access Status %s → suspended', async (status) => {
     expect((await resolveIn(participantWorld({ participant: { Portal_Access_Status: status } }))).state).toBe('suspended');
+  });
+
+  it('Pending Participant with Revoked Portal Access is suspended', async () => {
+    expect((await resolveIn(participantWorld({
+      participant: { Participant_Status: 'Pending', Portal_Access_Status: 'Revoked' },
+    }))).state).toBe('suspended');
   });
 
   it('Participant record without a valid linked Contact → no access', async () => {
@@ -252,6 +291,24 @@ describe('Opportunity Network Participant', () => {
 
   it('Contact portal status does not gate Participant access (separate concepts)', async () => {
     authorized(await resolveIn(participantWorld({ contact: { Portal_Access_Status: 'Not Enabled' } })));
+  });
+
+  it('Contact with both Client and Participant relationships continues to resolve both', async () => {
+    const w = clientWorld();
+    w.participants = [participant()];
+    const principal = authorized(await resolveIn(w));
+    expect(principal.relationships.map((relationship) => relationship.type)).toEqual(['client', 'participant']);
+    expect(principal.permissions).toContain('client.overview');
+    expect(principal.permissions).toContain('participant.overview');
+  });
+
+  it('inactive or archived Contact cannot use a Pending Participant relationship', async () => {
+    for (const status of ['Inactive', 'Archived']) {
+      expect((await resolveIn(participantWorld({
+        contact: { Contact_Status: status },
+        participant: { Participant_Status: 'Pending', Portal_Access_Status: 'Active' },
+      }))).state).toBe('no-access');
+    }
   });
 });
 
@@ -283,6 +340,10 @@ describe('relationship fields are not used for authorization', () => {
 });
 
 describe('unknown and ambiguous identities', () => {
+  it('no matching Contact gives no access', async () => {
+    expect((await resolveIn(world(), identity())).state).toBe('no-access');
+  });
+
   it('unknown email → no access', async () => {
     expect((await resolveIn(clientWorld(), identity({ email: 'stranger@example.com' }))).state).toBe('no-access');
   });
@@ -290,6 +351,10 @@ describe('unknown and ambiguous identities', () => {
   it('two Contacts sharing the email → no Contact-based access', async () => {
     const w = clientWorld();
     w.contacts.push(contact({ id: 'ct-2' }));
+    w.participants = [
+      participant(),
+      participant({ id: 'onp-2', Contact: { id: 'ct-2', name: 'Maya Njeri' } }),
+    ];
     vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     expect((await resolveIn(w)).state).toBe('no-access');
   });

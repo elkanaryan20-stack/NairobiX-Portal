@@ -31,7 +31,9 @@ export async function resolveAccess(
   if (!resolution) return { state: 'no-access', email: identity.email };
 
   // 4. Relationships, Roles and Permissions.
-  const relationships = resolution.relationships.filter((r) => r.status !== 'inactive');
+  // Explicitly retain approved and onboarding relationships; inactive CRM
+  // relationships never produce Portal permissions.
+  const relationships = resolution.relationships.filter((r) => r.status === 'active' || r.status === 'onboarding');
   const permissions = permissionsForRelationships(relationships);
   if (permissions.length === 0) {
     return resolution.blocked

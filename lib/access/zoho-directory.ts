@@ -9,6 +9,8 @@
  *   Participant  verified email → Contacts.Email
  *                → Opportunity_Network_Participants.Contact = this Contact
  *                → Participant_Status = Active AND Portal_Access_Status = Active
+ *                → Participant_Status = Pending AND Portal_Access_Status = Active
+ *                  (onboarding-only Relationship)
  *   Staff        verified email → an active Zoho CRM User
  *
  * Gates on every Contact-based Relationship: the Contact must not be
@@ -90,6 +92,15 @@ export function participantAuthorized(participant: ZohoRecord, contactId: string
   );
 }
 
+/** A Pending Participant can enter only the onboarding Relationship lifecycle. */
+export function participantOnboardingAuthorized(participant: ZohoRecord, contactId: string): boolean {
+  return (
+    lookupId(participant.Contact) === contactId &&
+    participant.Participant_Status === 'Pending' &&
+    participant.Portal_Access_Status === ZOHO_VALUES.participantPortalActive
+  );
+}
+
 export function createZohoDirectory(source: AuthorizationSource = zohoAuthorizationSource): PortalDirectory {
   return {
     async resolve(rawEmail) {
@@ -159,9 +170,12 @@ export function createZohoDirectory(source: AuthorizationSource = zohoAuthorizat
             blocked = true;
           }
           const active = linked.filter((p) => participantAuthorized(p, contact.id));
-          if (active.length) {
+          const onboarding = linked.filter((p) => participantOnboardingAuthorized(p, contact.id));
+          // Preserve Active precedence when the Contact has multiple Participant records.
+          const eligible = active.length ? active : onboarding;
+          if (eligible.length) {
             const types = new Set<string>();
-            for (const p of active) {
+            for (const p of eligible) {
               for (const t of Array.isArray(p.Participation_Type) ? p.Participation_Type : []) {
                 if (includes(ZOHO_VALUES.participationTypes, t)) types.add(t as string);
               }
@@ -169,10 +183,10 @@ export function createZohoDirectory(source: AuthorizationSource = zohoAuthorizat
             relationships.push({
               type: 'participant',
               role: 'participant',
-              status: 'active',
+              status: active.length ? 'active' : 'onboarding',
               accountId: accountId,
               accountName: 'Opportunity Network',
-              participantIds: active.map((p) => p.id),
+              participantIds: eligible.map((p) => p.id),
               participationTypes: [...types],
             });
           }
