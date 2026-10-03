@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Lock } from 'lucide-react';
+import { NairobiXLogo } from '@/components/brand/NairobiXLogo';
 
 /**
  * Dark, full-bleed surface shared by the Portal entry, sign-in and access
@@ -24,9 +25,9 @@ export function GatewayFrame({ children }: { children: React.ReactNode }) {
       <header className="relative z-10 flex items-center justify-between border-b border-line bg-canvas/80 px-5 py-5 backdrop-blur-xl md:px-10">
         <Link
           href="/"
-          className="flex items-center gap-2 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          className="flex items-center gap-1.5 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
         >
-          <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+          <NairobiXLogo className="h-10 w-16" />
           <span className="text-[15px] font-semibold tracking-tight text-fg">NairobiX</span>
         </Link>
         <span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-fg-tertiary">

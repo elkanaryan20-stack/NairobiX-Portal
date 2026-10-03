@@ -38,6 +38,7 @@ an entitlement). The exact field mapping lives in `lib/crm/zoho/schema.ts`.
 | `/portal/{client,participant,staff}/*` | Relationship-context modules inside the one Portal |
 | `/portal/restricted` | Where a module outside the user's permissions redirects |
 | `/api/zoho/webhook` | Zoho workflow hook that clears cached authorization and CRM reads |
+| `/api/portal/cases` | Freshly authorized Client Case creation in Zoho CRM |
 | `/client/*`, `/partner/*`, `/staff/*`, `/portal/partner/*` | Legacy links; redirect into `/portal/...` and grant nothing |
 
 ## Enforcement
@@ -61,6 +62,14 @@ server-resolved relationship: Client → its Account's records (Engagements,
 Cases, Invoices, Zoho Sign documents); Participant → its own Participant record
 and linked documents; Staff → operational data across Accounts. Sections with no
 authoritative CRM source show a “not yet available” state in production.
+
+Client Support requests are created as Zoho Cases. Each write resolves the
+verified identity against Zoho again, derives the Account and Contact on the
+server, accepts only Type, Subject, Description, Priority and an optional Deal
+ID authorized for that Client, and leaves Case ownership to Zoho. The Zoho Self
+Client needs `ZohoCRM.modules.Cases.CREATE` in addition to the existing read
+scopes. The submission endpoint applies per-process rate limiting and suppresses
+matching recent duplicate Cases before writing.
 
 ## Local development
 

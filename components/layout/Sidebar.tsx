@@ -7,6 +7,7 @@ import { Menu, X, LogOut, Bell, ChevronDown, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Notification, NavigationItem } from '@/lib/types';
 import { signOut } from '@/lib/auth/actions';
+import { NairobiXLogo } from '@/components/brand/NairobiXLogo';
 
 interface SidebarProps {
   /** Who the Portal is showing, e.g. "Client · TechStart Kenya Ltd". */
@@ -85,8 +86,8 @@ function SidebarContent({
     <div className="flex h-full w-full flex-col">
       {/* Logo */}
       <div className="border-b border-line px-6 pb-5 pt-6">
-        <div className="flex items-center gap-2">
-          <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+        <div className="flex items-center gap-1.5">
+          <NairobiXLogo className="h-10 w-16" />
           <span className="text-[15px] font-semibold tracking-tight text-fg">NairobiX</span>
           <span className="ml-auto rounded-full border border-line px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-fg-tertiary">
             Portal
@@ -173,8 +174,8 @@ export function Sidebar(props: Omit<SidebarProps, 'notifications' | 'onNotificat
     <>
       {/* Mobile top bar */}
       <div className="fixed left-0 right-0 top-0 z-40 flex items-center justify-between border-b border-line bg-canvas/80 px-4 py-3.5 backdrop-blur-xl md:hidden">
-        <div className="flex items-center gap-2">
-          <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+        <div className="flex items-center gap-1.5">
+          <NairobiXLogo className="h-8 w-12" />
           <span className="text-sm font-semibold text-fg">NairobiX</span>
         </div>
         <button

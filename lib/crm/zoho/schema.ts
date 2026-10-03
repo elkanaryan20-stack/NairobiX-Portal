@@ -53,7 +53,10 @@ export const ZOHO_FIELDS = {
   applications: ['Name', 'Email', 'First_Name', 'Last_Name', 'Application_Status', 'Applicant_Type', 'Contribution_Areas', 'Application_ID', 'Created_Time'],
   clientOnboardings: ['Name', 'Account', 'Onboarding_Status', 'Readiness_Status', 'Requirements_Status', 'Access_Assets_Status', 'Start_Date', 'Completion_Date'],
   engagements: ['Name', 'Account', 'Deal', 'Engagement_Status', 'Engagement_Type', 'Delivery_Type', 'Start_Date', 'Target_End_Date', 'Delivery_Notes', 'Owner'],
-  cases: ['Subject', 'Description', 'Status', 'Priority', 'Case_Number', 'Account_Name', 'Created_Time', 'Owner'],
+  cases: [
+    'Subject', 'Description', 'Type', 'Status', 'Priority', 'Case_Number', 'Case_Origin', 'Account_Name',
+    'Related_To', 'Email', 'Reported_By', 'Deal_Name', 'Created_Time', 'Owner',
+  ],
   invoices: ['Subject', 'Invoice_Number', 'Status', 'Grand_Total', 'Invoice_Date', 'Due_Date', 'Account_Name', 'Contact_Name'],
   tasks: ['Subject', 'Status', 'Priority', 'Due_Date', 'What_Id'],
   campaigns: ['Campaign_Name', 'Type', 'Status', 'Start_Date', 'End_Date'],

@@ -1,11 +1,12 @@
 /**
- * Server-side Zoho CRM client. Read-only.
+ * Server-side Zoho CRM client. Reads CRM data and creates only portal Cases.
  *
  * Credentials come from server environment variables and never reach the
  * browser: nothing in this file is imported by a client component, and no
  * variable here is NEXT_PUBLIC_. Every failure — missing configuration,
  * network error, rate limit, unexpected response — throws CrmUnavailableError
- * so callers can fail closed.
+ * so callers can fail closed. Case creation is the only write; it accepts
+ * server-assembled fields and never sets ownership.
  */
 
 import { ZOHO_FIELDS, ZOHO_MODULES, type ZohoRecord, type ZohoUser } from './schema';
@@ -158,6 +159,26 @@ export async function getRecord(module: ZohoModuleKey, id: string): Promise<Zoho
   });
   const data = body?.data;
   return Array.isArray(data) && data.length ? (data[0] as ZohoRecord) : null;
+}
+
+/** Creates a Case with server-assembled fields; no ownership field is accepted. */
+export async function createCase(fields: Record<string, unknown>): Promise<ZohoRecord> {
+  const config = readConfig();
+  const url = `${config.apiDomain}/crm/${API_VERSION}/${ZOHO_MODULES.cases}`;
+  const token = await getAccessToken(config);
+  const response = await fetchWithTimeout(url, {
+    method: 'POST',
+    headers: { Authorization: `Zoho-oauthtoken ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ data: [fields] }),
+  });
+  const body = (await response.json().catch(() => ({}))) as {
+    data?: Array<{ code?: string; message?: string; details?: { id?: string } }>;
+  };
+  const result = body.data?.[0];
+  if (!response.ok || result?.code !== 'SUCCESS' || !result.details?.id) {
+    throw new CrmUnavailableError(`Zoho Case creation failed (${result?.code ?? response.status}).`);
+  }
+  return { id: result.details.id, ...fields };
 }
 
 export function listActiveUsers(): Promise<ZohoUser[]> {

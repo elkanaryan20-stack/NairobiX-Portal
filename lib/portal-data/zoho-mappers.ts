@@ -102,7 +102,16 @@ const CASE_STATUS: Record<string, ServiceRequest['status']> = {
 const CASE_PRIORITY: Record<string, NonNullable<ServiceRequest['priority']>> = {
   High: 'high',
   Medium: 'medium',
+  Urgent: 'urgent',
   Low: 'low',
+};
+
+const CASE_TYPE: Record<string, NonNullable<ServiceRequest['type']>> = {
+  'Growth Initiative': 'growth-initiative',
+  'System Request': 'system-request',
+  'Website Request': 'website-request',
+  'Reporting Question': 'reporting-question',
+  'Strategy Session': 'strategy-session',
 };
 
 export function caseToServiceRequest(record: ZohoRecord): ServiceRequest & { accountName?: string } {
@@ -110,6 +119,7 @@ export function caseToServiceRequest(record: ZohoRecord): ServiceRequest & { acc
     id: record.id,
     title: text(record.Subject) ?? (record.Case_Number ? `Case ${record.Case_Number}` : 'Support case'),
     description: text(record.Description) ?? '',
+    type: CASE_TYPE[picklist(record.Type) ?? ''],
     status: CASE_STATUS[picklist(record.Status) ?? ''] ?? 'submitted',
     createdDate: day(record.Created_Time),
     priority: CASE_PRIORITY[picklist(record.Priority) ?? ''],

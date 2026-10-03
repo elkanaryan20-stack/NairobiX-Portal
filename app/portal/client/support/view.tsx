@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   Plus,
   Rocket,
@@ -17,11 +18,8 @@ import {
 import { PortalLayout } from '@/components/layout/PortalLayout';
 import { Card, Button, StatusBadge, PriorityBadge } from '@/components/ui/Card';
 import { EmptyState, Input, Select, Textarea, Alert } from '@/components/ui/Form';
-import { formatDate, formatRelativeTime, generateId } from '@/lib/utils';
-import type { DataSource } from '@/lib/portal-data/source';
+import { formatDate, formatRelativeTime } from '@/lib/utils';
 import type { ServiceRequest } from '@/lib/types';
-
-const STORAGE_KEY = 'nairobix-client-support-tickets';
 
 const requestTypes: { id: NonNullable<ServiceRequest['type']>; title: string; description: string; icon: React.ReactNode }[] = [
   { id: 'growth-initiative', title: 'Growth Initiative', description: 'Explore a new growth opportunity', icon: <Rocket size={18} /> },
@@ -31,109 +29,77 @@ const requestTypes: { id: NonNullable<ServiceRequest['type']>; title: string; de
   { id: 'strategy-session', title: 'Strategy Session', description: 'Request time with the NairobiX team', icon: <Target size={18} /> },
 ];
 
-// Demo only: locally submitted tickets are kept in this browser.
-function loadDemoTickets(seed: ServiceRequest[]): ServiceRequest[] {
-  if (typeof window === 'undefined') return seed;
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return seed;
-    const saved: ServiceRequest[] = JSON.parse(raw);
-    const savedIds = new Set(saved.map((t) => t.id));
-    return [...saved, ...seed.filter((t) => !savedIds.has(t.id))];
-  } catch {
-    return seed;
-  }
-}
-
 export function ClientSupportView({
-  source,
   initialRequests,
   supportEmail,
+  authorizedDeals,
   startWithForm = false,
 }: {
-  source: DataSource;
   /** The Account's CRM Cases. */
   initialRequests: ServiceRequest[];
   supportEmail: string;
+  /** Deals resolved from this Client Relationship; the API verifies again before use. */
+  authorizedDeals: { id: string; name: string }[];
   /** Opened from a "New request" link. */
   startWithForm?: boolean;
 }) {
-  // The Portal reads Cases from the CRM but cannot create them yet: in production
-  // a new request is sent to NairobiX support by email instead.
-  const demo = source === 'demo';
+  const router = useRouter();
   const [tickets, setTickets] = useState<ServiceRequest[]>(initialRequests);
   const [showForm, setShowForm] = useState(startWithForm);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [justSubmitted, setJustSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const [form, setForm] = useState({
     title: '',
     type: 'system-request' as NonNullable<ServiceRequest['type']>,
     description: '',
     priority: 'medium' as NonNullable<ServiceRequest['priority']>,
+    dealId: '',
   });
   const [errors, setErrors] = useState<{ title?: string; description?: string }>({});
 
-  useEffect(() => {
-    if (demo) setTickets(loadDemoTickets(initialRequests));
-  }, [demo, initialRequests]);
-
-  function persist(next: ServiceRequest[]) {
-    setTickets(next);
-    try {
-      const seedIds = new Set(initialRequests.map((t) => t.id));
-      const submittedOnly = next.filter((t) => !seedIds.has(t.id));
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(submittedOnly));
-    } catch {
-      // localStorage unavailable — the session still works, it just won't persist across reloads.
-    }
-  }
+  useEffect(() => setTickets(initialRequests), [initialRequests]);
 
   function openTypeForm(type: NonNullable<ServiceRequest['type']>) {
     setForm((f) => ({ ...f, type }));
     setShowForm(true);
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const nextErrors: typeof errors = {};
     if (!form.title.trim()) nextErrors.title = 'Give your request a short title.';
     if (!form.description.trim()) nextErrors.description = 'Tell us a bit more about what you need.';
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
-
-    if (!demo) {
-      const typeLabel = requestTypes.find((t) => t.id === form.type)?.title ?? form.type;
-      const subject = `Portal request: ${form.title.trim()}`;
-      const body = `Type: ${typeLabel}\nPriority: ${form.priority}\n\n${form.description.trim()}`;
-      window.location.href = `mailto:${supportEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      setForm({ title: '', type: 'system-request', description: '', priority: 'medium' });
+    setSubmitError('');
+    setSubmitting(true);
+    try {
+      const response = await fetch('/api/portal/cases', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: form.type,
+          subject: form.title.trim(),
+          description: form.description.trim(),
+          priority: form.priority[0].toUpperCase() + form.priority.slice(1),
+          ...(form.dealId ? { dealId: form.dealId } : {}),
+        }),
+      });
+      const result = (await response.json()) as { error?: string };
+      if (!response.ok) throw new Error(result.error ?? 'We could not submit your request. Please try again.');
+      setForm({ title: '', type: 'system-request', description: '', priority: 'medium', dealId: '' });
       setShowForm(false);
       setJustSubmitted(true);
-      setTimeout(() => setJustSubmitted(false), 8000);
-      return;
+      router.refresh();
+      window.setTimeout(() => setJustSubmitted(false), 5000);
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : 'We could not submit your request. Please try again.');
+    } finally {
+      setSubmitting(false);
     }
-
-    const today = new Date().toISOString().slice(0, 10);
-    const newTicket: ServiceRequest = {
-      id: `req-${generateId()}`,
-      title: form.title.trim(),
-      type: form.type,
-      description: form.description.trim(),
-      status: 'submitted',
-      createdDate: today,
-      priority: form.priority,
-      timeline: [
-        { id: `t-${generateId()}`, title: 'Request submitted', description: 'Ticket created', timestamp: today, type: 'status-change' },
-      ],
-    };
-
-    persist([newTicket, ...tickets]);
-    setForm({ title: '', type: 'system-request', description: '', priority: 'medium' });
-    setShowForm(false);
-    setJustSubmitted(true);
-    setExpandedId(newTicket.id);
-    setTimeout(() => setJustSubmitted(false), 5000);
   }
 
   const unresolved = tickets.filter((t) => t.status !== 'resolved');
@@ -150,27 +116,21 @@ export function ClientSupportView({
     >
       {justSubmitted && (
         <div className="mb-6">
-          {demo ? (
-            <Alert type="success" title="Request submitted" description="NairobiX support will assign this shortly. Track progress below." />
-          ) : (
-            <Alert
-              type="success"
-              title="Your email is ready to send"
-              description={`Your request opened in your email app, addressed to ${supportEmail}. Send it to reach NairobiX support; it will appear below once logged.`}
-            />
-          )}
+          <Alert type="success" title="Request submitted" description="Your Case is in Zoho CRM. Track its status below." />
         </div>
       )}
+
+      {submitError && <div className="mb-6"><Alert type="error" title="Request not submitted" description={submitError} /></div>}
 
       {showForm && (
         <Card className="mb-8 p-6">
           <h3 className="text-lg font-semibold text-fg">New Support Request</h3>
           <p className="mb-4 mt-1 text-sm text-fg-tertiary">
-            {demo ? 'Your request is tracked below once submitted.' : `Opens your email app with this request addressed to ${supportEmail}.`}
+            Your request will be added to Zoho CRM and tracked below. For urgent help, contact {supportEmail}.
           </p>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="mb-2 block text-sm font-medium text-fg">Title</label>
+              <label className="mb-2 block text-sm font-medium text-fg">Subject</label>
               <Input
                 value={form.title}
                 onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
@@ -203,6 +163,17 @@ export function ClientSupportView({
               </div>
             </div>
 
+            {authorizedDeals.length > 0 && (
+              <div>
+                <label className="mb-2 block text-sm font-medium text-fg">Related engagement <span className="text-fg-tertiary">(optional)</span></label>
+                <Select
+                  value={form.dealId}
+                  onChange={(e) => setForm((f) => ({ ...f, dealId: e.target.value }))}
+                  options={[{ value: '', label: 'Choose an engagement' }, ...authorizedDeals.map((deal) => ({ value: deal.id, label: deal.name }))]}
+                />
+              </div>
+            )}
+
             <div>
               <label className="mb-2 block text-sm font-medium text-fg">Description</label>
               <Textarea
@@ -215,8 +186,8 @@ export function ClientSupportView({
             </div>
 
             <div className="flex gap-3 pt-2">
-              <Button type="submit" variant="primary">
-                {demo ? 'Submit Request' : 'Continue in email'}
+              <Button type="submit" variant="primary" disabled={submitting}>
+                {submitting ? 'Submitting…' : 'Submit Request'}
               </Button>
               <Button type="button" variant="ghost" onClick={() => setShowForm(false)}>
                 Cancel
@@ -246,9 +217,7 @@ export function ClientSupportView({
           </div>
           <div className="mt-4 flex flex-col gap-1 rounded-card border border-line bg-surface p-4 text-sm sm:flex-row sm:items-center sm:justify-between">
             <p className="text-fg-secondary">
-              {demo
-                ? 'Requests are tracked here from submission to resolution.'
-                : 'New requests are sent to the NairobiX support team by email and tracked below once logged.'}
+              Requests are tracked here from submission to resolution.
             </p>
             <a href={`mailto:${supportEmail}`} className="inline-flex items-center gap-1.5 font-medium text-primary hover:text-primary-300">
               <Mail size={14} />
